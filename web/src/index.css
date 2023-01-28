@@ -1,0 +1,13 @@
+@font-face {
+  font-family: oxygen;
+  src: "oxygen.ttf";
+}
+
+* {
+  font-family: oxygen;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
