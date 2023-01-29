@@ -4,6 +4,8 @@ import { toast } from '@redwoodjs/web/toast'
 
 import RoleForm from 'src/components/Role/RoleForm'
 
+import { ThemeModeContext } from '../../../App.js'
+
 export const QUERY = gql`
   query EditRoleById($id: Int!) {
     role: role(id: $id) {
@@ -28,6 +30,7 @@ export const Failure = ({ error }) => (
 )
 
 export const Success = ({ role }) => {
+  const { mode, setMode } = React.useContext(ThemeModeContext)
   const [updateRole, { loading, error }] = useMutation(UPDATE_ROLE_MUTATION, {
     onCompleted: () => {
       toast.success('Role updated')
@@ -44,12 +47,20 @@ export const Success = ({ role }) => {
 
   return (
     <div className="rw-segment">
-      <header className="rw-segment-header">
+      <header
+        className={
+          mode === 'light' ? 'rw-segment-header' : 'rw-segment-header-dark'
+        }
+      >
         <h2 className="rw-heading rw-heading-secondary">
           Edit {role.name.charAt(0).toUpperCase() + role.name.slice(1)} Details
         </h2>
       </header>
-      <div className="rw-segment-main">
+      <div
+        className={
+          mode === 'light' ? 'rw-segment-main' : 'rw-segment-main-dark'
+        }
+      >
         <RoleForm role={role} onSave={onSave} error={error} loading={loading} />
       </div>
     </div>

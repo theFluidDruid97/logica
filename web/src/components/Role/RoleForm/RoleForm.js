@@ -1,13 +1,11 @@
-import {
-  Form,
-  FormError,
-  FieldError,
-  Label,
-  TextField,
-  Submit,
-} from '@redwoodjs/forms'
+import Button from '@mui/material/Button'
+
+import { Form, FormError, FieldError, Label, TextField } from '@redwoodjs/forms'
+
+import { ThemeModeContext } from '../../../App.js'
 
 const RoleForm = (props) => {
+  const { mode, setMode } = React.useContext(ThemeModeContext)
   const onSubmit = (data) => {
     props.onSave(data, props?.role?.id)
   }
@@ -24,7 +22,7 @@ const RoleForm = (props) => {
 
         <Label
           name="name"
-          className="rw-label"
+          className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
           errorClassName="rw-label rw-label-error"
         >
           Name
@@ -33,7 +31,7 @@ const RoleForm = (props) => {
         <TextField
           name="name"
           defaultValue={props.role?.name}
-          className="rw-input"
+          className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
           errorClassName="rw-input rw-input-error"
           validation={{ required: true }}
         />
@@ -41,9 +39,9 @@ const RoleForm = (props) => {
         <FieldError name="name" className="rw-field-error" />
 
         <div className="rw-button-group">
-          <Submit disabled={props.loading} className="rw-button rw-button-blue">
+          <Button type="submit" disabled={props.loading}>
             Save
-          </Submit>
+          </Button>
         </div>
       </Form>
     </div>

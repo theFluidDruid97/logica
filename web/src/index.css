@@ -11,3 +11,8 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+body {
+  min-height: 100vh;
+  height: 100%;
+}

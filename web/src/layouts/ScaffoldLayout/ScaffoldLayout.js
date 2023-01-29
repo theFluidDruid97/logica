@@ -1,3 +1,4 @@
+import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 
 import { Link, routes, navigate } from '@redwoodjs/router'
@@ -11,20 +12,18 @@ const ScaffoldLayout = ({
   children,
 }) => {
   return (
-    <div className="rw-scaffold">
+    <Box>
       <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
       <header className="rw-header">
         <h1 className="rw-heading rw-heading-primary">
-          <Link to={routes[titleTo]()} className="rw-link">
-            {title}
-          </Link>
+          <Link to={routes[titleTo]()}>{title}</Link>
         </h1>
         <Button onClick={() => navigate(routes[buttonTo]())} color="success">
           <div className="rw-button-icon">+</div> {buttonLabel}
         </Button>
       </header>
-      <main className="rw-main">{children}</main>
-    </div>
+      <Box>{children}</Box>
+    </Box>
   )
 }
 

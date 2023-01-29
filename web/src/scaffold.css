@@ -91,8 +91,16 @@
   color: #4a5568;
   padding: 0.75rem 1rem;
 }
+.rw-segment-header-dark {
+  border: rgba(255, 255, 255, 0.5) solid 1px;
+  padding: 0.75rem 1rem;
+}
 .rw-segment-main {
   background-color: #f7fafc;
+  padding: 1rem;
+}
+.rw-segment-main-dark {
+  background-color: #f7fafc1b;
   padding: 1rem;
 }
 .rw-link {
@@ -230,6 +238,13 @@
   font-weight: 600;
   text-align: left;
 }
+.rw-label-dark {
+  display: block;
+  margin-top: 1.5rem;
+  color: #ffffff;
+  font-weight: 600;
+  text-align: left;
+}
 .rw-label.rw-label-error {
   color: #c53030;
 }
@@ -244,6 +259,19 @@
   color: #4a5568;
   border-radius: 0.25rem;
   outline: none;
+}
+.rw-input-dark {
+  display: block;
+  margin-top: 0.5rem;
+  width: 100%;
+  padding: 0.5rem;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #e2e8f0;
+  color: white;
+  border-radius: 0.25rem;
+  outline: none;
+  background: none;
 }
 .rw-check-radio-item-none {
   color: #4a5568;
@@ -299,22 +327,38 @@
   width: 100%;
   font-size: 0.875rem;
 }
+.rw-table-dark {
+  table-layout: auto;
+  width: 100%;
+  font-size: 0.875rem;
+}
 .rw-table th,
 .rw-table td {
   padding: 0.75rem;
 }
-.rw-table td {
-  background-color: #ffffff;
-  color: #1a202c;
+.rw-table-dark th,
+.rw-table-dark td {
+  padding: 0.75rem;
 }
 .rw-table tr:nth-child(odd) td,
 .rw-table tr:nth-child(odd) th {
   background-color: #f7fafc;
 }
+.rw-table-dark tr:nth-child(odd) td,
+.rw-table-dark tr:nth-child(odd) th {
+  background-color: #ffffff1b;
+}
 .rw-table thead tr {
   color: #4a5568;
 }
+.rw-table-dark thead tr {
+  color: #4a5568;
+}
 .rw-table th {
+  font-weight: 600;
+  text-align: left;
+}
+.rw-table-dark th {
   font-weight: 600;
   text-align: left;
 }
@@ -322,18 +366,34 @@
   background-color: #e2e8f0;
   text-align: left;
 }
+.rw-table-dark thead th {
+  background-color: #e2e8f0;
+  text-align: left;
+}
 .rw-table tbody th {
+  text-align: right;
+}
+.rw-table-dark tbody th {
   text-align: right;
 }
 @media (min-width: 768px) {
   .rw-table tbody th {
     width: 20%;
   }
+  .rw-table-dark tbody th {
+    width: 20%;
+  }
 }
 .rw-table tbody tr {
   border-top-width: 1px;
 }
+.rw-table-dark tbody tr {
+  border-top-width: 1px;
+}
 .rw-table input {
+  margin-left: 0;
+}
+.rw-table-dark input {
   margin-left: 0;
 }
 .rw-table-actions {

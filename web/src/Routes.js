@@ -7,8 +7,8 @@ const Routes = () => {
   return (
     <Router>
       <Set wrap={GeneralLayout}>
-        <Private unauthenticated="home">
-          <Private roles="admin" unauthenticated="home">
+        <Private unauthenticated="landing">
+          <Private roles="admin" unauthenticated="landing">
             <Set wrap={ScaffoldLayout} title="Roles" titleTo="roles" buttonLabel="New Role" buttonTo="newRole">
               <Route path="/roles/new" page={RoleNewRolePage} name="newRole" />
               <Route path="/roles/{id:Int}/edit" page={RoleEditRolePage} name="editRole" />
@@ -22,15 +22,15 @@ const Routes = () => {
             <Route path="/airmen/{id:Int}" page={AirmanAirmanPage} name="airman" />
             <Route path="/airmen" page={AirmanAirmenPage} name="airmen" />
           </Set>
-          <Route path="/dashboard" page={DashboardPage} name="dashboard" title="Dashboard" />
+          <Route path="/dashboard" page={DashboardPage} name="home" title="Dashboard" />
         </Private>
-        <Route path="/" page={LandingPage} name="home" title="Landing" />
+        <Route path="/" page={LandingPage} name="landing" title="Landing" />
+        <Route path="/login" page={LoginPage} name="login" />
+        <Route path="/signup" page={SignupPage} name="signup" />
+        <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
+        <Route path="/reset-password" page={ResetPasswordPage} name="resetPassword" />
+        <Route notfound page={NotFoundPage} />
       </Set>
-      <Route path="/login" page={LoginPage} name="login" />
-      <Route path="/signup" page={SignupPage} name="signup" />
-      <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
-      <Route path="/reset-password" page={ResetPasswordPage} name="resetPassword" />
-      <Route notfound page={NotFoundPage} />
     </Router>
   )
 }

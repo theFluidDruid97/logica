@@ -1,13 +1,14 @@
 import { useRef } from 'react'
 import { useEffect } from 'react'
 
+import Button from '@mui/material/Button'
+
 import { useAuth } from '@redwoodjs/auth'
 import {
   Form,
   Label,
   TextField,
   PasswordField,
-  Submit,
   FieldError,
 } from '@redwoodjs/forms'
 import { Link, navigate, routes } from '@redwoodjs/router'
@@ -49,7 +50,7 @@ const LoginPage = () => {
 
       <main className="rw-main">
         <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
-        <div className="rw-scaffold rw-login-container">
+        <div className="rw-login-container">
           <div className="rw-segment">
             <header className="rw-segment-header">
               <h2 className="rw-heading rw-heading-secondary">Login</h2>
@@ -112,7 +113,7 @@ const LoginPage = () => {
                   <FieldError name="password" className="rw-field-error" />
 
                   <div className="rw-button-group">
-                    <Submit className="rw-button rw-button-blue">Login</Submit>
+                    <Button type="submit">Log In</Button>
                   </div>
                 </Form>
               </div>

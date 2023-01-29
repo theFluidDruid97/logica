@@ -38,7 +38,8 @@ const AirmenList = ({ airmen }) => {
   }
 
   const columns = [
-    { field: 'email', headerName: 'E-Mail', flex: 1 },
+    { field: 'id', headerName: 'ID', flex: 0.25 },
+    { field: 'email', headerName: 'E-Mail', flex: 1.25 },
     { field: 'firstName', headerName: 'First Name', flex: 1 },
     { field: 'middleName', headerName: 'Middle Name', flex: 1 },
     { field: 'lastName', headerName: 'Last Name', flex: 1 },
@@ -46,8 +47,8 @@ const AirmenList = ({ airmen }) => {
     { field: 'dodId', headerName: 'DoD ID', flex: 1 },
     { field: 'rank', headerName: 'Rank', flex: 1 },
     { field: 'officeSymbol', headerName: 'Office Symbol', flex: 1 },
-    { field: 'supervisorId', headerName: 'Supervisor ID', flex: 1 },
-    { field: 'monitorId', headerName: 'Monitor ID', flex: 1 },
+    { field: 'supervisorId', headerName: 'SID', flex: 0.75 },
+    { field: 'monitorId', headerName: 'MID', flex: 0.75 },
     {
       field: 'Show',
       headerName: '',
@@ -56,6 +57,7 @@ const AirmenList = ({ airmen }) => {
         return (
           <Button
             onClick={() => navigate(routes.airman({ id: params.row.id }))}
+            color="secondary"
             title={`Show ${params.row.rank} ${params.row.lastName}, ${params.row.firstName} Details`}
           >
             Show
@@ -107,6 +109,8 @@ const AirmenList = ({ airmen }) => {
           printOptions: {
             hideToolbar: true,
             hideFooter: true,
+            pageStyle:
+              '.MuiDataGrid-root .MuiDataGrid-main { color: rgba(0, 0, 0); }',
           },
         },
       }}

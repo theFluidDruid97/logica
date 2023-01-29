@@ -4,6 +4,8 @@ import { toast } from '@redwoodjs/web/toast'
 
 import AirmanForm from 'src/components/Airman/AirmanForm'
 
+import { ThemeModeContext } from '../../../App.js'
+
 const CREATE_AIRMAN_MUTATION = gql`
   mutation CreateAirmanMutation($input: CreateAirmanInput!) {
     createAirman(input: $input) {
@@ -13,6 +15,7 @@ const CREATE_AIRMAN_MUTATION = gql`
 `
 
 const NewAirman = () => {
+  const { mode, setMode } = React.useContext(ThemeModeContext)
   const [createAirman, { loading, error }] = useMutation(
     CREATE_AIRMAN_MUTATION,
     {
@@ -32,10 +35,18 @@ const NewAirman = () => {
 
   return (
     <div className="rw-segment">
-      <header className="rw-segment-header">
+      <header
+        className={
+          mode === 'light' ? 'rw-segment-header' : 'rw-segment-header-dark'
+        }
+      >
         <h2 className="rw-heading rw-heading-secondary">New Airman</h2>
       </header>
-      <div className="rw-segment-main">
+      <div
+        className={
+          mode === 'light' ? 'rw-segment-main' : 'rw-segment-main-dark'
+        }
+      >
         <AirmanForm onSave={onSave} loading={loading} error={error} />
       </div>
     </div>

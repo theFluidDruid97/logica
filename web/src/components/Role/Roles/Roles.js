@@ -50,6 +50,7 @@ const RolesList = ({ roles }) => {
         return (
           <Button
             onClick={() => navigate(routes.role({ id: params.row.id }))}
+            color="secondary"
             title={`Show ${
               params.row.name.charAt(0).toUpperCase() + params.row.name.slice(1)
             } Details`}

@@ -6,6 +6,8 @@ import { toast } from '@redwoodjs/web/toast'
 
 import { timeTag } from 'src/lib/formatters'
 
+import { ThemeModeContext } from '../../../App.js'
+
 const DELETE_AIRMAN_MUTATION = gql`
   mutation DeleteAirmanMutation($id: Int!) {
     deleteAirman(id: $id) {
@@ -15,6 +17,8 @@ const DELETE_AIRMAN_MUTATION = gql`
 `
 
 const Airman = ({ airman }) => {
+  const { mode, setMode } = React.useContext(ThemeModeContext)
+
   const [deleteAirman] = useMutation(DELETE_AIRMAN_MUTATION, {
     onCompleted: () => {
       toast.success('Airman deleted')
@@ -38,12 +42,16 @@ const Airman = ({ airman }) => {
   return (
     <>
       <div className="rw-segment">
-        <header className="rw-segment-header">
+        <header
+          className={
+            mode === 'light' ? 'rw-segment-header' : 'rw-segment-header-dark'
+          }
+        >
           <h2 className="rw-heading rw-heading-secondary">
             {airman.rank} {airman.lastName}, {airman.firstName}
           </h2>
         </header>
-        <table className="rw-table">
+        <table className={mode === 'light' ? 'rw-table' : 'rw-table-dark'}>
           <tbody>
             <tr>
               <th>ID</th>

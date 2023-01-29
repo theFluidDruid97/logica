@@ -5,6 +5,7 @@ import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import 'src/lib/formatters'
+import { ThemeModeContext } from '../../../App.js'
 
 const DELETE_ROLE_MUTATION = gql`
   mutation DeleteRoleMutation($id: Int!) {
@@ -15,6 +16,7 @@ const DELETE_ROLE_MUTATION = gql`
 `
 
 const Role = ({ role }) => {
+  const { mode, setMode } = React.useContext(ThemeModeContext)
   const [deleteRole] = useMutation(DELETE_ROLE_MUTATION, {
     onCompleted: () => {
       toast.success('Role deleted')
@@ -40,12 +42,16 @@ const Role = ({ role }) => {
   return (
     <>
       <div className="rw-segment">
-        <header className="rw-segment-header">
+        <header
+          className={
+            mode === 'light' ? 'rw-segment-header' : 'rw-segment-header-dark'
+          }
+        >
           <h2 className="rw-heading rw-heading-secondary">
             {role.name.charAt(0).toUpperCase() + role.name.slice(1)} Details
           </h2>
         </header>
-        <table className="rw-table">
+        <table className={mode === 'light' ? 'rw-table' : 'rw-table-dark'}>
           <tbody>
             <tr>
               <th>ID</th>

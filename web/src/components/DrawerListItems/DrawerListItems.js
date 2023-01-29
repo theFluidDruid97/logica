@@ -14,7 +14,7 @@ const DrawerListItems = () => {
   const drawerListItems = [
     {
       text: 'Dashboard',
-      link: routesState.dashboard(),
+      link: routesState.home(),
       icon: <DashboardIcon />,
     },
     {

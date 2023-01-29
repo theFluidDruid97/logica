@@ -12,7 +12,7 @@ const DashboardPage = () => {
       </p>
       <p>
         My default route is named <code>dashboard</code>, link to me with `
-        <Link to={routes.dashboard()}>Dashboard</Link>`
+        <Link to={routes.home()}>Dashboard</Link>`
       </p>
     </>
   )

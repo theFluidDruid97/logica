@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react'
 
+import Button from '@mui/material/Button'
+
 import { useAuth } from '@redwoodjs/auth'
-import { Form, Label, TextField, Submit, FieldError } from '@redwoodjs/forms'
+import { Form, Label, TextField, FieldError } from '@redwoodjs/forms'
 import { navigate, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 import { toast, Toaster } from '@redwoodjs/web/toast'
@@ -43,7 +45,7 @@ const ForgotPasswordPage = () => {
 
       <main className="rw-main">
         <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
-        <div className="rw-scaffold rw-login-container">
+        <div className="rw-login-container">
           <div className="rw-segment">
             <header className="rw-segment-header">
               <h2 className="rw-heading rw-heading-secondary">
@@ -79,7 +81,7 @@ const ForgotPasswordPage = () => {
                   </div>
 
                   <div className="rw-button-group">
-                    <Submit className="rw-button rw-button-blue">Submit</Submit>
+                    <Button type="submit">Submit</Button>
                   </div>
                 </Form>
               </div>

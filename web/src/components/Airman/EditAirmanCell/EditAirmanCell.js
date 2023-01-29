@@ -4,6 +4,8 @@ import { toast } from '@redwoodjs/web/toast'
 
 import AirmanForm from 'src/components/Airman/AirmanForm'
 
+import { ThemeModeContext } from '../../../App.js'
+
 export const QUERY = gql`
   query EditAirmanById($id: Int!) {
     airman: airman(id: $id) {
@@ -56,6 +58,7 @@ export const Failure = ({ error }) => (
 )
 
 export const Success = ({ airman }) => {
+  const { mode, setMode } = React.useContext(ThemeModeContext)
   const [updateAirman, { loading, error }] = useMutation(
     UPDATE_AIRMAN_MUTATION,
     {
@@ -75,12 +78,20 @@ export const Success = ({ airman }) => {
 
   return (
     <div className="rw-segment">
-      <header className="rw-segment-header">
+      <header
+        className={
+          mode === 'light' ? 'rw-segment-header' : 'rw-segment-header-dark'
+        }
+      >
         <h2 className="rw-heading rw-heading-secondary">
-          Edit {airman?.rank} {airman?.lastName}, {airman?.firstName}
+          Edit {airman?.rank} {airman?.lastName}, {airman?.firstName} Details
         </h2>
       </header>
-      <div className="rw-segment-main">
+      <div
+        className={
+          mode === 'light' ? 'rw-segment-main' : 'rw-segment-main-dark'
+        }
+      >
         <AirmanForm
           airman={airman}
           onSave={onSave}

@@ -8,16 +8,22 @@ import Routes from 'src/Routes'
 import './scaffold.css'
 import './index.css'
 
-const App = () => (
-  <FatalErrorBoundary page={FatalErrorPage}>
-    <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
-      <AuthProvider type="dbAuth">
-        <RedwoodApolloProvider>
-          <Routes />
-        </RedwoodApolloProvider>
-      </AuthProvider>
-    </RedwoodProvider>
-  </FatalErrorBoundary>
-)
+const App = () => {
+  const [mode, setMode] = React.useState('light')
+  return (
+    <FatalErrorBoundary page={FatalErrorPage}>
+      <ThemeModeContext.Provider value={{ mode, setMode }}>
+        <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
+          <AuthProvider type="dbAuth">
+            <RedwoodApolloProvider>
+              <Routes />
+            </RedwoodApolloProvider>
+          </AuthProvider>
+        </RedwoodProvider>
+      </ThemeModeContext.Provider>
+    </FatalErrorBoundary>
+  )
+}
 
+export const ThemeModeContext = React.createContext(null)
 export default App

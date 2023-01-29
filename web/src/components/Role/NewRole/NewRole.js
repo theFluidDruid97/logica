@@ -4,6 +4,8 @@ import { toast } from '@redwoodjs/web/toast'
 
 import RoleForm from 'src/components/Role/RoleForm'
 
+import { ThemeModeContext } from '../../../App.js'
+
 const CREATE_ROLE_MUTATION = gql`
   mutation CreateRoleMutation($input: CreateRoleInput!) {
     createRole(input: $input) {
@@ -13,6 +15,7 @@ const CREATE_ROLE_MUTATION = gql`
 `
 
 const NewRole = () => {
+  const { mode, setMode } = React.useContext(ThemeModeContext)
   const [createRole, { loading, error }] = useMutation(CREATE_ROLE_MUTATION, {
     onCompleted: () => {
       toast.success('Role created')
@@ -29,10 +32,18 @@ const NewRole = () => {
 
   return (
     <div className="rw-segment">
-      <header className="rw-segment-header">
+      <header
+        className={
+          mode === 'light' ? 'rw-segment-header' : 'rw-segment-header-dark'
+        }
+      >
         <h2 className="rw-heading rw-heading-secondary">New Role</h2>
       </header>
-      <div className="rw-segment-main">
+      <div
+        className={
+          mode === 'light' ? 'rw-segment-main' : 'rw-segment-main-dark'
+        }
+      >
         <RoleForm onSave={onSave} loading={loading} error={error} />
       </div>
     </div>
