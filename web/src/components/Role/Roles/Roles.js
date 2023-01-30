@@ -30,7 +30,7 @@ const RolesList = ({ roles }) => {
   const onDeleteClick = (role, id) => {
     if (
       confirm(
-        `Are you sure you want to delete ${
+        `Are you sure you want to delete the ${
           role.name.charAt(0).toUpperCase() + role.name.slice(1)
         } role?`
       )
@@ -40,8 +40,9 @@ const RolesList = ({ roles }) => {
   }
 
   const columns = [
+    { field: 'id', headerName: 'ID', flex: 0.25 },
     { field: 'name', headerName: 'Name', flex: 1 },
-    { field: 'holderIds', headerName: 'Holder IDs', flex: 1 },
+    { field: 'holders', headerName: 'Holders', flex: 1 },
     {
       field: 'Show',
       headerName: '',
@@ -102,7 +103,7 @@ const RolesList = ({ roles }) => {
     roleDisplayNames.push({
       id: role.id,
       name: role.name.charAt(0).toUpperCase() + role.name.slice(1),
-      holderIds: role.Airman.map((holder) => holder.id),
+      holders: role.Airman.length,
     })
   )
 
@@ -113,7 +114,14 @@ const RolesList = ({ roles }) => {
       pageSize={5}
       components={{ Toolbar: GridToolbar }}
       componentsProps={{
-        toolbar: { printOptions: { hideToolbar: true, hideFooter: true } },
+        toolbar: {
+          printOptions: {
+            hideToolbar: true,
+            hideFooter: true,
+            pageStyle:
+              '.MuiDataGrid-root .MuiDataGrid-main { color: rgba(0, 0, 0); }',
+          },
+        },
       }}
       rowsPerPageOptions={[5]}
       checkboxSelection

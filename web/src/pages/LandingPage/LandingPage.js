@@ -6,10 +6,15 @@ import CardContent from '@mui/material/CardContent'
 import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
 
+import { useAuth } from '@redwoodjs/auth'
 import { routes, navigate } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 
 const LandingPage = () => {
+  const { isAuthenticated } = useAuth()
+  if (isAuthenticated) {
+    navigate(routes.home())
+  }
   return (
     <>
       <MetaTags title="Landing" description="Landing page" />

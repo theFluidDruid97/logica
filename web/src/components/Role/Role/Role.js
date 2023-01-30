@@ -1,3 +1,4 @@
+import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 
 import { routes, navigate } from '@redwoodjs/router'
@@ -51,16 +52,45 @@ const Role = ({ role }) => {
             {role.name.charAt(0).toUpperCase() + role.name.slice(1)} Details
           </h2>
         </header>
+
+        <Box display="flex" flexDirection="row">
+          <table className={mode === 'light' ? 'rw-table' : 'rw-table-dark'}>
+            <tbody>
+              <tr>
+                <th>ID</th>
+                <td>{role.id}</td>
+              </tr>
+            </tbody>
+            <tbody>
+              <tr>
+                <th>Name</th>
+                <td>
+                  {role.name.charAt(0).toUpperCase() + role.name.slice(1)}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </Box>
         <table className={mode === 'light' ? 'rw-table' : 'rw-table-dark'}>
+          <thead>
+            <th>Holders</th>
+            <th></th>
+          </thead>
           <tbody>
-            <tr>
-              <th>ID</th>
-              <td>{role.id}</td>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <td>{role.name.charAt(0).toUpperCase() + role.name.slice(1)}</td>
-            </tr>
+            {role.Airman.map((holder) => (
+              <tr key={holder.id}>
+                <td>
+                  {holder.rank} {holder.lastName}, {holder.firstName}
+                </td>
+                <td>
+                  <Button
+                    onClick={() => navigate(routes.airman({ id: holder.id }))}
+                  >
+                    View
+                  </Button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

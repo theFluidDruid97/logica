@@ -33,7 +33,9 @@ export const Success = ({ role }) => {
   const { mode, setMode } = React.useContext(ThemeModeContext)
   const [updateRole, { loading, error }] = useMutation(UPDATE_ROLE_MUTATION, {
     onCompleted: () => {
-      toast.success('Role updated')
+      toast.success(
+        `${role.name.charAt(0).toUpperCase() + role.name.slice(1)} Role Updated`
+      )
       navigate(routes.roles())
     },
     onError: (error) => {

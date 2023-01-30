@@ -14,7 +14,7 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 
 import { useAuth } from '@redwoodjs/auth'
-import { Link, routes } from '@redwoodjs/router'
+import { Link, routes, navigate } from '@redwoodjs/router'
 
 import { ThemeModeContext } from '../../App.js'
 import { DarkModeSwitch } from '../../components/DarkModeSwitch/DarkModeSwitch.js'
@@ -120,7 +120,7 @@ const GeneralLayout = ({ children }) => {
                 }}
               >
                 <Typography variant="h6" noWrap component="div">
-                  <Link to={routes.home()}>TrainTrack</Link>
+                  <Link to={routes.landing()}>TrainTrack</Link>
                 </Typography>
                 {isAuthenticated ? (
                   <Box>
@@ -149,7 +149,13 @@ const GeneralLayout = ({ children }) => {
                           onClick={colorMode.toggleColorMode}
                         />
                       </MenuItem>
-                      <MenuItem onClick={handleClose}>Profile</MenuItem>
+                      <MenuItem
+                        onClick={() =>
+                          navigate(routes.airman({ id: currentUser.id }))
+                        }
+                      >
+                        Profile
+                      </MenuItem>
                       <MenuItem onClick={logOut}>Log Out</MenuItem>
                     </Menu>
                   </Box>

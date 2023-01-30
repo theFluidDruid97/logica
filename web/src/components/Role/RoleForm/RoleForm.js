@@ -32,7 +32,11 @@ const RoleForm = (props) => {
           name="name"
           defaultValue={props.role?.name}
           className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-          errorClassName="rw-input rw-input-error"
+          errorClassName={
+            mode === 'light'
+              ? 'rw-input rw-input-error'
+              : 'rw-input-dark rw-input-error'
+          }
           validation={{ required: true }}
         />
 

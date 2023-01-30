@@ -38,15 +38,14 @@ const AirmenList = ({ airmen }) => {
   }
 
   const columns = [
-    { field: 'id', headerName: 'ID', flex: 0.25 },
-    { field: 'email', headerName: 'E-Mail', flex: 1.25 },
+    { field: 'rank', headerName: 'Rank', flex: 0.5 },
+    { field: 'lastName', headerName: 'Last Name', flex: 1 },
     { field: 'firstName', headerName: 'First Name', flex: 1 },
     { field: 'middleName', headerName: 'Middle Name', flex: 1 },
-    { field: 'lastName', headerName: 'Last Name', flex: 1 },
+    { field: 'email', headerName: 'E-Mail', flex: 1.25 },
     { field: 'organization', headerName: 'Organization', flex: 1 },
-    { field: 'dodId', headerName: 'DoD ID', flex: 1 },
-    { field: 'rank', headerName: 'Rank', flex: 1 },
     { field: 'officeSymbol', headerName: 'Office Symbol', flex: 1 },
+    { field: 'dodId', headerName: 'DoD ID', flex: 1 },
     { field: 'supervisorId', headerName: 'SID', flex: 0.75 },
     { field: 'monitorId', headerName: 'MID', flex: 0.75 },
     {
@@ -73,7 +72,7 @@ const AirmenList = ({ airmen }) => {
         return (
           <Button
             onClick={() => navigate(routes.editAirman({ id: params.row.id }))}
-            title={`Edit ${params.row.rank} ${params.row.lastName}, ${params.row.firstName}`}
+            title={`Edit ${params.row.rank} ${params.row.lastName}, ${params.row.firstName} Details`}
           >
             Edit
           </Button>

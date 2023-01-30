@@ -8,7 +8,7 @@ import {
   Label,
   TextField,
   DatetimeLocalField,
-  NumberField,
+  SelectField,
 } from '@redwoodjs/forms'
 
 import { ThemeModeContext } from '../../../App.js'
@@ -24,19 +24,46 @@ const AirmanForm = (props) => {
   const onSubmit = (data) => {
     props.onSave(data, props?.airman?.id)
   }
+  const supervisors = props.roles.find(
+    (role) => role.name === 'leadership'
+  ).Airman
+  const monitors = props.roles.find((role) => role.name === 'monitor').Airman
+  const supervisorsList = () => {
+    for (let supervisor of supervisors) {
+      return (
+        <option
+          className={mode === 'light' ? 'rw-option' : 'rw-option-dark'}
+          value={supervisor.id}
+        >
+          {supervisor.rank} {supervisor.lastName}, {supervisor.firstName}
+        </option>
+      )
+    }
+  }
+  const monitorsList = () => {
+    for (let monitor of monitors) {
+      return (
+        <option
+          className={mode === 'light' ? 'rw-option' : 'rw-option-dark'}
+          value={monitor.id}
+        >
+          {monitor.rank} {monitor.lastName}, {monitor.firstName}
+        </option>
+      )
+    }
+  }
 
   return (
     <Box className="rw-form-wrapper">
       <Form onSubmit={onSubmit} error={props.error}>
+        <FormError
+          error={props.error}
+          wrapperClassName="rw-form-error-wrapper"
+          titleClassName="rw-form-error-title"
+          listClassName="rw-form-error-list"
+        />
         <Box display="flex" flexDirection="row">
           <Box width="50%" marginX="5%">
-            <FormError
-              error={props.error}
-              wrapperClassName="rw-form-error-wrapper"
-              titleClassName="rw-form-error-title"
-              listClassName="rw-form-error-list"
-            />
-
             <Label
               name="email"
               className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
@@ -49,7 +76,11 @@ const AirmanForm = (props) => {
               name="email"
               defaultValue={props.airman?.email}
               className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName="rw-input rw-input-error"
+              errorClassName={
+                mode === 'light'
+                  ? 'rw-input rw-input-error'
+                  : 'rw-input-dark rw-input-error'
+              }
               validation={{ required: true }}
             />
 
@@ -67,7 +98,11 @@ const AirmanForm = (props) => {
               name="hashedPassword"
               defaultValue={props.airman?.hashedPassword}
               className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName="rw-input rw-input-error"
+              errorClassName={
+                mode === 'light'
+                  ? 'rw-input rw-input-error'
+                  : 'rw-input-dark rw-input-error'
+              }
               validation={{ required: true }}
             />
 
@@ -85,7 +120,11 @@ const AirmanForm = (props) => {
               name="salt"
               defaultValue={props.airman?.salt}
               className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName="rw-input rw-input-error"
+              errorClassName={
+                mode === 'light'
+                  ? 'rw-input rw-input-error'
+                  : 'rw-input-dark rw-input-error'
+              }
               validation={{ required: true }}
             />
 
@@ -103,7 +142,11 @@ const AirmanForm = (props) => {
               name="firstName"
               defaultValue={props.airman?.firstName}
               className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName="rw-input rw-input-error"
+              errorClassName={
+                mode === 'light'
+                  ? 'rw-input rw-input-error'
+                  : 'rw-input-dark rw-input-error'
+              }
             />
 
             <FieldError name="firstName" className="rw-field-error" />
@@ -120,7 +163,11 @@ const AirmanForm = (props) => {
               name="middleName"
               defaultValue={props.airman?.middleName}
               className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName="rw-input rw-input-error"
+              errorClassName={
+                mode === 'light'
+                  ? 'rw-input rw-input-error'
+                  : 'rw-input-dark rw-input-error'
+              }
             />
 
             <FieldError name="middleName" className="rw-field-error" />
@@ -137,7 +184,11 @@ const AirmanForm = (props) => {
               name="lastName"
               defaultValue={props.airman?.lastName}
               className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName="rw-input rw-input-error"
+              errorClassName={
+                mode === 'light'
+                  ? 'rw-input rw-input-error'
+                  : 'rw-input-dark rw-input-error'
+              }
             />
 
             <FieldError name="lastName" className="rw-field-error" />
@@ -154,7 +205,11 @@ const AirmanForm = (props) => {
               name="organization"
               defaultValue={props.airman?.organization}
               className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName="rw-input rw-input-error"
+              errorClassName={
+                mode === 'light'
+                  ? 'rw-input rw-input-error'
+                  : 'rw-input-dark rw-input-error'
+              }
             />
 
             <FieldError name="organization" className="rw-field-error" />
@@ -172,7 +227,11 @@ const AirmanForm = (props) => {
               name="dodId"
               defaultValue={props.airman?.dodId}
               className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName="rw-input rw-input-error"
+              errorClassName={
+                mode === 'light'
+                  ? 'rw-input rw-input-error'
+                  : 'rw-input-dark rw-input-error'
+              }
             />
 
             <FieldError name="dodId" className="rw-field-error" />
@@ -189,7 +248,11 @@ const AirmanForm = (props) => {
               name="rank"
               defaultValue={props.airman?.rank}
               className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName="rw-input rw-input-error"
+              errorClassName={
+                mode === 'light'
+                  ? 'rw-input rw-input-error'
+                  : 'rw-input-dark rw-input-error'
+              }
             />
 
             <FieldError name="rank" className="rw-field-error" />
@@ -206,7 +269,11 @@ const AirmanForm = (props) => {
               name="officeSymbol"
               defaultValue={props.airman?.officeSymbol}
               className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName="rw-input rw-input-error"
+              errorClassName={
+                mode === 'light'
+                  ? 'rw-input rw-input-error'
+                  : 'rw-input-dark rw-input-error'
+              }
             />
 
             <FieldError name="officeSymbol" className="rw-field-error" />
@@ -223,7 +290,11 @@ const AirmanForm = (props) => {
               name="roles"
               defaultValue={props.airman?.roles}
               className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName="rw-input rw-input-error"
+              errorClassName={
+                mode === 'light'
+                  ? 'rw-input rw-input-error'
+                  : 'rw-input-dark rw-input-error'
+              }
             />
 
             <FieldError name="roles" className="rw-field-error" />
@@ -240,7 +311,11 @@ const AirmanForm = (props) => {
               name="resetToken"
               defaultValue={props.airman?.resetToken}
               className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName="rw-input rw-input-error"
+              errorClassName={
+                mode === 'light'
+                  ? 'rw-input rw-input-error'
+                  : 'rw-input-dark rw-input-error'
+              }
             />
 
             <FieldError name="resetToken" className="rw-field-error" />
@@ -257,7 +332,11 @@ const AirmanForm = (props) => {
               name="resetTokenExpiresAt"
               defaultValue={formatDatetime(props.airman?.resetTokenExpiresAt)}
               className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName="rw-input rw-input-error"
+              errorClassName={
+                mode === 'light'
+                  ? 'rw-input rw-input-error'
+                  : 'rw-input-dark rw-input-error'
+              }
             />
 
             <FieldError name="resetTokenExpiresAt" className="rw-field-error" />
@@ -267,16 +346,28 @@ const AirmanForm = (props) => {
               className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
               errorClassName="rw-label rw-label-error"
             >
-              Supervisor ID
+              Supervisor
             </Label>
 
-            <NumberField
+            <SelectField
               name="supervisorId"
               defaultValue={props.airman?.supervisorId}
               className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName="rw-input rw-input-error"
-              validation={{ required: true }}
-            />
+              errorClassName={
+                mode === 'light'
+                  ? 'rw-input rw-input-error'
+                  : 'rw-input-dark rw-input-error'
+              }
+              validation={{ valueAsNumber: true }}
+            >
+              <option
+                className={mode === 'light' ? 'rw-option' : 'rw-option-dark'}
+                value={null}
+              >
+                None
+              </option>
+              {supervisorsList()}
+            </SelectField>
 
             <FieldError name="supervisorId" className="rw-field-error" />
 
@@ -285,16 +376,28 @@ const AirmanForm = (props) => {
               className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
               errorClassName="rw-label rw-label-error"
             >
-              Monitor ID
+              Monitor
             </Label>
 
-            <NumberField
+            <SelectField
               name="monitorId"
               defaultValue={props.airman?.monitorId}
               className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName="rw-input rw-input-error"
-              validation={{ required: true }}
-            />
+              errorClassName={
+                mode === 'light'
+                  ? 'rw-input rw-input-error'
+                  : 'rw-input-dark rw-input-error'
+              }
+              validation={{ valueAsNumber: true }}
+            >
+              <option
+                className={mode === 'light' ? 'rw-option' : 'rw-option-dark'}
+                value={null}
+              >
+                None
+              </option>
+              {monitorsList()}
+            </SelectField>
 
             <FieldError name="monitorId" className="rw-field-error" />
           </Box>

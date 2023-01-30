@@ -155,6 +155,8 @@
   border-color: #feb2b2;
   border-radius: 0.25rem;
   margin: 1rem 0;
+  justify-content: center;
+  display: flex;
 }
 .rw-form-error-title {
   margin-top: 0;
@@ -367,7 +369,7 @@
   text-align: left;
 }
 .rw-table-dark thead th {
-  background-color: #e2e8f0;
+  border: rgba(255, 255, 255, 0.5) solid 1px;
   text-align: left;
 }
 .rw-table tbody th {
@@ -454,4 +456,7 @@
   font-size: 150%;
   font-weight: bold;
   margin-bottom: 1rem;
+}
+.rw-option-dark {
+  color: black
 }

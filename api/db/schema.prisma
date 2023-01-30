@@ -24,12 +24,28 @@ model Airman {
   roles               String?
   resetToken          String?
   resetTokenExpiresAt DateTime?
-  supervisorId        Int[]
-  monitorId           Int[]
+  supervisorId        Int?
+  monitorId           Int?
 }
 
 model Role {
   id     Int      @id @default(autoincrement())
   name   String   @unique
   Airman Airman[]
+}
+
+model Training {
+  id             Int         @id @default(autoincrement())
+  name           String      @unique
+  duration       Int
+  link           String?
+  description    String?
+  collectionsObj Collection? @relation(fields: [collections], references: [name])
+  collections    String[]
+}
+
+model Collection {
+  id       Int        @id @default(autoincrement())
+  name     String[]   @unique
+  Training Training[]
 }

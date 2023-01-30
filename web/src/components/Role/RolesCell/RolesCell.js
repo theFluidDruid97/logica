@@ -9,6 +9,9 @@ export const QUERY = gql`
       name
       Airman {
         id
+        rank
+        lastName
+        firstName
       }
     }
   }

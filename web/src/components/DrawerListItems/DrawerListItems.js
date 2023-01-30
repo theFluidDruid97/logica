@@ -1,6 +1,8 @@
 import { useState } from 'react'
 
+import CollectionsIcon from '@mui/icons-material/Collections'
 import DashboardIcon from '@mui/icons-material/Dashboard'
+import ImageIcon from '@mui/icons-material/Image'
 import PeopleIcon from '@mui/icons-material/People'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
@@ -21,6 +23,16 @@ const DrawerListItems = () => {
       text: 'Airmen',
       link: routesState.airmen(),
       icon: <PeopleIcon />,
+    },
+    {
+      text: 'Trainings',
+      link: routesState.trainings(),
+      icon: <ImageIcon />,
+    },
+    {
+      text: 'Collections',
+      link: routesState.collections(),
+      icon: <CollectionsIcon />,
     },
   ]
   return drawerListItems.map((drawerListItem) => (

@@ -16,7 +16,23 @@ const DELETE_AIRMAN_MUTATION = gql`
   }
 `
 
-const Airman = ({ airman }) => {
+const Airman = ({ airman, roles }) => {
+  let supervisor = null
+  const FoundSupervisor = roles
+    .find((role) => role.name === 'leadership')
+    .Airman.find((supervisor) => supervisor.id === airman.supervisorId)
+  if (FoundSupervisor) {
+    supervisor = `${FoundSupervisor.rank} ${FoundSupervisor.lastName}, ${FoundSupervisor.firstName}`
+  }
+
+  let monitor = null
+  const FoundMonitor = roles
+    .find((role) => role.name === 'monitor')
+    .Airman.find((monitor) => monitor.id === airman.monitorId)
+  if (FoundMonitor) {
+    monitor = `${FoundMonitor.rank} ${FoundMonitor.lastName}, ${FoundMonitor.firstName}`
+  }
+
   const { mode, setMode } = React.useContext(ThemeModeContext)
 
   const [deleteAirman] = useMutation(DELETE_AIRMAN_MUTATION, {
@@ -98,8 +114,12 @@ const Airman = ({ airman }) => {
               <td>{airman.officeSymbol}</td>
             </tr>
             <tr>
-              <th>Roles</th>
-              <td>{airman.roles}</td>
+              <th>Role</th>
+              <td>
+                {airman.roles
+                  ? airman.roles.charAt(0).toUpperCase() + airman.roles.slice(1)
+                  : null}
+              </td>
             </tr>
             <tr>
               <th>Reset Token</th>
@@ -110,12 +130,12 @@ const Airman = ({ airman }) => {
               <td>{timeTag(airman.resetTokenExpiresAt)}</td>
             </tr>
             <tr>
-              <th>Supervisor ID</th>
-              <td>{airman.supervisorId}</td>
+              <th>Supervisor</th>
+              <td>{supervisor}</td>
             </tr>
             <tr>
-              <th>Monitor ID</th>
-              <td>{airman.monitorId}</td>
+              <th>Monitor</th>
+              <td>{monitor}</td>
             </tr>
           </tbody>
         </table>

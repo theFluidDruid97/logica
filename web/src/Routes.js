@@ -16,6 +16,18 @@ const Routes = () => {
               <Route path="/roles" page={RoleRolesPage} name="roles" />
             </Set>
           </Private>
+          <Set wrap={ScaffoldLayout} title="Collections" titleTo="collections" buttonLabel="New Collection" buttonTo="newCollection">
+            <Route path="/collections/new" page={CollectionNewCollectionPage} name="newCollection" />
+            <Route path="/collections/{id:Int}/edit" page={CollectionEditCollectionPage} name="editCollection" />
+            <Route path="/collections/{id:Int}" page={CollectionCollectionPage} name="collection" />
+            <Route path="/collections" page={CollectionCollectionsPage} name="collections" />
+          </Set>
+          <Set wrap={ScaffoldLayout} title="Trainings" titleTo="trainings" buttonLabel="New Training" buttonTo="newTraining">
+            <Route path="/trainings/new" page={TrainingNewTrainingPage} name="newTraining" />
+            <Route path="/trainings/{id:Int}/edit" page={TrainingEditTrainingPage} name="editTraining" />
+            <Route path="/trainings/{id:Int}" page={TrainingTrainingPage} name="training" />
+            <Route path="/trainings" page={TrainingTrainingsPage} name="trainings" />
+          </Set>
           <Set wrap={ScaffoldLayout} title="Airmen" titleTo="airmen" buttonLabel="New Airman" buttonTo="newAirman">
             <Route path="/airmen/new" page={AirmanNewAirmanPage} name="newAirman" />
             <Route path="/airmen/{id:Int}/edit" page={AirmanEditAirmanPage} name="editAirman" />

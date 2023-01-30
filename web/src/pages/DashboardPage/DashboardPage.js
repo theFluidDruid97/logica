@@ -11,7 +11,7 @@ const DashboardPage = () => {
         Find me in <code>./web/src/pages/DashboardPage/DashboardPage.js</code>
       </p>
       <p>
-        My default route is named <code>dashboard</code>, link to me with `
+        My default route is named <code>home</code>, link to me with `
         <Link to={routes.home()}>Dashboard</Link>`
       </p>
     </>

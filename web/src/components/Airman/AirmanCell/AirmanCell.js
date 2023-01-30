@@ -20,6 +20,16 @@ export const QUERY = gql`
       supervisorId
       monitorId
     }
+    roles {
+      id
+      name
+      Airman {
+        id
+        rank
+        lastName
+        firstName
+      }
+    }
   }
 `
 
@@ -31,6 +41,6 @@ export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error?.message}</div>
 )
 
-export const Success = ({ airman }) => {
-  return <Airman airman={airman} />
+export const Success = ({ airman, roles }) => {
+  return <Airman airman={airman} roles={roles} />
 }

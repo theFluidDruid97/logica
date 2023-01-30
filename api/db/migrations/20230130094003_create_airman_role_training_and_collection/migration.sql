@@ -14,8 +14,8 @@ CREATE TABLE "Airman" (
     "roles" TEXT,
     "resetToken" TEXT,
     "resetTokenExpiresAt" TIMESTAMP(3),
-    "supervisorId" INTEGER[],
-    "monitorId" INTEGER[],
+    "supervisorId" INTEGER,
+    "monitorId" INTEGER,
 
     CONSTRAINT "Airman_pkey" PRIMARY KEY ("id")
 );
@@ -28,11 +28,40 @@ CREATE TABLE "Role" (
     CONSTRAINT "Role_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Training" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "duration" INTEGER NOT NULL,
+    "link" TEXT,
+    "description" TEXT,
+    "collections" TEXT[],
+
+    CONSTRAINT "Training_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Collection" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT[],
+
+    CONSTRAINT "Collection_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Airman_email_key" ON "Airman"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Role_name_key" ON "Role"("name");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "Training_name_key" ON "Training"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Collection_name_key" ON "Collection"("name");
+
 -- AddForeignKey
 ALTER TABLE "Airman" ADD CONSTRAINT "Airman_roles_fkey" FOREIGN KEY ("roles") REFERENCES "Role"("name") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Training" ADD CONSTRAINT "Training_collections_fkey" FOREIGN KEY ("collections") REFERENCES "Collection"("name") ON DELETE SET NULL ON UPDATE CASCADE;

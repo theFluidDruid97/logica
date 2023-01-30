@@ -14,7 +14,7 @@ const CREATE_AIRMAN_MUTATION = gql`
   }
 `
 
-const NewAirman = () => {
+const NewAirman = ({ roles }) => {
   const { mode, setMode } = React.useContext(ThemeModeContext)
   const [createAirman, { loading, error }] = useMutation(
     CREATE_AIRMAN_MUTATION,
@@ -47,7 +47,12 @@ const NewAirman = () => {
           mode === 'light' ? 'rw-segment-main' : 'rw-segment-main-dark'
         }
       >
-        <AirmanForm onSave={onSave} loading={loading} error={error} />
+        <AirmanForm
+          onSave={onSave}
+          loading={loading}
+          error={error}
+          roles={roles}
+        />
       </div>
     </div>
   )

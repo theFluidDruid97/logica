@@ -26,6 +26,16 @@ export const QUERY = gql`
       supervisorId
       monitorId
     }
+    roles {
+      id
+      name
+      Airman {
+        id
+        rank
+        lastName
+        firstName
+      }
+    }
   }
 `
 const UPDATE_AIRMAN_MUTATION = gql`
@@ -57,13 +67,15 @@ export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error?.message}</div>
 )
 
-export const Success = ({ airman }) => {
+export const Success = ({ airman, roles }) => {
   const { mode, setMode } = React.useContext(ThemeModeContext)
   const [updateAirman, { loading, error }] = useMutation(
     UPDATE_AIRMAN_MUTATION,
     {
       onCompleted: () => {
-        toast.success('Airman updated')
+        toast.success(
+          `${airman.rank} ${airman.lastName}, ${airman.firstName} Updated`
+        )
         navigate(routes.airmen())
       },
       onError: (error) => {
@@ -94,6 +106,7 @@ export const Success = ({ airman }) => {
       >
         <AirmanForm
           airman={airman}
+          roles={roles}
           onSave={onSave}
           error={error}
           loading={loading}
