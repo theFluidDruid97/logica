@@ -9,18 +9,16 @@ export const QUERY = gql`
       email
       hashedPassword
       salt
+      rank
       firstName
       middleName
       lastName
       organization
-      dodId
-      rank
       officeSymbol
-      roles
+      dodId
       resetToken
       resetTokenExpiresAt
-      supervisorId
-      monitorId
+      roles
     }
   }
 `

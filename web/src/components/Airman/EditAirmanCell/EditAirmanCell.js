@@ -13,28 +13,16 @@ export const QUERY = gql`
       email
       hashedPassword
       salt
+      rank
       firstName
       middleName
       lastName
       organization
-      dodId
-      rank
       officeSymbol
-      roles
+      dodId
       resetToken
       resetTokenExpiresAt
-      supervisorId
-      monitorId
-    }
-    roles {
-      id
-      name
-      Airman {
-        id
-        rank
-        lastName
-        firstName
-      }
+      roles
     }
   }
 `
@@ -45,18 +33,16 @@ const UPDATE_AIRMAN_MUTATION = gql`
       email
       hashedPassword
       salt
+      rank
       firstName
       middleName
       lastName
       organization
-      dodId
-      rank
       officeSymbol
-      roles
+      dodId
       resetToken
       resetTokenExpiresAt
-      supervisorId
-      monitorId
+      roles
     }
   }
 `

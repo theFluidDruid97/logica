@@ -5,12 +5,6 @@ export const QUERY = gql`
     role: role(id: $id) {
       id
       name
-      Airman {
-        id
-        rank
-        lastName
-        firstName
-      }
     }
   }
 `

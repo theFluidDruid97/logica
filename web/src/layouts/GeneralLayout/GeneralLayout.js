@@ -1,5 +1,9 @@
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import LogoutIcon from '@mui/icons-material/Logout'
 import MenuIcon from '@mui/icons-material/Menu'
+import PersonIcon from '@mui/icons-material/Person'
+import SettingsIcon from '@mui/icons-material/Settings'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { amber, grey, red, teal } from '@mui/material/colors'
@@ -88,7 +92,7 @@ const GeneralLayout = ({ children }) => {
     ? (document.querySelector('body').style.background = 'none')
     : (document.querySelector('body').style.background =
         'linear-gradient(to top right, black, teal)')
-
+  console.log(currentUser)
   return (
     <Box sx={{ display: 'flex' }}>
       <ColorModeContext.Provider value={colorMode}>
@@ -132,6 +136,7 @@ const GeneralLayout = ({ children }) => {
                       onClick={handleClick}
                       variant="grey"
                     >
+                      <AccountCircleIcon />
                       {currentUser.email}
                     </Button>
                     <Menu
@@ -153,10 +158,34 @@ const GeneralLayout = ({ children }) => {
                         onClick={() =>
                           navigate(routes.airman({ id: currentUser.id }))
                         }
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                        }}
                       >
                         Profile
+                        <PersonIcon />
                       </MenuItem>
-                      <MenuItem onClick={logOut}>Log Out</MenuItem>
+                      <MenuItem
+                        onClick={() => navigate(routes.settings())}
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        Settings
+                        <SettingsIcon />
+                      </MenuItem>
+                      <MenuItem
+                        onClick={logOut}
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        Log Out
+                        <LogoutIcon />
+                      </MenuItem>
                     </Menu>
                   </Box>
                 ) : (

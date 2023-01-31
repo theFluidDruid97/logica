@@ -61,7 +61,16 @@ const Training = ({ training }) => {
             </tr>
             <tr>
               <th>Link</th>
-              <td>{training.link}</td>
+              <td>
+                <a
+                  href={training.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  title={training.link}
+                >
+                  {training.link}
+                </a>
+              </td>
             </tr>
             <tr>
               <th>Description</th>

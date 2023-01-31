@@ -11,41 +11,43 @@ generator client {
 model Airman {
   id                  Int       @id @default(autoincrement())
   email               String    @unique
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @default(now())
   hashedPassword      String
   salt                String
+  rank                String?
   firstName           String?
   middleName          String?
   lastName            String?
   organization        String?
-  dodId               String?
-  rank                String?
   officeSymbol        String?
-  roleObj             Role?     @relation(fields: [roles], references: [name])
-  roles               String?
+  dodId               String?
   resetToken          String?
   resetTokenExpiresAt DateTime?
-  supervisorId        Int?
-  monitorId           Int?
+  roles               Role[]
 }
 
 model Role {
-  id     Int      @id @default(autoincrement())
-  name   String   @unique
-  Airman Airman[]
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  description String?
+  airman      Airman? @relation(fields: [airmanId], references: [id])
+  airmanId    Int?
 }
 
 model Training {
-  id             Int         @id @default(autoincrement())
-  name           String      @unique
-  duration       Int
-  link           String?
-  description    String?
-  collectionsObj Collection? @relation(fields: [collections], references: [name])
-  collections    String[]
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  duration    Int
+  link        String?
+  description String?
+  collection  Collection[]
 }
 
 model Collection {
-  id       Int        @id @default(autoincrement())
-  name     String[]   @unique
-  Training Training[]
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  description String?
+  training    Training? @relation(fields: [trainingId], references: [id])
+  trainingId  Int?
 }

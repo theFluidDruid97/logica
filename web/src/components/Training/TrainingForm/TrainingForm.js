@@ -130,7 +130,7 @@ const TrainingForm = (props) => {
               ? 'rw-input rw-input-error'
               : 'rw-input-dark rw-input-error'
           }
-          validation={{ required: true }}
+          emptyAs={undefined}
         />
 
         <FieldError name="collections" className="rw-field-error" />

@@ -2,7 +2,7 @@ import { styled } from '@mui/material/styles'
 import Switch from '@mui/material/Switch'
 
 export const DarkModeSwitch = styled(Switch)(({ theme }) => ({
-  width: 54,
+  width: 90,
   height: 34,
   padding: 0,
   '& .MuiSwitch-switchBase': {
@@ -11,7 +11,7 @@ export const DarkModeSwitch = styled(Switch)(({ theme }) => ({
     transform: 'translateX(0px)',
     '&.Mui-checked': {
       color: 'white',
-      transform: 'translateX(20px)',
+      transform: 'translateX(57px)',
       '& .MuiSwitch-thumb:before': {
         backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
           'grey'

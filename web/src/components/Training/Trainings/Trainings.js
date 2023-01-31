@@ -16,6 +16,7 @@ const DELETE_TRAINING_MUTATION = gql`
 `
 
 const TrainingsList = ({ trainings }) => {
+  const [pageSize, setPageSize] = React.useState()
   const [deleteTraining] = useMutation(DELETE_TRAINING_MUTATION, {
     onCompleted: () => {
       toast.success('Training deleted')
@@ -34,11 +35,26 @@ const TrainingsList = ({ trainings }) => {
   }
 
   const columns = [
-    { field: 'name', headerName: 'Name', flex: 1 },
-    { field: 'duration', headerName: 'Duration', flex: 1 },
-    { field: 'link', headerName: 'Link', flex: 1 },
-    { field: 'description', headerName: 'Description', flex: 1 },
-    { field: 'colections', headerName: 'Collections', flex: 1 },
+    { field: 'name', headerName: 'Name', flex: 0.5 },
+    { field: 'duration', headerName: 'Duration (Months)', flex: 0.5 },
+    {
+      field: 'link',
+      headerName: 'Link',
+      flex: 1,
+      renderCell: (params) => {
+        return (
+          <a
+            href={params.row.link}
+            target="_blank"
+            rel="noreferrer"
+            title={params.row.link}
+          >
+            {params.row.link}
+          </a>
+        )
+      },
+    },
+    { field: 'collections', headerName: 'Collections', flex: 1 },
     {
       field: 'Show',
       headerName: '',
@@ -92,22 +108,22 @@ const TrainingsList = ({ trainings }) => {
     <DataGridPremium
       rows={trainings}
       columns={columns}
-      pageSize={5}
+      pagination
+      pageSize={pageSize}
+      rowsPerPageOptions={[10, 20, 50, 100]}
+      onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+      checkboxSelection
+      disableSelectionOnClick
+      sx={{ height: '75vh' }}
       components={{ Toolbar: GridToolbar }}
       componentsProps={{
         toolbar: {
           printOptions: {
             hideToolbar: true,
             hideFooter: true,
-            pageStyle:
-              '.MuiDataGrid-root .MuiDataGrid-main { color: rgba(0, 0, 0); }',
           },
         },
       }}
-      rowsPerPageOptions={[5]}
-      checkboxSelection
-      disableSelectionOnClick
-      sx={{ height: '75vh' }}
     />
   )
 }

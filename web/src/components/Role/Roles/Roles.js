@@ -16,6 +16,7 @@ const DELETE_ROLE_MUTATION = gql`
 `
 
 const RolesList = ({ roles }) => {
+  const [pageSize, setPageSize] = React.useState()
   const [deleteRole] = useMutation(DELETE_ROLE_MUTATION, {
     onCompleted: () => {
       toast.success('Role deleted')
@@ -42,7 +43,6 @@ const RolesList = ({ roles }) => {
   const columns = [
     { field: 'id', headerName: 'ID', flex: 0.25 },
     { field: 'name', headerName: 'Name', flex: 1 },
-    { field: 'holders', headerName: 'Holders', flex: 1 },
     {
       field: 'Show',
       headerName: '',
@@ -98,35 +98,26 @@ const RolesList = ({ roles }) => {
     },
   ]
 
-  const roleDisplayNames = []
-  roles.map((role) =>
-    roleDisplayNames.push({
-      id: role.id,
-      name: role.name.charAt(0).toUpperCase() + role.name.slice(1),
-      holders: role.Airman.length,
-    })
-  )
-
   return (
     <DataGridPremium
-      rows={roleDisplayNames}
+      rows={roles}
       columns={columns}
-      pageSize={5}
+      pagination
+      pageSize={pageSize}
+      rowsPerPageOptions={[10, 20, 50, 100]}
+      onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+      checkboxSelection
+      disableSelectionOnClick
+      sx={{ height: '75vh' }}
       components={{ Toolbar: GridToolbar }}
       componentsProps={{
         toolbar: {
           printOptions: {
             hideToolbar: true,
             hideFooter: true,
-            pageStyle:
-              '.MuiDataGrid-root .MuiDataGrid-main { color: rgba(0, 0, 0); }',
           },
         },
       }}
-      rowsPerPageOptions={[5]}
-      checkboxSelection
-      disableSelectionOnClick
-      sx={{ height: '75vh' }}
     />
   )
 }

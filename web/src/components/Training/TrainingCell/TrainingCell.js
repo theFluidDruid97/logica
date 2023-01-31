@@ -8,7 +8,6 @@ export const QUERY = gql`
       duration
       link
       description
-      collections
     }
   }
 `

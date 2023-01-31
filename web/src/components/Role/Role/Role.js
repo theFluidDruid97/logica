@@ -52,7 +52,6 @@ const Role = ({ role }) => {
             {role.name.charAt(0).toUpperCase() + role.name.slice(1)} Details
           </h2>
         </header>
-
         <Box display="flex" flexDirection="row">
           <table className={mode === 'light' ? 'rw-table' : 'rw-table-dark'}>
             <tbody>

@@ -17,6 +17,7 @@ const DELETE_COLLECTION_MUTATION = gql`
 `
 
 const Collection = ({ collection }) => {
+  console.log('COLLECTION ==> ', collection)
   const { mode, setMode } = React.useContext(ThemeModeContext)
   const [deleteCollection] = useMutation(DELETE_COLLECTION_MUTATION, {
     onCompleted: () => {
@@ -53,6 +54,8 @@ const Collection = ({ collection }) => {
                 <th>ID</th>
                 <td>{collection.id}</td>
               </tr>
+            </tbody>
+            <tbody>
               <tr>
                 <th>Name</th>
                 <td>{collection.name}</td>
@@ -60,28 +63,34 @@ const Collection = ({ collection }) => {
             </tbody>
           </table>
         </Box>
-        {/* <table className={mode === 'light' ? 'rw-table' : 'rw-table-dark'}>
+        <table className={mode === 'light' ? 'rw-table' : 'rw-table-dark'}>
           <thead>
-            <th>Holders</th>
+            <th>Trainings</th>
             <th></th>
           </thead>
-          <tbody>
-            {role.Airman.map((holder) => (
-              <tr key={holder.id}>
-                <td>
-                  {holder.rank} {holder.lastName}, {holder.firstName}
-                </td>
+          {/* <tbody>
+            {collection.Training.map((training) => (
+              <tr key={training.id}>
+                <td>{training.name}</td>
                 <td>
                   <Button
-                    onClick={() => navigate(routes.airman({ id: holder.id }))}
+                    onClick={() =>
+                      navigate(routes.training({ id: training.id }))
+                    }
                   >
                     View
+                  </Button>
+                  <Button
+                    color="warning"
+                    onClick={() => onRemoveClick(training, training.id)}
+                  >
+                    Remove
                   </Button>
                 </td>
               </tr>
             ))}
-          </tbody>
-        </table> */}
+          </tbody> */}
+        </table>
       </div>
       <nav className="rw-button-group">
         <Button

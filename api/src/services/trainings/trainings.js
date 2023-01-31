@@ -1,36 +1,36 @@
 import { db } from 'src/lib/db'
 
 export const trainings = () => {
-  return db.training.findMany()
+  return db.Training.findMany()
 }
 
 export const training = ({ id }) => {
-  return db.training.findUnique({
+  return db.Training.findUnique({
     where: { id },
   })
 }
 
 export const createTraining = ({ input }) => {
-  return db.training.create({
+  return db.Training.create({
     data: input,
   })
 }
 
 export const updateTraining = ({ id, input }) => {
-  return db.training.update({
+  return db.Training.update({
     data: input,
     where: { id },
   })
 }
 
 export const deleteTraining = ({ id }) => {
-  return db.training.delete({
+  return db.Training.delete({
     where: { id },
   })
 }
 
 export const Training = {
-  collectionsObj: (_obj, { root }) => {
-    return db.training.findUnique({ where: { id: root?.id } }).collectionsObj()
+  Collection: (_obj, { root }) => {
+    return db.Training.findUnique({ where: { id: root?.id } }).Collection()
   },
 }

@@ -8,7 +8,7 @@ const Routes = () => {
     <Router>
       <Set wrap={GeneralLayout}>
         <Private unauthenticated="landing">
-          <Private roles="admin" unauthenticated="landing">
+          <Private roles="Admin" unauthenticated="landing">
             <Set wrap={ScaffoldLayout} title="Roles" titleTo="roles" buttonLabel="New Role" buttonTo="newRole">
               <Route path="/roles/new" page={RoleNewRolePage} name="newRole" />
               <Route path="/roles/{id:Int}/edit" page={RoleEditRolePage} name="editRole" />
@@ -35,6 +35,7 @@ const Routes = () => {
             <Route path="/airmen" page={AirmanAirmenPage} name="airmen" />
           </Set>
           <Route path="/dashboard" page={DashboardPage} name="home" title="Dashboard" />
+          <Route path="/settings" page={SettingsPage} name="settings" />
         </Private>
         <Route path="/" page={LandingPage} name="landing" title="Landing" />
         <Route path="/login" page={LoginPage} name="login" />

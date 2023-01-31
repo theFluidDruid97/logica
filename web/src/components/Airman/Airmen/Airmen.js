@@ -16,6 +16,7 @@ const DELETE_AIRMAN_MUTATION = gql`
 `
 
 const AirmenList = ({ airmen }) => {
+  const [pageSize, setPageSize] = React.useState(10)
   const [deleteAirman] = useMutation(DELETE_AIRMAN_MUTATION, {
     onCompleted: () => {
       toast.success('Airman deleted')
@@ -46,8 +47,6 @@ const AirmenList = ({ airmen }) => {
     { field: 'organization', headerName: 'Organization', flex: 1 },
     { field: 'officeSymbol', headerName: 'Office Symbol', flex: 1 },
     { field: 'dodId', headerName: 'DoD ID', flex: 1 },
-    { field: 'supervisorId', headerName: 'SID', flex: 0.75 },
-    { field: 'monitorId', headerName: 'MID', flex: 0.75 },
     {
       field: 'Show',
       headerName: '',
@@ -101,22 +100,22 @@ const AirmenList = ({ airmen }) => {
     <DataGridPremium
       rows={airmen}
       columns={columns}
-      pageSize={5}
+      pagination
+      pageSize={pageSize}
+      rowsPerPageOptions={[10, 20, 50, 100]}
+      onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+      checkboxSelection
+      disableSelectionOnClick
+      sx={{ height: '75vh' }}
       components={{ Toolbar: GridToolbar }}
       componentsProps={{
         toolbar: {
           printOptions: {
             hideToolbar: true,
             hideFooter: true,
-            pageStyle:
-              '.MuiDataGrid-root .MuiDataGrid-main { color: rgba(0, 0, 0); }',
           },
         },
       }}
-      rowsPerPageOptions={[5]}
-      checkboxSelection
-      disableSelectionOnClick
-      sx={{ height: '75vh' }}
     />
   )
 }

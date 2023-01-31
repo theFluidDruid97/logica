@@ -24,10 +24,25 @@ export const getCurrentUser = async (session) => {
     throw new Error('Invalid session')
   }
 
-  return await db.Airman.findUnique({
-    where: { id: session.id },
-    select: { id: true, email: true, roles: true },
+  const foundRoles = await db.role.findMany({
+    where: { airman: { id: session.id } },
+    select: { name: true },
   })
+
+  const roles = foundRoles.map((role) => {
+    return role.name
+  })
+
+  const foundAirman = await db.airman.findUnique({
+    where: { id: session.id },
+    select: { id: true, email: true },
+  })
+
+  if (roles) {
+    foundAirman.roles = roles
+  }
+
+  return foundAirman
 }
 
 /**

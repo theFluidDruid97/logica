@@ -27,9 +27,9 @@ export const handler = async (event, context) => {
       // for security reasons you may want to be vague here rather than expose
       // the fact that the email address wasn't found (prevents fishing for
       // valid email addresses)
-      usernameNotFound: 'Username not found',
+      usernameNotFound: 'E-Mail not found',
       // if the user somehow gets around client validation
-      usernameRequired: 'Username is required',
+      usernameRequired: 'E-Mail is required',
     },
   }
 
@@ -50,9 +50,9 @@ export const handler = async (event, context) => {
     },
 
     errors: {
-      usernameOrPasswordMissing: 'Both username and password are required',
-      usernameNotFound: 'Incorrect username or password',
-      incorrectPassword: 'Incorrect username or password',
+      usernameOrPasswordMissing: 'Both e-mail and password are required',
+      usernameNotFound: 'Incorrect e-mail or password',
+      incorrectPassword: 'Incorrect e-mail or password',
     },
 
     // How long a user will remain logged in, in seconds
@@ -120,7 +120,7 @@ export const handler = async (event, context) => {
     errors: {
       // `field` will be either "username" or "password"
       fieldMissing: '${field} is required',
-      usernameTaken: 'Username `${username}` already in use',
+      usernameTaken: 'E-mail `${username}` already in use',
     },
   }
 
@@ -142,6 +142,7 @@ export const handler = async (event, context) => {
       salt: 'salt',
       resetToken: 'resetToken',
       resetTokenExpiresAt: 'resetTokenExpiresAt',
+      roles: 'roleName',
     },
 
     // Specifies attributes on the cookie that dbAuth sets in order to remember

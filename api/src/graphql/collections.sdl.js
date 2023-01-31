@@ -1,8 +1,9 @@
 export const schema = gql`
   type Collection {
     id: Int!
-    name: [String]!
-    Training: [Training]!
+    name: String!
+    trainingsObj: Training!
+    trainings: [String]
   }
 
   type Query {
@@ -11,11 +12,13 @@ export const schema = gql`
   }
 
   input CreateCollectionInput {
-    name: [String]!
+    name: String!
+    trainings: [String]
   }
 
   input UpdateCollectionInput {
-    name: [String]!
+    name: String
+    trainings: [String]
   }
 
   type Mutation {

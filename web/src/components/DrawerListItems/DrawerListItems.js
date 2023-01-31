@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
-import CollectionsIcon from '@mui/icons-material/Collections'
 import DashboardIcon from '@mui/icons-material/Dashboard'
-import ImageIcon from '@mui/icons-material/Image'
 import PeopleIcon from '@mui/icons-material/People'
+import TextSnippetIcon from '@mui/icons-material/TextSnippet'
+import TopicIcon from '@mui/icons-material/Topic'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -27,12 +27,12 @@ const DrawerListItems = () => {
     {
       text: 'Trainings',
       link: routesState.trainings(),
-      icon: <ImageIcon />,
+      icon: <TextSnippetIcon />,
     },
     {
       text: 'Collections',
       link: routesState.collections(),
-      icon: <CollectionsIcon />,
+      icon: <TopicIcon />,
     },
   ]
   return drawerListItems.map((drawerListItem) => (

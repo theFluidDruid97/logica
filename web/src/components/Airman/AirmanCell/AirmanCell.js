@@ -7,28 +7,16 @@ export const QUERY = gql`
       email
       hashedPassword
       salt
+      rank
       firstName
       middleName
       lastName
       organization
-      dodId
-      rank
       officeSymbol
-      roles
+      dodId
       resetToken
       resetTokenExpiresAt
-      supervisorId
-      monitorId
-    }
-    roles {
-      id
-      name
-      Airman {
-        id
-        rank
-        lastName
-        firstName
-      }
+      roles
     }
   }
 `
@@ -41,6 +29,6 @@ export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error?.message}</div>
 )
 
-export const Success = ({ airman, roles }) => {
-  return <Airman airman={airman} roles={roles} />
+export const Success = ({ airman }) => {
+  return <Airman airman={airman} />
 }

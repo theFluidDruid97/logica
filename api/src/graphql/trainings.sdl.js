@@ -5,8 +5,7 @@ export const schema = gql`
     duration: Int!
     link: String
     description: String
-    collectionsObj: Collection
-    collections: [String]!
+    Collection: [Collection]!
   }
 
   type Query {
@@ -19,7 +18,6 @@ export const schema = gql`
     duration: Int!
     link: String
     description: String
-    collections: [String]!
   }
 
   input UpdateTrainingInput {
@@ -27,7 +25,6 @@ export const schema = gql`
     duration: Int
     link: String
     description: String
-    collections: [String]!
   }
 
   type Mutation {

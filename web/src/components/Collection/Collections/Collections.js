@@ -16,6 +16,7 @@ const DELETE_COLLECTION_MUTATION = gql`
 `
 
 const CollectionsList = ({ collections }) => {
+  const [pageSize, setPageSize] = React.useState()
   const [deleteCollection] = useMutation(DELETE_COLLECTION_MUTATION, {
     onCompleted: () => {
       toast.success('Collection deleted')
@@ -90,22 +91,22 @@ const CollectionsList = ({ collections }) => {
     <DataGridPremium
       rows={collections}
       columns={columns}
-      pageSize={5}
+      pagination
+      pageSize={pageSize}
+      rowsPerPageOptions={[10, 20, 50, 100]}
+      onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+      checkboxSelection
+      disableSelectionOnClick
+      sx={{ height: '75vh' }}
       components={{ Toolbar: GridToolbar }}
       componentsProps={{
         toolbar: {
           printOptions: {
             hideToolbar: true,
             hideFooter: true,
-            pageStyle:
-              '.MuiDataGrid-root .MuiDataGrid-main { color: rgba(0, 0, 0); }',
           },
         },
       }}
-      rowsPerPageOptions={[5]}
-      checkboxSelection
-      disableSelectionOnClick
-      sx={{ height: '75vh' }}
     />
   )
 }
