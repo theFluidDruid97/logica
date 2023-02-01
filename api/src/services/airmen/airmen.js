@@ -30,7 +30,7 @@ export const deleteAirman = ({ id }) => {
 }
 
 export const Airman = {
-  Role: (_obj, { root }) => {
-    return db.airman.findUnique({ where: { id: root?.id } }).Role()
+  roles: (_obj, { root }) => {
+    return db.airman.findUnique({ where: { id: root?.id } }).roles()
   },
 }

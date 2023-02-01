@@ -87,8 +87,7 @@
   border-radius: 10px;
 }
 .rw-segment-header {
-  background-color: #e2e8f0;
-  color: #4a5568;
+  background-color: rgba(0, 0, 0, 0.5) solid 1px;
   padding: 0.75rem 1rem;
 }
 .rw-segment-header-dark {
@@ -104,11 +103,11 @@
   padding: 1rem;
 }
 .rw-link {
-  color: #4299e1;
+  color: #ff6f00;
   text-decoration: underline;
 }
 .rw-link:hover {
-  color: #2b6cb0;
+  color: #ff8f00;
 }
 .rw-forgot-link {
   font-size: 0.75rem;
@@ -118,7 +117,7 @@
 }
 .rw-forgot-link:hover {
   font-size: 0.75rem;
-  color: #4299e1;
+  color: #ffc107;
 }
 .rw-heading {
   font-weight: 600;
@@ -344,7 +343,7 @@
 }
 .rw-table tr:nth-child(odd) td,
 .rw-table tr:nth-child(odd) th {
-  background-color: #f7fafc;
+  background-color: #ffffff22;
 }
 .rw-table-dark tr:nth-child(odd) td,
 .rw-table-dark tr:nth-child(odd) th {
@@ -365,7 +364,7 @@
   text-align: left;
 }
 .rw-table thead th {
-  background-color: #e2e8f0;
+  background-color: rgba(0, 0, 0, 0.5) solid 1px;
   text-align: left;
 }
 .rw-table-dark thead th {

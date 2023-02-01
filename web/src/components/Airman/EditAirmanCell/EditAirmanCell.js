@@ -22,7 +22,6 @@ export const QUERY = gql`
       dodId
       resetToken
       resetTokenExpiresAt
-      roles
     }
   }
 `
@@ -42,7 +41,6 @@ const UPDATE_AIRMAN_MUTATION = gql`
       dodId
       resetToken
       resetTokenExpiresAt
-      roles
     }
   }
 `
@@ -53,7 +51,7 @@ export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error?.message}</div>
 )
 
-export const Success = ({ airman, roles }) => {
+export const Success = ({ airman }) => {
   const { mode, setMode } = React.useContext(ThemeModeContext)
   const [updateAirman, { loading, error }] = useMutation(
     UPDATE_AIRMAN_MUTATION,
@@ -92,7 +90,6 @@ export const Success = ({ airman, roles }) => {
       >
         <AirmanForm
           airman={airman}
-          roles={roles}
           onSave={onSave}
           error={error}
           loading={loading}

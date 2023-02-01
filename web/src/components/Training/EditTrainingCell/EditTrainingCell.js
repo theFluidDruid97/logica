@@ -14,7 +14,6 @@ export const QUERY = gql`
       duration
       link
       description
-      collections
     }
   }
 `
@@ -26,7 +25,6 @@ const UPDATE_TRAINING_MUTATION = gql`
       duration
       link
       description
-      collections
     }
   }
 `

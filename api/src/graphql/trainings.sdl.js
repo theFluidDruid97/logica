@@ -5,7 +5,7 @@ export const schema = gql`
     duration: Int!
     link: String
     description: String
-    Collection: [Collection]!
+    collection: [Collection]!
   }
 
   type Query {
