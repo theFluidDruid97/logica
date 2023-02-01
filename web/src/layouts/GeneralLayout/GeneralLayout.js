@@ -6,7 +6,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import SettingsIcon from '@mui/icons-material/Settings'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import { amber, grey, red, teal } from '@mui/material/colors'
+import { amber, grey, red, teal, orange } from '@mui/material/colors'
 import CssBaseline from '@mui/material/CssBaseline'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
@@ -89,7 +89,8 @@ const GeneralLayout = ({ children }) => {
   )
   const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode])
   mode === 'light'
-    ? (document.querySelector('body').style.background = 'none')
+    ? (document.querySelector('body').style.background =
+        'linear-gradient(to top left, goldenrod, white)')
     : (document.querySelector('body').style.background =
         'linear-gradient(to top right, black, teal)')
   console.log(currentUser)

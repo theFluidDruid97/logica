@@ -2,7 +2,9 @@ export const schema = gql`
   type Role {
     id: Int!
     name: String!
-    Airman: [Airman]!
+    description: String
+    airman: Airman
+    airmanId: Int
   }
 
   type Query {
@@ -12,10 +14,14 @@ export const schema = gql`
 
   input CreateRoleInput {
     name: String!
+    description: String
+    airmanId: Int
   }
 
   input UpdateRoleInput {
     name: String
+    description: String
+    airmanId: Int
   }
 
   type Mutation {

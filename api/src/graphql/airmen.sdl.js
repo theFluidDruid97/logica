@@ -2,21 +2,20 @@ export const schema = gql`
   type Airman {
     id: Int!
     email: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
     hashedPassword: String!
     salt: String!
+    rank: String
     firstName: String
     middleName: String
     lastName: String
     organization: String
-    dodId: String
-    rank: String
     officeSymbol: String
-    roleObj: Role
-    roles: String
+    dodId: String
     resetToken: String
     resetTokenExpiresAt: DateTime
-    supervisorId: [Int]
-    monitorId: [Int]
+    roles: [Role]!
   }
 
   type Query {
@@ -28,36 +27,30 @@ export const schema = gql`
     email: String!
     hashedPassword: String!
     salt: String!
+    rank: String
     firstName: String
     middleName: String
     lastName: String
     organization: String
-    dodId: String
-    rank: String
     officeSymbol: String
-    roles: String
+    dodId: String
     resetToken: String
     resetTokenExpiresAt: DateTime
-    supervisorId: [Int]
-    monitorId: [Int]
   }
 
   input UpdateAirmanInput {
     email: String
     hashedPassword: String
     salt: String
+    rank: String
     firstName: String
     middleName: String
     lastName: String
     organization: String
-    dodId: String
-    rank: String
     officeSymbol: String
-    roles: String
+    dodId: String
     resetToken: String
     resetTokenExpiresAt: DateTime
-    supervisorId: [Int]
-    monitorId: [Int]
   }
 
   type Mutation {

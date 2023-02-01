@@ -1,6 +1,6 @@
 export const standard = defineScenario({
   role: {
-    one: { data: { name: 'String7410442' } },
-    two: { data: { name: 'String3093134' } },
+    one: { data: { name: 'String7512033' } },
+    two: { data: { name: 'String683941' } },
   },
 })

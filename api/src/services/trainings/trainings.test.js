@@ -25,18 +25,13 @@ describe('trainings', () => {
     expect(result).toEqual(scenario.training.one)
   })
 
-  scenario('creates a training', async (scenario) => {
+  scenario('creates a training', async () => {
     const result = await createTraining({
-      input: {
-        name: 'String2186571',
-        duration: 3904212,
-        collections: scenario.training.two.collections,
-      },
+      input: { name: 'String7007311', duration: 7927412 },
     })
 
-    expect(result.name).toEqual('String2186571')
-    expect(result.duration).toEqual(3904212)
-    expect(result.collections).toEqual(scenario.training.two.collections)
+    expect(result.name).toEqual('String7007311')
+    expect(result.duration).toEqual(7927412)
   })
 
   scenario('updates a training', async (scenario) => {
@@ -45,10 +40,10 @@ describe('trainings', () => {
     })
     const result = await updateTraining({
       id: original.id,
-      input: { name: 'String46766222' },
+      input: { name: 'String20975782' },
     })
 
-    expect(result.name).toEqual('String46766222')
+    expect(result.name).toEqual('String20975782')
   })
 
   scenario('deletes a training', async (scenario) => {

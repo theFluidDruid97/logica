@@ -18,7 +18,6 @@ export const QUERY = gql`
       dodId
       resetToken
       resetTokenExpiresAt
-      roles
     }
   }
 `
