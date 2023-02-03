@@ -8,10 +8,10 @@ export const DarkModeSwitch = styled(Switch)(({ theme }) => ({
   '& .MuiSwitch-switchBase': {
     margin: 0,
     padding: 2,
-    transform: 'translateX(0px)',
+    transform: 'translateX(57px)',
     '&.Mui-checked': {
       color: 'white',
-      transform: 'translateX(57px)',
+      transform: 'translateX(0px)',
       '& .MuiSwitch-thumb:before': {
         backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
           'grey'

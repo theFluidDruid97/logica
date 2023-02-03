@@ -7,15 +7,7 @@ const Routes = () => {
   return (
     <Router>
       <Set wrap={GeneralLayout}>
-        <Private unauthenticated="landing">
-          <Private roles="Admin" unauthenticated="landing">
-            <Set wrap={ScaffoldLayout} title="Roles" titleTo="roles" buttonLabel="New Role" buttonTo="newRole">
-              <Route path="/roles/new" page={RoleNewRolePage} name="newRole" />
-              <Route path="/roles/{id:Int}/edit" page={RoleEditRolePage} name="editRole" />
-              <Route path="/roles/{id:Int}" page={RoleRolePage} name="role" />
-              <Route path="/roles" page={RoleRolesPage} name="roles" />
-            </Set>
-          </Private>
+        <Private unauthenticated="login">
           <Set wrap={ScaffoldLayout} title="Collections" titleTo="collections" buttonLabel="New Collection" buttonTo="newCollection">
             <Route path="/collections/new" page={CollectionNewCollectionPage} name="newCollection" />
             <Route path="/collections/{id:Int}/edit" page={CollectionEditCollectionPage} name="editCollection" />
@@ -37,8 +29,7 @@ const Routes = () => {
           <Route path="/dashboard" page={DashboardPage} name="home" title="Dashboard" />
           <Route path="/settings" page={SettingsPage} name="settings" />
         </Private>
-        <Route path="/" page={LandingPage} name="landing" title="Landing" />
-        <Route path="/login" page={LoginPage} name="login" />
+        <Route path="/" page={LoginPage} name="login" title="Log In" />
         <Route path="/signup" page={SignupPage} name="signup" />
         <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
         <Route path="/reset-password" page={ResetPasswordPage} name="resetPassword" />

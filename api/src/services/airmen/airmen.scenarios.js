@@ -1,11 +1,15 @@
 export const standard = defineScenario({
   airman: {
     one: {
-      data: { email: 'String178157', hashedPassword: 'String', salt: 'String' },
+      data: {
+        email: 'String5345721',
+        hashedPassword: 'String',
+        salt: 'String',
+      },
     },
     two: {
       data: {
-        email: 'String4523255',
+        email: 'String8210729',
         hashedPassword: 'String',
         salt: 'String',
       },

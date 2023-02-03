@@ -94,11 +94,18 @@ const Collection = ({ collection }) => {
       </div>
       <nav className="rw-button-group">
         <Button
+          sx={{ marginX: 1 }}
+          variant={mode === 'light' ? 'contained' : 'outlined'}
           onClick={() => navigate(routes.editCollection({ id: collection.id }))}
         >
           Edit
         </Button>
-        <Button color="warning" onClick={() => onDeleteClick(collection.id)}>
+        <Button
+          sx={{ marginX: 1 }}
+          variant={mode === 'light' ? 'contained' : 'outlined'}
+          color="error"
+          onClick={() => onDeleteClick(collection.id)}
+        >
           Delete
         </Button>
       </nav>

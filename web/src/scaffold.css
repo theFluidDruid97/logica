@@ -87,15 +87,16 @@
   border-radius: 10px;
 }
 .rw-segment-header {
-  background-color: rgba(0, 0, 0, 0.5) solid 1px;
+  border: rgba(0, 0, 0) solid 1px;
   padding: 0.75rem 1rem;
+  background-color: rgba( 255, 255, 255, 0.25);
 }
 .rw-segment-header-dark {
-  border: rgba(255, 255, 255, 0.5) solid 1px;
+  border: rgba(255, 255, 255) solid 1px;
   padding: 0.75rem 1rem;
 }
 .rw-segment-main {
-  background-color: #f7fafc;
+  background-color: #f7fafc7c;
   padding: 1rem;
 }
 .rw-segment-main-dark {
@@ -103,13 +104,26 @@
   padding: 1rem;
 }
 .rw-link {
-  color: #ff6f00;
+  color: #ffab00;
+  text-decoration: underline;
+}
+.rw-link-dark {
+  color: #00bfa5;
   text-decoration: underline;
 }
 .rw-link:hover {
-  color: #ff8f00;
+  color: #f57f17;
+}
+.rw-link-dark:hover {
+  color: #1de9b6;
 }
 .rw-forgot-link {
+  font-size: 0.75rem;
+  color: #a0aec0;
+  text-align: right;
+  margin-top: 0.1rem;
+}
+.rw-forgot-link-dark {
   font-size: 0.75rem;
   color: #a0aec0;
   text-align: right;
@@ -118,6 +132,10 @@
 .rw-forgot-link:hover {
   font-size: 0.75rem;
   color: #ffc107;
+}
+.rw-forgot-link-dark:hover {
+  font-size: 0.75rem;
+  color: #009688;
 }
 .rw-heading {
   font-weight: 600;

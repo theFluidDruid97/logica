@@ -27,11 +27,11 @@ describe('trainings', () => {
 
   scenario('creates a training', async () => {
     const result = await createTraining({
-      input: { name: 'String7007311', duration: 7927412 },
+      input: { name: 'String3497780', duration: 9672342 },
     })
 
-    expect(result.name).toEqual('String7007311')
-    expect(result.duration).toEqual(7927412)
+    expect(result.name).toEqual('String3497780')
+    expect(result.duration).toEqual(9672342)
   })
 
   scenario('updates a training', async (scenario) => {
@@ -40,10 +40,10 @@ describe('trainings', () => {
     })
     const result = await updateTraining({
       id: original.id,
-      input: { name: 'String20975782' },
+      input: { name: 'String84231222' },
     })
 
-    expect(result.name).toEqual('String20975782')
+    expect(result.name).toEqual('String84231222')
   })
 
   scenario('deletes a training', async (scenario) => {

@@ -43,7 +43,12 @@ const CollectionForm = (props) => {
         <FieldError name="name" className="rw-field-error" />
 
         <div className="rw-button-group">
-          <Button type="submit" disabled={props.loading}>
+          <Button
+            sx={{ marginX: 1 }}
+            variant={mode === 'light' ? 'contained' : 'outlined'}
+            type="submit"
+            disabled={props.loading}
+          >
             Save
           </Button>
         </div>

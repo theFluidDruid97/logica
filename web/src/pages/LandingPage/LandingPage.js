@@ -31,17 +31,27 @@ const LandingPage = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            height: '80%',
+            justifyContent: 'space-around',
+            background:
+              'linear-gradient(to top right, rgba(218, 165, 32, 0.4), rgba(255, 255, 255, 0.4))',
           }}
         >
-          <CardContent>
-            <Typography
-              variant="h1"
-              color="text.secondary"
-              gutterBottom
-              component="div"
-            >
-              Welcome to TrainTrack
+          <CardContent
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Typography variant="h1" color="text.secondary" component="div">
+              Welcome
             </Typography>
+            <Typography variant="h1" color="text.secondary" component="div">
+              to
+            </Typography>
+            <img src="/TrainTrackLogo.png" height="200" alt="TrainTrack" />
             <Divider />
           </CardContent>
           <CardActions>

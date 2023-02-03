@@ -1,69 +1,160 @@
-import MuiAppBar from '@mui/material/AppBar'
-import MuiDrawer from '@mui/material/Drawer'
-import { styled } from '@mui/material/styles'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import LogoutIcon from '@mui/icons-material/Logout'
+import MenuIcon from '@mui/icons-material/Menu'
+import PersonIcon from '@mui/icons-material/Person'
+import SettingsIcon from '@mui/icons-material/Settings'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
 
-export const drawerWidth = 240
+import { useAuth } from '@redwoodjs/auth'
+import { Link, routes, navigate } from '@redwoodjs/router'
 
-export const openedMixin = (theme) => ({
-  width: drawerWidth,
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: 'hidden',
-})
+import { ThemeModeContext } from '../../App.js'
+import { GeneralContext } from '../../App.js'
+import { DarkModeSwitch } from '../../components/DarkModeSwitch/DarkModeSwitch.js'
+import { AppBar } from '../../components/NavigationFunctions/NavigationFunctions.js'
 
-export const closedMixin = (theme) => ({
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
-})
-
-export const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
-  padding: theme.spacing(0, 1),
-  ...theme.mixins.toolbar,
-}))
-
-export const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
+const TopNavigation = () => {
+  const { isAuthenticated, currentUser, logOut } = useAuth()
+  const { mode, setMode } = React.useContext(ThemeModeContext)
+  const { open, setOpen } = React.useContext(GeneralContext)
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  const menuOpen = Boolean(anchorEl)
+  const handleDrawerOpen = () => {
+    setOpen(true)
+  }
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+  const colorMode = React.useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'))
+      },
     }),
-  }),
-}))
+    []
+  )
+  return (
+    <AppBar position="fixed" open={open}>
+      <Toolbar>
+        {isAuthenticated ? (
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{
+              marginRight: 5,
+              ...(open && { display: 'none' }),
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+        ) : (
+          <></>
+        )}
+        <Box
+          sx={{
+            display: 'flex',
+            width: '100%',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Typography variant="h6" noWrap component="div">
+            <Link to={routes.login()}>
+              <img
+                src={
+                  mode === 'light'
+                    ? '/TrainTrackLogo.png'
+                    : '/TrainTrackLogoDark.png'
+                }
+                height="40"
+                alt="TrainTrack"
+              />
+            </Link>
+          </Typography>
+          {isAuthenticated ? (
+            <Box>
+              <Button
+                id="basic-button"
+                aria-controls={open ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClick}
+                color="inherit"
+              >
+                <AccountCircleIcon />
+                {currentUser.email}
+                <ExpandMoreIcon />
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={menuOpen}
+                onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                <MenuItem>
+                  <DarkModeSwitch
+                    checked={mode === 'light'}
+                    onClick={colorMode.toggleColorMode}
+                  />
+                </MenuItem>
+                <MenuItem
+                  onClick={() =>
+                    navigate(routes.airman({ id: currentUser.id }))
+                  }
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  Profile
+                  <PersonIcon />
+                </MenuItem>
+                <MenuItem
+                  onClick={() => navigate(routes.settings())}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  Settings
+                  <SettingsIcon />
+                </MenuItem>
+                <MenuItem
+                  onClick={() => (logOut(), setAnchorEl(null))}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  Log Out
+                  <LogoutIcon />
+                </MenuItem>
+              </Menu>
+            </Box>
+          ) : (
+            <DarkModeSwitch
+              checked={mode === 'light'}
+              onClick={colorMode.toggleColorMode}
+            />
+          )}
+        </Box>
+      </Toolbar>
+    </AppBar>
+  )
+}
 
-export const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  width: drawerWidth,
-  flexShrink: 0,
-  whiteSpace: 'nowrap',
-  boxSizing: 'border-box',
-  ...(open && {
-    ...openedMixin(theme),
-    '& .MuiDrawer-paper': openedMixin(theme),
-  }),
-  ...(!open && {
-    ...closedMixin(theme),
-    '& .MuiDrawer-paper': closedMixin(theme),
-  }),
-}))
+export default TopNavigation

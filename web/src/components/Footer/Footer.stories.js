@@ -3,19 +3,19 @@
 //
 // ```jsx
 // export const generated = (args) => {
-//   return <TopNavigation {...args} />
+//   return <Footer {...args} />
 // }
 // ```
 //
 // See https://storybook.js.org/docs/react/writing-stories/args.
 
-import TopNavigation from './TopNavigation'
+import Footer from './Footer'
 
 export const generated = () => {
-  return <TopNavigation />
+  return <Footer />
 }
 
 export default {
-  title: 'Components/TopNavigation',
-  component: TopNavigation,
+  title: 'Components/Footer',
+  component: Footer,
 }

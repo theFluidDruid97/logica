@@ -24,15 +24,9 @@ model Airman {
   dodId               String?
   resetToken          String?
   resetTokenExpiresAt DateTime?
-  roles               Role[]
-}
-
-model Role {
-  id          Int     @id @default(autoincrement())
-  name        String  @unique
-  description String?
-  airman      Airman? @relation(fields: [airmanId], references: [id])
-  airmanId    Int?
+  roles               Role      @default(Airman)
+  monitorId           Int?
+  supervisorId        Int?
 }
 
 model Training {
@@ -50,4 +44,11 @@ model Collection {
   description String?
   training    Training? @relation(fields: [trainingId], references: [id])
   trainingId  Int?
+}
+
+enum Role {
+  Airman
+  Admin
+  Monitor
+  Supervisor
 }

@@ -1,6 +1,5 @@
 import { useState } from 'react'
 
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -10,13 +9,7 @@ import { navigate, routes } from '@redwoodjs/router'
 
 const DrawerListItemsAdmin = () => {
   const [routesState, setRoutesState] = useState(routes)
-  const drawerListItems = [
-    {
-      text: 'Roles',
-      link: routesState.roles(),
-      icon: <AdminPanelSettingsIcon />,
-    },
-  ]
+  const drawerListItems = []
   return drawerListItems.map((drawerListItem) => (
     <ListItem
       key={drawerListItem.text}

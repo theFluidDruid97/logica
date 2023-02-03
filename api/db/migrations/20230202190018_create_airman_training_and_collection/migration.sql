@@ -1,3 +1,6 @@
+-- CreateEnum
+CREATE TYPE "Role" AS ENUM ('Airman', 'Admin', 'Monitor', 'Supervisor');
+
 -- CreateTable
 CREATE TABLE "Airman" (
     "id" SERIAL NOT NULL,
@@ -15,18 +18,11 @@ CREATE TABLE "Airman" (
     "dodId" TEXT,
     "resetToken" TEXT,
     "resetTokenExpiresAt" TIMESTAMP(3),
+    "roles" "Role" NOT NULL DEFAULT 'Airman',
+    "monitorId" INTEGER,
+    "supervisorId" INTEGER,
 
     CONSTRAINT "Airman_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Role" (
-    "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
-    "description" TEXT,
-    "airmanId" INTEGER,
-
-    CONSTRAINT "Role_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -54,16 +50,10 @@ CREATE TABLE "Collection" (
 CREATE UNIQUE INDEX "Airman_email_key" ON "Airman"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Role_name_key" ON "Role"("name");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Training_name_key" ON "Training"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Collection_name_key" ON "Collection"("name");
-
--- AddForeignKey
-ALTER TABLE "Role" ADD CONSTRAINT "Role_airmanId_fkey" FOREIGN KEY ("airmanId") REFERENCES "Airman"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Collection" ADD CONSTRAINT "Collection_trainingId_fkey" FOREIGN KEY ("trainingId") REFERENCES "Training"("id") ON DELETE SET NULL ON UPDATE CASCADE;

@@ -11,8 +11,6 @@ export const QUERY = gql`
     airman: airman(id: $id) {
       id
       email
-      hashedPassword
-      salt
       rank
       firstName
       middleName
@@ -20,8 +18,9 @@ export const QUERY = gql`
       organization
       officeSymbol
       dodId
-      resetToken
-      resetTokenExpiresAt
+      roles
+      supervisorId
+      monitorId
     }
   }
 `
@@ -30,8 +29,6 @@ const UPDATE_AIRMAN_MUTATION = gql`
     updateAirman(id: $id, input: $input) {
       id
       email
-      hashedPassword
-      salt
       rank
       firstName
       middleName
@@ -39,8 +36,9 @@ const UPDATE_AIRMAN_MUTATION = gql`
       organization
       officeSymbol
       dodId
-      resetToken
-      resetTokenExpiresAt
+      roles
+      supervisorId
+      monitorId
     }
   }
 `

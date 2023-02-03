@@ -4,8 +4,6 @@ import { routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
-import { timeTag } from 'src/lib/formatters'
-
 import { ThemeModeContext } from '../../../App.js'
 
 const DELETE_AIRMAN_MUTATION = gql`
@@ -16,7 +14,12 @@ const DELETE_AIRMAN_MUTATION = gql`
   }
 `
 
-const Airman = ({ airman }) => {
+const Airman = ({ airman, airmen }) => {
+  const supervisor = airmen.find(
+    (supervisor) => supervisor.id === airman.supervisorId
+  )
+  const monitor = airmen.find((monitor) => monitor.id === airman.monitorId)
+
   const { mode, setMode } = React.useContext(ThemeModeContext)
 
   const [deleteAirman] = useMutation(DELETE_AIRMAN_MUTATION, {
@@ -62,14 +65,6 @@ const Airman = ({ airman }) => {
               <td>{airman.email}</td>
             </tr>
             <tr>
-              <th>Hashed Password</th>
-              <td>{airman.hashedPassword}</td>
-            </tr>
-            <tr>
-              <th>Salt</th>
-              <td>{airman.salt}</td>
-            </tr>
-            <tr>
               <th>Rank</th>
               <td>{airman.rank}</td>
             </tr>
@@ -98,26 +93,48 @@ const Airman = ({ airman }) => {
               <td>{airman.dodId}</td>
             </tr>
             <tr>
-              <th>Reset Token</th>
-              <td>{airman.resetToken}</td>
-            </tr>
-            <tr>
-              <th>Reset Token Expiration</th>
-              <td>{timeTag(airman.resetTokenExpiresAt)}</td>
-            </tr>
-            <tr>
-              <th>Roles</th>
+              <th>Role</th>
               <td>{airman.roles}</td>
+            </tr>
+            <tr>
+              <th>Supervisor</th>
+              <td>
+                {supervisor
+                  ? `${supervisor.rank} ${supervisor.lastName}, ${
+                      supervisor.firstName
+                    } ${supervisor.middleName.charAt(0)} (${
+                      supervisor.organization
+                    } ${supervisor.officeSymbol})`
+                  : null}
+              </td>
+            </tr>
+            <tr>
+              <th>Monitor</th>
+              <td>
+                {monitor
+                  ? `${monitor.rank} ${monitor.lastName}, ${
+                      monitor.firstName
+                    } ${monitor.middleName.charAt(0)} (${
+                      monitor.organization
+                    } ${monitor.officeSymbol})`
+                  : null}
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
       <nav className="rw-button-group">
-        <Button onClick={() => navigate(routes.editAirman({ id: airman.id }))}>
+        <Button
+          sx={{ marginX: 1 }}
+          variant={mode === 'light' ? 'contained' : 'outlined'}
+          onClick={() => navigate(routes.editAirman({ id: airman.id }))}
+        >
           Edit
         </Button>
         <Button
-          color="warning"
+          sx={{ marginX: 1 }}
+          variant={mode === 'light' ? 'contained' : 'outlined'}
+          color="error"
           onClick={() => onDeleteClick(airman, airman.id)}
         >
           Delete

@@ -15,7 +15,16 @@ export const schema = gql`
     dodId: String
     resetToken: String
     resetTokenExpiresAt: DateTime
-    roles: [Role]!
+    roles: Role!
+    monitorId: Int
+    supervisorId: Int
+  }
+
+  enum Role {
+    Airman
+    Admin
+    Monitor
+    Supervisor
   }
 
   type Query {
@@ -36,6 +45,9 @@ export const schema = gql`
     dodId: String
     resetToken: String
     resetTokenExpiresAt: DateTime
+    roles: Role!
+    monitorId: Int
+    supervisorId: Int
   }
 
   input UpdateAirmanInput {
@@ -51,6 +63,9 @@ export const schema = gql`
     dodId: String
     resetToken: String
     resetTokenExpiresAt: DateTime
+    roles: Role
+    monitorId: Int
+    supervisorId: Int
   }
 
   type Mutation {

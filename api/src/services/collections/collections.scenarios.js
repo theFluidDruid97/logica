@@ -1,6 +1,6 @@
 export const standard = defineScenario({
   collection: {
-    one: { data: { name: 'String6194570' } },
-    two: { data: { name: 'String2439292' } },
+    one: { data: { name: 'String8408609' } },
+    two: { data: { name: 'String8384170' } },
   },
 })

@@ -1,11 +1,13 @@
 import Button from '@mui/material/Button'
-import { DataGridPremium, GridToolbar } from '@mui/x-data-grid-premium'
 
 import { navigate, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import { QUERY } from 'src/components/Airman/AirmenCell'
+
+import { ThemeModeContext } from '../../../App.js'
+import DataTable from '../../DataTable/DataTable.js'
 
 const DELETE_AIRMAN_MUTATION = gql`
   mutation DeleteAirmanMutation($id: Int!) {
@@ -16,7 +18,7 @@ const DELETE_AIRMAN_MUTATION = gql`
 `
 
 const AirmenList = ({ airmen }) => {
-  const [pageSize, setPageSize] = React.useState(10)
+  const { mode, setMode } = React.useContext(ThemeModeContext)
   const [deleteAirman] = useMutation(DELETE_AIRMAN_MUTATION, {
     onCompleted: () => {
       toast.success('Airman deleted')
@@ -43,81 +45,75 @@ const AirmenList = ({ airmen }) => {
     { field: 'lastName', headerName: 'Last Name', flex: 1 },
     { field: 'firstName', headerName: 'First Name', flex: 1 },
     { field: 'middleName', headerName: 'Middle Name', flex: 1 },
-    { field: 'email', headerName: 'E-Mail', flex: 1.25 },
-    { field: 'organization', headerName: 'Organization', flex: 1 },
-    { field: 'officeSymbol', headerName: 'Office Symbol', flex: 1 },
+    { field: 'email', headerName: 'E-Mail', flex: 1 },
+    { field: 'organization', headerName: 'Org.', flex: 1 },
+    { field: 'officeSymbol', headerName: 'Off. Sym.', flex: 0.5 },
     { field: 'dodId', headerName: 'DoD ID', flex: 1 },
+    { field: 'roles', headerName: 'Role', flex: 1 },
     {
-      field: 'Show',
-      headerName: '',
-      sortable: false,
+      field: 'supervisorId',
+      headerName: 'Supervisor',
+      flex: 1.5,
       renderCell: (params) => {
-        return (
-          <Button
-            onClick={() => navigate(routes.airman({ id: params.row.id }))}
-            color="secondary"
-            title={`Show ${params.row.rank} ${params.row.lastName}, ${params.row.firstName} Details`}
-          >
-            Show
-          </Button>
+        const supervisor = airmen.find(
+          (supervisor) => supervisor.id === params.row.supervisorId
         )
+        return supervisor ? `${supervisor.rank} ${supervisor.lastName}` : null
       },
     },
     {
-      field: 'Edit',
-      headerName: '',
-      sortable: false,
+      field: 'monitorId',
+      headerName: 'Monitor',
+      flex: 1.5,
       renderCell: (params) => {
-        return (
-          <Button
-            onClick={() => navigate(routes.editAirman({ id: params.row.id }))}
-            title={`Edit ${params.row.rank} ${params.row.lastName}, ${params.row.firstName} Details`}
-          >
-            Edit
-          </Button>
+        const monitor = airmen.find(
+          (monitor) => monitor.id === params.row.monitorId
         )
+        return monitor ? `${monitor.rank} ${monitor.lastName}` : null
       },
     },
     {
-      field: 'Delete',
-      headerName: '',
+      field: 'actions',
+      headerName: 'Actions',
       sortable: false,
+      filterable: false,
+      width: 225,
       renderCell: (params) => {
         return (
-          <Button
-            title={`Delete ${params.row.rank} ${params.row.lastName}, ${params.row.firstName}`}
-            color="warning"
-            onClick={() => onDeleteClick(params.row, params.row.id)}
-          >
-            Delete
-          </Button>
+          <>
+            <Button
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+              size="small"
+              color="secondary"
+              onClick={() => navigate(routes.airman({ id: params.row.id }))}
+              title={`Show ${params.row.rank} ${params.row.lastName}, ${params.row.firstName} Details`}
+            >
+              Show
+            </Button>
+            <Button
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+              size="small"
+              onClick={() => navigate(routes.editAirman({ id: params.row.id }))}
+              title={`Edit ${params.row.rank} ${params.row.lastName}, ${params.row.firstName} Details`}
+            >
+              Edit
+            </Button>
+            <Button
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+              size="small"
+              color="error"
+              onClick={() => onDeleteClick(params.row, params.row.id)}
+              title={`Delete ${params.row.rank} ${params.row.lastName}, ${params.row.firstName}`}
+            >
+              Delete
+            </Button>
+          </>
         )
       },
     },
   ]
 
-  return (
-    <DataGridPremium
-      rows={airmen}
-      columns={columns}
-      pagination
-      pageSize={pageSize}
-      rowsPerPageOptions={[10, 20, 50, 100]}
-      onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-      checkboxSelection
-      disableSelectionOnClick
-      sx={{ height: '75vh' }}
-      components={{ Toolbar: GridToolbar }}
-      componentsProps={{
-        toolbar: {
-          printOptions: {
-            hideToolbar: true,
-            hideFooter: true,
-          },
-        },
-      }}
-    />
-  )
+  return <DataTable rows={airmen} columns={columns} />
 }
 
 export default AirmenList

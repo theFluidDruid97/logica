@@ -136,7 +136,12 @@ const TrainingForm = (props) => {
         <FieldError name="collections" className="rw-field-error" />
 
         <div className="rw-button-group">
-          <Button type="submit" disabled={props.loading}>
+          <Button
+            sx={{ marginX: 1 }}
+            variant={mode === 'light' ? 'contained' : 'outlined'}
+            type="submit"
+            disabled={props.loading}
+          >
             Save
           </Button>
         </div>

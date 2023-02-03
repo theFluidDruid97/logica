@@ -7,8 +7,6 @@ export const QUERY = gql`
     airmen {
       id
       email
-      hashedPassword
-      salt
       rank
       firstName
       middleName
@@ -16,12 +14,12 @@ export const QUERY = gql`
       organization
       officeSymbol
       dodId
-      resetToken
-      resetTokenExpiresAt
+      roles
+      supervisorId
+      monitorId
     }
   }
 `
-
 export const Loading = () => <div>Loading...</div>
 
 export const Empty = () => {

@@ -1,14 +1,14 @@
 import { render } from '@redwoodjs/testing/web'
 
-import TopNavigation from './TopNavigation'
+import DataTable from './DataTable'
 
 //   Improve this test with help from the Redwood Testing Doc:
 //    https://redwoodjs.com/docs/testing#testing-components
 
-describe('TopNavigation', () => {
+describe('DataTable', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<TopNavigation />)
+      render(<DataTable />)
     }).not.toThrow()
   })
 })

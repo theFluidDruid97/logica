@@ -85,12 +85,16 @@ const Training = ({ training }) => {
       </div>
       <nav className="rw-button-group">
         <Button
+          sx={{ marginX: 1 }}
+          variant={mode === 'light' ? 'contained' : 'outlined'}
           onClick={() => navigate(routes.editTraining({ id: training.id }))}
         >
           Edit
         </Button>
         <Button
-          color="warning"
+          sx={{ marginX: 1 }}
+          variant={mode === 'light' ? 'contained' : 'outlined'}
+          color="error"
           onClick={() => onDeleteClick(training, training.id)}
         >
           Delete

@@ -30,6 +30,9 @@
     "@mui/styled-engine": "^5.11.0",
     "@mui/x-data-grid": "^5.17.21",
     "@mui/x-data-grid-premium": "^5.17.21",
-    "@mui/x-data-grid-pro": "^5.17.21"
+    "@mui/x-data-grid-pro": "^5.17.21",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.28",
+    "node-fetch": "2.6.7"
   }
 }

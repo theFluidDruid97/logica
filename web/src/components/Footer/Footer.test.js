@@ -1,14 +1,14 @@
 import { render } from '@redwoodjs/testing/web'
 
-import TopNavigation from './TopNavigation'
+import Footer from './Footer'
 
 //   Improve this test with help from the Redwood Testing Doc:
 //    https://redwoodjs.com/docs/testing#testing-components
 
-describe('TopNavigation', () => {
+describe('Footer', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<TopNavigation />)
+      render(<Footer />)
     }).not.toThrow()
   })
 })

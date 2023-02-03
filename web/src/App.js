@@ -10,20 +10,25 @@ import './index.css'
 
 const App = () => {
   const [mode, setMode] = React.useState('light')
+  const [open, setOpen] = React.useState(false)
+  const rolesList = ['Admin', 'Airman', 'Monitor', 'Supervisor']
   return (
     <FatalErrorBoundary page={FatalErrorPage}>
       <ThemeModeContext.Provider value={{ mode, setMode }}>
-        <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
-          <AuthProvider type="dbAuth">
-            <RedwoodApolloProvider>
-              <Routes />
-            </RedwoodApolloProvider>
-          </AuthProvider>
-        </RedwoodProvider>
+        <GeneralContext.Provider value={{ open, setOpen, rolesList }}>
+          <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
+            <AuthProvider type="dbAuth">
+              <RedwoodApolloProvider>
+                <Routes />
+              </RedwoodApolloProvider>
+            </AuthProvider>
+          </RedwoodProvider>
+        </GeneralContext.Provider>
       </ThemeModeContext.Provider>
     </FatalErrorBoundary>
   )
 }
 
 export const ThemeModeContext = React.createContext(null)
+export const GeneralContext = React.createContext(null)
 export default App

@@ -1,40 +1,32 @@
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import LogoutIcon from '@mui/icons-material/Logout'
-import MenuIcon from '@mui/icons-material/Menu'
-import PersonIcon from '@mui/icons-material/Person'
-import SettingsIcon from '@mui/icons-material/Settings'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import { amber, grey, red, teal, orange } from '@mui/material/colors'
+import { amber, grey, teal } from '@mui/material/colors'
 import CssBaseline from '@mui/material/CssBaseline'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import List from '@mui/material/List'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
 
 import { useAuth } from '@redwoodjs/auth'
-import { Link, routes, navigate } from '@redwoodjs/router'
 
 import { ThemeModeContext } from '../../App.js'
-import { DarkModeSwitch } from '../../components/DarkModeSwitch/DarkModeSwitch.js'
+import { GeneralContext } from '../../App.js'
 import DrawerListItems from '../../components/DrawerListItems/DrawerListItems.js'
 import DrawerListItemsAdmin from '../../components/DrawerListItemsAdmin/DrawerListItemsAdmin.js'
+import Footer from '../../components/Footer/Footer.js'
+import Navigation from '../../components/Navigation/Navigation.js'
 import {
-  AppBar,
   Drawer,
   DrawerHeader,
-} from '../../components/Navigation/Navigation.js'
+} from '../../components/NavigationFunctions/NavigationFunctions.js'
 
 const getDesignTokens = (mode) => ({
   palette: {
     mode,
     primary: {
-      ...amber,
+      ...(mode === 'light' && {
+        main: amber[500],
+      }),
       ...(mode === 'dark' && {
         main: teal['A400'],
       }),
@@ -42,9 +34,12 @@ const getDesignTokens = (mode) => ({
     secondary: {
       ...grey,
     },
-    warning: {
-      ...red,
-    },
+    ...(mode === 'light' && {
+      divider: amber[500],
+    }),
+    ...(mode === 'dark' && {
+      divider: teal[500],
+    }),
     text: {
       ...(mode === 'light'
         ? {
@@ -52,8 +47,8 @@ const getDesignTokens = (mode) => ({
             secondary: grey[800],
           }
         : {
-            primary: '#fff',
-            secondary: grey[500],
+            primary: grey[100],
+            secondary: grey[200],
           }),
     },
   },
@@ -63,21 +58,10 @@ const ColorModeContext = React.createContext({ toggleColorMode: () => {} })
 
 const GeneralLayout = ({ children }) => {
   const { mode, setMode } = React.useContext(ThemeModeContext)
-  const { isAuthenticated, currentUser, logOut } = useAuth()
-  const [open, setOpen] = React.useState(false)
-  const handleDrawerOpen = () => {
-    setOpen(true)
-  }
+  const { open, setOpen } = React.useContext(GeneralContext)
+  const { isAuthenticated } = useAuth()
   const handleDrawerClose = () => {
     setOpen(false)
-  }
-  const [anchorEl, setAnchorEl] = React.useState(null)
-  const menuOpen = Boolean(anchorEl)
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
-  const handleClose = () => {
-    setAnchorEl(null)
   }
   const colorMode = React.useMemo(
     () => ({
@@ -93,108 +77,12 @@ const GeneralLayout = ({ children }) => {
         'linear-gradient(to top left, goldenrod, white)')
     : (document.querySelector('body').style.background =
         'linear-gradient(to top right, black, teal)')
-  console.log(currentUser)
   return (
     <Box sx={{ display: 'flex' }}>
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <AppBar position="fixed" open={open}>
-            <Toolbar>
-              {isAuthenticated ? (
-                <IconButton
-                  color="inherit"
-                  aria-label="open drawer"
-                  onClick={handleDrawerOpen}
-                  edge="start"
-                  sx={{
-                    marginRight: 5,
-                    ...(open && { display: 'none' }),
-                  }}
-                >
-                  <MenuIcon />
-                </IconButton>
-              ) : (
-                <></>
-              )}
-              <Box
-                sx={{
-                  display: 'flex',
-                  width: '100%',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Typography variant="h6" noWrap component="div">
-                  <Link to={routes.landing()}>TrainTrack</Link>
-                </Typography>
-                {isAuthenticated ? (
-                  <Box>
-                    <Button
-                      id="basic-button"
-                      aria-controls={open ? 'basic-menu' : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={open ? 'true' : undefined}
-                      onClick={handleClick}
-                      variant="grey"
-                    >
-                      <AccountCircleIcon />
-                      {currentUser.email}
-                    </Button>
-                    <Menu
-                      id="basic-menu"
-                      anchorEl={anchorEl}
-                      open={menuOpen}
-                      onClose={handleClose}
-                      MenuListProps={{
-                        'aria-labelledby': 'basic-button',
-                      }}
-                    >
-                      <MenuItem>
-                        <DarkModeSwitch
-                          checked={mode === 'light'}
-                          onClick={colorMode.toggleColorMode}
-                        />
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() =>
-                          navigate(routes.airman({ id: currentUser.id }))
-                        }
-                        sx={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                        }}
-                      >
-                        Profile
-                        <PersonIcon />
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => navigate(routes.settings())}
-                        sx={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                        }}
-                      >
-                        Settings
-                        <SettingsIcon />
-                      </MenuItem>
-                      <MenuItem
-                        onClick={logOut}
-                        sx={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                        }}
-                      >
-                        Log Out
-                        <LogoutIcon />
-                      </MenuItem>
-                    </Menu>
-                  </Box>
-                ) : (
-                  <></>
-                )}
-              </Box>
-            </Toolbar>
-          </AppBar>
+          <Navigation />
           {isAuthenticated ? (
             <Drawer variant="permanent" open={open}>
               <DrawerHeader>
@@ -214,10 +102,11 @@ const GeneralLayout = ({ children }) => {
           ) : (
             <></>
           )}
-          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+          <Box width="100%" paddingX="1%">
             <DrawerHeader />
             {children}
           </Box>
+          <Footer />
         </ThemeProvider>
       </ColorModeContext.Provider>
     </Box>

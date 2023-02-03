@@ -9,60 +9,44 @@ import {
   TextField,
   SelectField,
 } from '@redwoodjs/forms'
+import { useQuery } from '@redwoodjs/web'
 
 import { ThemeModeContext } from '../../../App.js'
+import { GeneralContext } from '../../../App.js'
+
+export const QUERY = gql`
+  query FindAirmenSelectField {
+    airmen {
+      id
+      email
+      rank
+      firstName
+      middleName
+      lastName
+      organization
+      officeSymbol
+      dodId
+      roles
+    }
+  }
+`
 
 const AirmanForm = (props) => {
+  const { loading, error, data } = useQuery(QUERY)
   const { mode, setMode } = React.useContext(ThemeModeContext)
+  const { rolesList } = React.useContext(GeneralContext)
+
+  if (loading) return 'Loading...'
+  if (error) return `Error! ${error.message}`
+  const supervisorsList = data.airmen.filter(
+    (airman) => airman.roles === 'Supervisor'
+  )
+  const monitorsList = data.airmen.filter(
+    (airman) => airman.roles === 'Monitor'
+  )
   const onSubmit = (data) => {
     props.onSave(data, props?.airman?.id)
   }
-  // const rolesList = () => {
-  //   let roleOptions = []
-  //   for (let role of props.roles) {
-  //     roleOptions.push(
-  //       <option
-  //         className={mode === 'light' ? 'rw-option' : 'rw-option-dark'}
-  //         value={role.name}
-  //       >
-  //         {role.name.charAt(0).toUpperCase() + role.name.slice(1)}
-  //       </option>
-  //     )
-  //   }
-  //   return roleOptions
-  // }
-  // const supervisors = props.roles.find(
-  //   (role) => role.name === 'leadership'
-  // ).Airman
-  // const supervisorsList = () => {
-  //   let supervisorOptions = []
-  //   for (let supervisor of supervisors) {
-  //     supervisorOptions.push(
-  //       <option
-  //         className={mode === 'light' ? 'rw-option' : 'rw-option-dark'}
-  //         value={supervisor.id}
-  //       >
-  //         {supervisor.rank} {supervisor.lastName}, {supervisor.firstName}
-  //       </option>
-  //     )
-  //   }
-  //   return supervisorOptions
-  // }
-  // const monitors = props.roles.find((role) => role.name === 'monitor').Airman
-  // const monitorsList = () => {
-  //   let monitorOptions = []
-  //   for (let monitor of monitors) {
-  //     monitorOptions.push(
-  //       <option
-  //         className={mode === 'light' ? 'rw-option' : 'rw-option-dark'}
-  //         value={monitor.id}
-  //       >
-  //         {monitor.rank} {monitor.lastName}, {monitor.firstName}
-  //       </option>
-  //     )
-  //   }
-  //   return monitorOptions
-  // }
 
   return (
     <Box className="rw-form-wrapper">
@@ -219,20 +203,24 @@ const AirmanForm = (props) => {
             </Label>
             <SelectField
               name="roles"
-              defaultValue={props.airman?.roles}
+              defaultValue={props.airman?.roles || 'Airman'}
               className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
               errorClassName={
                 mode === 'light'
                   ? 'rw-input rw-input-error'
                   : 'rw-input-dark rw-input-error'
               }
-              emptyAs={null}
+              validation={{ required: true }}
             >
-              <option
-                className={mode === 'light' ? 'rw-option' : 'rw-option-dark'}
-                value={null}
-              />
-              {/* {rolesList()} */}
+              {rolesList.map((role) => (
+                <option
+                  key={role}
+                  className={mode === 'light' ? 'rw-option' : 'rw-option-dark'}
+                  value={role}
+                >
+                  {role}
+                </option>
+              ))}
             </SelectField>
             <FieldError name="roles" className="rw-field-error" />
 
@@ -258,7 +246,19 @@ const AirmanForm = (props) => {
                 className={mode === 'light' ? 'rw-option' : 'rw-option-dark'}
                 value={undefined}
               />
-              {/* {supervisorsList()} */}
+              {supervisorsList.map((supervisor) => (
+                <option
+                  key={supervisor.id}
+                  className={mode === 'light' ? 'rw-option' : 'rw-option-dark'}
+                  value={supervisor.id}
+                >
+                  {`${supervisor.rank} ${supervisor.lastName}, ${
+                    supervisor.firstName
+                  } ${supervisor.middleName.charAt(0)} (${
+                    supervisor.organization
+                  } ${supervisor.officeSymbol})`}
+                </option>
+              ))}
             </SelectField>
             <FieldError name="supervisorId" className="rw-field-error" />
 
@@ -284,14 +284,31 @@ const AirmanForm = (props) => {
                 className={mode === 'light' ? 'rw-option' : 'rw-option-dark'}
                 value={undefined}
               />
-              {/* {monitorsList()} */}
+              {monitorsList.map((monitor) => (
+                <option
+                  key={monitor.id}
+                  className={mode === 'light' ? 'rw-option' : 'rw-option-dark'}
+                  value={monitor.id}
+                >
+                  {`${monitor.rank} ${monitor.lastName}, ${
+                    monitor.firstName
+                  } ${monitor.middleName.charAt(0)} (${monitor.organization} ${
+                    monitor.officeSymbol
+                  })`}
+                </option>
+              ))}
             </SelectField>
             <FieldError name="monitorId" className="rw-field-error" />
           </Box>
         </Box>
 
         <div className="rw-button-group">
-          <Button type="submit" disabled={props.loading}>
+          <Button
+            sx={{ marginX: 1 }}
+            variant={mode === 'light' ? 'contained' : 'outlined'}
+            type="submit"
+            disabled={props.loading}
+          >
             Save
           </Button>
         </div>
