@@ -102,7 +102,7 @@ const GeneralLayout = ({ children }) => {
           ) : (
             <></>
           )}
-          <Box width="100%" paddingX="1%">
+          <Box width="100%" paddingX="1%" paddingBottom="4%">
             <DrawerHeader />
             {children}
           </Box>

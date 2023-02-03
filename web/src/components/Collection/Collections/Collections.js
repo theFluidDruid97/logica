@@ -1,3 +1,6 @@
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
+import FindInPageIcon from '@mui/icons-material/FindInPage'
 import Button from '@mui/material/Button'
 
 import { navigate, routes } from '@redwoodjs/router'
@@ -52,9 +55,9 @@ const CollectionsList = ({ collections }) => {
               size="small"
               color="secondary"
               onClick={() => navigate(routes.collection({ id: params.row.id }))}
-              title={`Show ${params.row.name} Details`}
+              title={'View'}
             >
-              Show
+              <FindInPageIcon />
             </Button>
             <Button
               variant={mode === 'light' ? 'contained' : 'outlined'}
@@ -62,18 +65,18 @@ const CollectionsList = ({ collections }) => {
               onClick={() =>
                 navigate(routes.editCollection({ id: params.row.id }))
               }
-              title={`Edit ${params.row.name} Details`}
+              title={'Edit'}
             >
-              Edit
+              <EditIcon />
             </Button>
             <Button
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
               color="error"
               onClick={() => onDeleteClick(params.row, params.row.id)}
-              title={`Delete ${params.row.name}`}
+              title={'Delete'}
             >
-              Delete
+              <DeleteIcon />
             </Button>
           </>
         )

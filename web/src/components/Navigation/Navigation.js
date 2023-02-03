@@ -2,6 +2,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import LogoutIcon from '@mui/icons-material/Logout'
 import MenuIcon from '@mui/icons-material/Menu'
+import NotificationsIcon from '@mui/icons-material/Notifications'
 import PersonIcon from '@mui/icons-material/Person'
 import SettingsIcon from '@mui/icons-material/Settings'
 import Box from '@mui/material/Box'
@@ -20,7 +21,7 @@ import { GeneralContext } from '../../App.js'
 import { DarkModeSwitch } from '../../components/DarkModeSwitch/DarkModeSwitch.js'
 import { AppBar } from '../../components/NavigationFunctions/NavigationFunctions.js'
 
-const TopNavigation = () => {
+const Navigation = () => {
   const { isAuthenticated, currentUser, logOut } = useAuth()
   const { mode, setMode } = React.useContext(ThemeModeContext)
   const { open, setOpen } = React.useContext(GeneralContext)
@@ -43,6 +44,7 @@ const TopNavigation = () => {
     }),
     []
   )
+
   return (
     <AppBar position="fixed" open={open}>
       <Toolbar>
@@ -84,6 +86,9 @@ const TopNavigation = () => {
           </Typography>
           {isAuthenticated ? (
             <Box>
+              <Button color="inherit">
+                <NotificationsIcon />
+              </Button>
               <Button
                 id="basic-button"
                 aria-controls={open ? 'basic-menu' : undefined}
@@ -157,4 +162,4 @@ const TopNavigation = () => {
   )
 }
 
-export default TopNavigation
+export default Navigation

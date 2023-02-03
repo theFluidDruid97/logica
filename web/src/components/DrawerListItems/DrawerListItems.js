@@ -4,6 +4,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard'
 import PeopleIcon from '@mui/icons-material/People'
 import TextSnippetIcon from '@mui/icons-material/TextSnippet'
 import TopicIcon from '@mui/icons-material/Topic'
+import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -33,6 +34,11 @@ const DrawerListItems = () => {
       text: 'Collections',
       link: routesState.collections(),
       icon: <TopicIcon />,
+    },
+    {
+      text: 'Reports',
+      link: routesState.reports(),
+      icon: <TrendingUpIcon />,
     },
   ]
   return drawerListItems.map((drawerListItem) => (

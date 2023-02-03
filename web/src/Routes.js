@@ -28,6 +28,7 @@ const Routes = () => {
           </Set>
           <Route path="/dashboard" page={DashboardPage} name="home" title="Dashboard" />
           <Route path="/settings" page={SettingsPage} name="settings" />
+          <Route path="/reports" page={ReportsPage} name="reports" />
         </Private>
         <Route path="/" page={LoginPage} name="login" title="Log In" />
         <Route path="/signup" page={SignupPage} name="signup" />

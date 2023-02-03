@@ -8,6 +8,7 @@
     ]
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@redwoodjs/core": "3.8.0"
   },
   "eslintConfig": {
@@ -31,8 +32,10 @@
     "@mui/x-data-grid": "^5.17.21",
     "@mui/x-data-grid-premium": "^5.17.21",
     "@mui/x-data-grid-pro": "^5.17.21",
+    "chart.js": "^4.2.0",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.28",
-    "node-fetch": "2.6.7"
+    "node-fetch": "2.6.7",
+    "react-chartjs-2": "^5.2.0"
   }
 }

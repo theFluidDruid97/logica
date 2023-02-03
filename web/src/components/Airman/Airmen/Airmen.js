@@ -1,3 +1,6 @@
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
+import FindInPageIcon from '@mui/icons-material/FindInPage'
 import Button from '@mui/material/Button'
 
 import { navigate, routes } from '@redwoodjs/router'
@@ -41,13 +44,13 @@ const AirmenList = ({ airmen }) => {
   }
 
   const columns = [
-    { field: 'rank', headerName: 'Rank', flex: 0.5 },
+    { field: 'rank', headerName: 'Rank', flex: 0.75 },
     { field: 'lastName', headerName: 'Last Name', flex: 1 },
     { field: 'firstName', headerName: 'First Name', flex: 1 },
     { field: 'middleName', headerName: 'Middle Name', flex: 1 },
     { field: 'email', headerName: 'E-Mail', flex: 1 },
     { field: 'organization', headerName: 'Org.', flex: 1 },
-    { field: 'officeSymbol', headerName: 'Off. Sym.', flex: 0.5 },
+    { field: 'officeSymbol', headerName: 'Off. Sym.', flex: 0.75 },
     { field: 'dodId', headerName: 'DoD ID', flex: 1 },
     { field: 'roles', headerName: 'Role', flex: 1 },
     {
@@ -86,26 +89,26 @@ const AirmenList = ({ airmen }) => {
               size="small"
               color="secondary"
               onClick={() => navigate(routes.airman({ id: params.row.id }))}
-              title={`Show ${params.row.rank} ${params.row.lastName}, ${params.row.firstName} Details`}
+              title={'View'}
             >
-              Show
+              <FindInPageIcon />
             </Button>
             <Button
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
               onClick={() => navigate(routes.editAirman({ id: params.row.id }))}
-              title={`Edit ${params.row.rank} ${params.row.lastName}, ${params.row.firstName} Details`}
+              title={'Edit'}
             >
-              Edit
+              <EditIcon />
             </Button>
             <Button
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
               color="error"
               onClick={() => onDeleteClick(params.row, params.row.id)}
-              title={`Delete ${params.row.rank} ${params.row.lastName}, ${params.row.firstName}`}
+              title={'Delete'}
             >
-              Delete
+              <DeleteIcon />
             </Button>
           </>
         )
