@@ -11,8 +11,6 @@ generator client {
 model Airman {
   id                  Int       @id @default(autoincrement())
   email               String    @unique
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @default(now())
   hashedPassword      String
   salt                String
   rank                String?
@@ -22,28 +20,39 @@ model Airman {
   organization        String?
   officeSymbol        String?
   dodId               String?
+  afsc                String?
   resetToken          String?
   resetTokenExpiresAt DateTime?
-  roles               Role      @default(Airman)
-  monitorId           Int?
   supervisorId        Int?
+  supervisor          Airman?   @relation("SupervisorAirman", fields: [supervisorId], references: [id])
+  airmen              Airman[]  @relation("SupervisorAirman")
+  roles               Role      @default(Airman)
 }
 
 model Training {
-  id          Int          @id @default(autoincrement())
-  name        String       @unique
-  duration    Int
-  link        String?
-  description String?
-  collection  Collection[]
+  id                 Int                  @id @default(autoincrement())
+  name               String               @unique
+  description        String?
+  link               String?
+  duration           Int?
+  TrainingCollection TrainingCollection[]
 }
 
 model Collection {
-  id          Int       @id @default(autoincrement())
-  name        String    @unique
-  description String?
-  training    Training? @relation(fields: [trainingId], references: [id])
-  trainingId  Int?
+  id                 Int                  @id @default(autoincrement())
+  name               String               @unique
+  description        String?
+  TrainingCollection TrainingCollection[]
+}
+
+model TrainingCollection {
+  id           Int        @id @default(autoincrement())
+  training     Training   @relation(fields: [trainingId], references: [id])
+  trainingId   Int
+  collection   Collection @relation(fields: [collectionId], references: [id])
+  collectionId Int
+
+  @@unique([trainingId, collectionId])
 }
 
 enum Role {

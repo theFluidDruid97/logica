@@ -2,6 +2,10 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import FindInPageIcon from '@mui/icons-material/FindInPage'
 import Button from '@mui/material/Button'
+import {
+  useGridApiRef,
+  useKeepGroupedColumnsHidden,
+} from '@mui/x-data-grid-premium'
 
 import { navigate, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
@@ -21,7 +25,24 @@ const DELETE_COLLECTION_MUTATION = gql`
 `
 
 const CollectionsList = ({ collections }) => {
+  console.log(collections[1].id)
   const { mode, setMode } = React.useContext(ThemeModeContext)
+  const apiRef = useGridApiRef()
+
+  // const initialState = useKeepGroupedColumnsHidden({
+  //   apiRef,
+  //   initialState: {
+  //     ...collections.initialState,
+  //     rowGrouping: {
+  //       ...collections.initialState?.rowGrouping,
+  //       model: ['name'],
+  //     },
+  //     sorting: {
+  //       sortModel: [{ field: '__row_group_by_columns_group__', sort: 'asc' }],
+  //     },
+  //   },
+  // })
+
   const [deleteCollection] = useMutation(DELETE_COLLECTION_MUTATION, {
     onCompleted: () => {
       toast.success('Collection deleted')
@@ -38,9 +59,10 @@ const CollectionsList = ({ collections }) => {
       deleteCollection({ variables: { id } })
     }
   }
+
   const columns = [
-    { field: 'id', headerName: 'ID', flex: 1 },
-    { field: 'name', headerName: 'Name', flex: 1 },
+    { field: 'id', headerName: 'ID', width: 250 },
+    { field: 'name', headerName: 'Name', width: 250 },
     {
       field: 'actions',
       headerName: 'Actions',
@@ -48,6 +70,7 @@ const CollectionsList = ({ collections }) => {
       filterable: false,
       width: 225,
       renderCell: (params) => {
+        console.log(params)
         return (
           <>
             <Button
@@ -84,7 +107,18 @@ const CollectionsList = ({ collections }) => {
     },
   ]
 
-  return <DataTable rows={collections} columns={columns} />
+  return (
+    <DataTable
+      rows={collections}
+      columns={columns}
+      apiRef={apiRef}
+      initialState={{
+        rowGrouping: {
+          model: ['name'],
+        },
+      }}
+    />
+  )
 }
 
 export default CollectionsList

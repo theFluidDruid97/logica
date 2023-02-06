@@ -49,32 +49,10 @@ const AirmenList = ({ airmen }) => {
     { field: 'firstName', headerName: 'First Name', flex: 1 },
     { field: 'middleName', headerName: 'Middle Name', flex: 1 },
     { field: 'email', headerName: 'E-Mail', flex: 1 },
-    { field: 'organization', headerName: 'Org.', flex: 1 },
-    { field: 'officeSymbol', headerName: 'Off. Sym.', flex: 0.75 },
+    { field: 'organization', headerName: 'Organization', flex: 1 },
+    { field: 'officeSymbol', headerName: 'Office Symbol', flex: 0.75 },
     { field: 'dodId', headerName: 'DoD ID', flex: 1 },
     { field: 'roles', headerName: 'Role', flex: 1 },
-    {
-      field: 'supervisorId',
-      headerName: 'Supervisor',
-      flex: 1.5,
-      renderCell: (params) => {
-        const supervisor = airmen.find(
-          (supervisor) => supervisor.id === params.row.supervisorId
-        )
-        return supervisor ? `${supervisor.rank} ${supervisor.lastName}` : null
-      },
-    },
-    {
-      field: 'monitorId',
-      headerName: 'Monitor',
-      flex: 1.5,
-      renderCell: (params) => {
-        const monitor = airmen.find(
-          (monitor) => monitor.id === params.row.monitorId
-        )
-        return monitor ? `${monitor.rank} ${monitor.lastName}` : null
-      },
-    },
     {
       field: 'actions',
       headerName: 'Actions',

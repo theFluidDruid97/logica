@@ -2,10 +2,10 @@ export const schema = gql`
   type Training {
     id: Int!
     name: String!
-    duration: Int!
-    link: String
     description: String
-    collection: [Collection]!
+    link: String
+    duration: Int
+    TrainingCollection: [TrainingCollection]!
   }
 
   type Query {
@@ -15,16 +15,16 @@ export const schema = gql`
 
   input CreateTrainingInput {
     name: String!
-    duration: Int!
-    link: String
     description: String
+    link: String
+    duration: Int
   }
 
   input UpdateTrainingInput {
     name: String
-    duration: Int
-    link: String
     description: String
+    link: String
+    duration: Int
   }
 
   type Mutation {

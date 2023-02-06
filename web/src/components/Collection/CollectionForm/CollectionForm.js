@@ -1,6 +1,13 @@
 import Button from '@mui/material/Button'
 
-import { Form, FormError, FieldError, Label, TextField } from '@redwoodjs/forms'
+import {
+  Form,
+  FormError,
+  FieldError,
+  Label,
+  TextField,
+  TextAreaField,
+} from '@redwoodjs/forms'
 
 import { ThemeModeContext } from '../../../App.js'
 
@@ -41,6 +48,28 @@ const CollectionForm = (props) => {
         />
 
         <FieldError name="name" className="rw-field-error" />
+
+        <Label
+          name="description"
+          className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
+          errorClassName="rw-label rw-label-error"
+        >
+          Description
+        </Label>
+
+        <TextAreaField
+          name="description"
+          defaultValue={props.collection?.description}
+          className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
+          errorClassName={
+            mode === 'light'
+              ? 'rw-input rw-input-error'
+              : 'rw-input-dark rw-input-error'
+          }
+          validation={{ required: true }}
+        />
+
+        <FieldError name="description" className="rw-field-error" />
 
         <div className="rw-button-group">
           <Button

@@ -41,7 +41,11 @@ const TrainingsList = ({ trainings }) => {
 
   const columns = [
     { field: 'name', headerName: 'Name', flex: 1 },
-    { field: 'duration', headerName: 'Duration (Months)', flex: 1 },
+    {
+      field: 'duration',
+      headerName: 'Certification Duration (Months)',
+      flex: 1,
+    },
     {
       field: 'link',
       headerName: 'Link',

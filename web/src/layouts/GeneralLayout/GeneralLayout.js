@@ -1,6 +1,6 @@
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import Box from '@mui/material/Box'
-import { amber, grey, teal } from '@mui/material/colors'
+import { grey, teal, yellow } from '@mui/material/colors'
 import CssBaseline from '@mui/material/CssBaseline'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
@@ -20,12 +20,14 @@ import {
   DrawerHeader,
 } from '../../components/NavigationFunctions/NavigationFunctions.js'
 
+const ColorModeContext = React.createContext({ toggleColorMode: () => {} })
+
 const getDesignTokens = (mode) => ({
   palette: {
     mode,
     primary: {
       ...(mode === 'light' && {
-        main: amber[500],
+        main: 'rgb(205, 133, 63)',
       }),
       ...(mode === 'dark' && {
         main: teal['A400'],
@@ -34,12 +36,9 @@ const getDesignTokens = (mode) => ({
     secondary: {
       ...grey,
     },
-    ...(mode === 'light' && {
-      divider: amber[500],
-    }),
-    ...(mode === 'dark' && {
-      divider: teal[500],
-    }),
+    warning: {
+      ...yellow,
+    },
     text: {
       ...(mode === 'light'
         ? {
@@ -51,15 +50,20 @@ const getDesignTokens = (mode) => ({
             secondary: grey[200],
           }),
     },
+    ...(mode === 'light' && {
+      divider: 'rgb(205, 133, 63)',
+    }),
+    ...(mode === 'dark' && {
+      divider: teal[500],
+    }),
   },
 })
-
-const ColorModeContext = React.createContext({ toggleColorMode: () => {} })
 
 const GeneralLayout = ({ children }) => {
   const { mode, setMode } = React.useContext(ThemeModeContext)
   const { open, setOpen } = React.useContext(GeneralContext)
   const { isAuthenticated } = useAuth()
+  const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode])
   const handleDrawerClose = () => {
     setOpen(false)
   }
@@ -69,14 +73,15 @@ const GeneralLayout = ({ children }) => {
         setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'))
       },
     }),
-    []
+    [setMode]
   )
-  const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode])
+
   mode === 'light'
     ? (document.querySelector('body').style.background =
-        'linear-gradient(to top left, goldenrod, white)')
+        'linear-gradient(to top left, peru, white)')
     : (document.querySelector('body').style.background =
         'linear-gradient(to top right, black, teal)')
+
   return (
     <Box sx={{ display: 'flex' }}>
       <ColorModeContext.Provider value={colorMode}>

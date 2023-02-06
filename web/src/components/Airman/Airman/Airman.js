@@ -1,17 +1,17 @@
-//
 import { faker } from '@faker-js/faker'
-//
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import FindInPageIcon from '@mui/icons-material/FindInPage'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
+import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
+import Chip from '@mui/material/Chip'
 import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
-import { DataGridPremium, GridToolbar } from '@mui/x-data-grid-premium'
-//
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -23,15 +23,15 @@ import {
   Legend,
 } from 'chart.js'
 import { Line } from 'react-chartjs-2'
-//
 
 import { routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import { ThemeModeContext } from '../../../App.js'
+import DataTable from '../../DataTable/DataTable.js'
+import ModalDrawer from '../../ModalDrawer/ModalDrawer.js'
 
-//
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -49,32 +49,34 @@ export const options = {
     legend: {
       position: 'top',
     },
-    title: {
-      display: false,
-    },
   },
 }
 
 const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July']
 
-export const data = {
+const data = {
   labels,
   datasets: [
     {
-      label: 'Dataset 1',
-      data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      label: 'Current',
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
+      borderColor: 'rgb(0, 128, 0)',
+      backgroundColor: 'rgba(0, 128, 0, 0.5)',
     },
     {
-      label: 'Dataset 2',
-      data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      label: 'Due',
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
+      borderColor: 'rgb(255, 255, 0)',
+      backgroundColor: 'rgba(255, 255, 0, 0.5)',
+    },
+    {
+      label: 'Over Due',
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
+      borderColor: 'rgb(255, 0, 0)',
+      backgroundColor: 'rgba(255, 0, 0, 0.5)',
     },
   ],
 }
-//
 
 const DELETE_AIRMAN_MUTATION = gql`
   mutation DeleteAirmanMutation($id: Int!) {
@@ -86,34 +88,9 @@ const DELETE_AIRMAN_MUTATION = gql`
 
 const Airman = ({ airman, airmen }) => {
   const [pageSize, setPageSize] = React.useState(10)
-  const supervisor = airmen.find(
-    (supervisor) => supervisor.id === airman.supervisorId
-  )
-  const monitor = airmen.find((monitor) => monitor.id === airman.monitorId)
-
+  const [displayedMonitor, setDisplayedMonitor] = React.useState(0)
   const { mode, setMode } = React.useContext(ThemeModeContext)
-
-  const [deleteAirman] = useMutation(DELETE_AIRMAN_MUTATION, {
-    onCompleted: () => {
-      toast.success('Airman deleted')
-      navigate(routes.airmen())
-    },
-    onError: (error) => {
-      toast.error(error.message)
-    },
-  })
-
-  const onDeleteClick = (airman, id) => {
-    if (
-      confirm(
-        `Are you sure you want to delete ${airman.rank} ${airman.lastName}, ${airman.firstName}?`
-      )
-    ) {
-      deleteAirman({ variables: { id } })
-    }
-  }
-
-  const rows = [{ id: 1 }]
+  const rows = []
   const columns = [
     { field: 'status', headerName: 'Status', flex: 1 },
     { field: 'name', headerName: 'Name', flex: 1 },
@@ -157,30 +134,123 @@ const Airman = ({ airman, airmen }) => {
       },
     },
   ]
+  const monitors = airmen.filter(
+    (monitor) =>
+      monitor.roles === 'Monitor' &&
+      monitor.organization === airman.organization
+  )
+  const supervisor = airmen.filter(
+    (supervisor) => supervisor.id === airman.supervisorId
+  )[0]
+  const [deleteAirman] = useMutation(DELETE_AIRMAN_MUTATION, {
+    onCompleted: () => {
+      toast.success('Airman deleted')
+      navigate(routes.airmen())
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    },
+  })
+  const onDeleteClick = (airman, id) => {
+    if (
+      confirm(
+        `Are you sure you want to delete ${airman.rank} ${airman.lastName}, ${airman.firstName}?`
+      )
+    ) {
+      deleteAirman({ variables: { id } })
+    }
+  }
+  const nextMonitor = () => {
+    if (displayedMonitor < monitors.length - 1)
+      setDisplayedMonitor(displayedMonitor + 1)
+  }
+  const prevMonitor = () => {
+    if (displayedMonitor > 0) {
+      setDisplayedMonitor(displayedMonitor - 1)
+    }
+  }
+  const MonitorPagination = () => {
+    if (monitors.length > 1) {
+      return (
+        <CardActions
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}
+        >
+          <Button onClick={() => prevMonitor()}>
+            <ChevronLeftIcon />
+          </Button>
+          {monitors.indexOf(monitors[displayedMonitor]) + 1}
+          <Button onClick={() => nextMonitor()}>
+            <ChevronRightIcon />
+          </Button>
+        </CardActions>
+      )
+    } else {
+      return <></>
+    }
+  }
 
+  let status, statusColor, statusChip
+  let allStatusLatest = []
   let cardBackground
-  mode === 'light'
-    ? (cardBackground = 'rgba(155, 155, 155, 0.1)')
-    : (cardBackground = 'rgba(0, 0, 0, 0.75)')
+  if (mode === 'light') {
+    ChartJS.defaults.borderColor = 'peru'
+    cardBackground = 'rgba(155, 155, 155, 0.1)'
+  } else {
+    ChartJS.defaults.borderColor = 'teal'
+    cardBackground = 'rgba(0, 0, 0, 0.75)'
+  }
+  for (let datum of data.datasets) {
+    const statusLatest = datum.data.findLast((int) => Number.isInteger(int))
+    allStatusLatest.push(statusLatest)
+  }
+  if (Math.max(...allStatusLatest) === allStatusLatest[0]) {
+    status = 'CURRENT'
+    statusColor = 'green'
+    statusChip = 'success'
+  } else if (Math.max(...allStatusLatest) === allStatusLatest[1]) {
+    status = 'DUE'
+    statusColor = 'yellow'
+    statusChip = 'warning'
+  } else {
+    status = 'OVER DUE'
+    statusColor = 'red'
+    statusChip = 'error'
+  }
 
   return (
     <>
       <Box display="flex" flexDirection="row">
         <Box width="80%">
-          <Box display="flex" flexDirection="row">
+          <Box display="flex" flexDirection="row" height="50%">
             <Card
               sx={{
                 width: '70%',
                 marginBottom: '1%',
                 backgroundColor: `${cardBackground}`,
-                borderLeft: '7px solid',
+                borderLeft: `10px solid ${statusColor}`,
               }}
             >
               <CardContent>
-                <Typography variant="h3">
-                  {airman.rank} {airman.lastName}, {airman.firstName}{' '}
-                  {airman.middleName}
-                </Typography>
+                <Box
+                  display="flex"
+                  flexDirection="row"
+                  justifyContent="space-between"
+                >
+                  <Typography variant="h3">
+                    {airman.rank} {airman.lastName}, {airman.firstName}{' '}
+                    {airman.middleName}{' '}
+                  </Typography>
+                  <Chip
+                    sx={{ margin: '1%' }}
+                    label={status}
+                    color={statusChip}
+                    variant={mode === 'light' ? 'contained' : 'outlined'}
+                  />
+                </Box>
                 <Divider />
                 <Box display="flex" flexDirection="row">
                   <Typography variant="h6" sx={{ margin: '2%' }}>
@@ -205,37 +275,63 @@ const Airman = ({ airman, airmen }) => {
               }}
             >
               <CardContent>
-                <Typography variant="h5">SUPERVISOR</Typography>
-                <Divider />
-                <Box
-                  display="flex"
-                  flexDirection="row"
-                  justifyContent="space-between"
-                >
-                  <Typography variant="h7" sx={{ margin: '2%' }}>
-                    NAME
-                    <br />
-                    {supervisor
-                      ? `${supervisor.lastName}, ${
-                          supervisor.firstName
-                        } ${supervisor.middleName.charAt(0)}`
-                      : null}
-                  </Typography>
-                  <Typography variant="h7" sx={{ margin: '2%' }}>
-                    RANK
-                    <br />
-                    {supervisor ? supervisor.rank : null}
-                  </Typography>
-                </Box>
-                <Typography variant="h7" sx={{ margin: '2%' }}>
-                  E-MAIL ADDRESS
-                  <br />
-                  {supervisor ? supervisor.email : null}
-                </Typography>
+                {airman.supervisorId ? (
+                  <>
+                    <Typography variant="h5">SUPERVISOR</Typography>
+                    <Divider />
+                    <Box
+                      display="flex"
+                      flexDirection="row"
+                      justifyContent="space-between"
+                    >
+                      <Typography variant="h7" sx={{ margin: '2%' }}>
+                        NAME
+                        <br />
+                        {`${supervisor.lastName}, ${supervisor.firstName} ${supervisor.middleName}`}
+                      </Typography>
+                      <Typography variant="h7" sx={{ margin: '2%' }}>
+                        RANK
+                        <br />
+                        {supervisor.rank}
+                      </Typography>
+                    </Box>
+                    <Box
+                      display="flex"
+                      flexDirection="row"
+                      justifyContent="space-between"
+                    >
+                      <Typography variant="h7" sx={{ margin: '2%' }}>
+                        E-MAIL ADDRESS
+                        <br />
+                        {supervisor.email}
+                      </Typography>
+                    </Box>
+                  </>
+                ) : (
+                  <>
+                    <Typography variant="h5">
+                      NO ASSIGNED
+                      <br />
+                      SUPERVISOR
+                    </Typography>
+                    <Divider />
+                    <CardActions
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        padding: '10%',
+                      }}
+                    >
+                      <ModalDrawer />
+                    </CardActions>
+                  </>
+                )}
               </CardContent>
             </Card>
           </Box>
-          <Box display="flex" flexDirection="row">
+          <Box display="flex" flexDirection="row" height="50%">
             <Card
               sx={{
                 width: '70%',
@@ -243,9 +339,7 @@ const Airman = ({ airman, airmen }) => {
                 backgroundColor: `${cardBackground}`,
               }}
             >
-              <CardContent>
-                <Line options={options} data={data} height={'157px'} />
-              </CardContent>
+              <Line options={options} data={data} />
             </Card>
             <Card
               sx={{
@@ -255,35 +349,42 @@ const Airman = ({ airman, airmen }) => {
                 backgroundColor: `${cardBackground}`,
               }}
             >
-              <CardContent>
-                <Typography variant="h5">TRAINING MONITOR</Typography>
-                <Divider />
-                <Box
-                  display="flex"
-                  flexDirection="row"
-                  justifyContent="space-between"
-                >
-                  <Typography variant="h7" sx={{ margin: '2%' }}>
-                    NAME
+              {monitors[0] ? (
+                <>
+                  <CardContent>
+                    <Typography variant="h5">TRAINING MONITOR</Typography>
+                    <Divider />
+                    <Box
+                      display="flex"
+                      flexDirection="row"
+                      justifyContent="space-between"
+                    >
+                      <Typography variant="h7">
+                        <Typography color="primary">NAME</Typography>
+                        {`${monitors[displayedMonitor].lastName}, ${monitors[displayedMonitor].firstName} ${monitors[displayedMonitor].middleName}`}
+                      </Typography>
+                      <Typography variant="h7">
+                        <Typography color="primary">RANK</Typography>
+                        {monitors[displayedMonitor].rank}
+                      </Typography>
+                    </Box>
+                    <Typography variant="h7">
+                      <Typography color="primary">E-MAIL ADDRESS</Typography>
+                      {monitors[displayedMonitor].email}
+                    </Typography>
+                  </CardContent>
+                  <MonitorPagination />
+                </>
+              ) : (
+                <CardContent>
+                  <Typography variant="h5">
+                    NO ASSIGNED
                     <br />
-                    {monitor
-                      ? `${monitor.lastName}, ${
-                          monitor.firstName
-                        } ${monitor.middleName.charAt(0)}`
-                      : null}
+                    TRAINING MONITOR
                   </Typography>
-                  <Typography variant="h7" sx={{ margin: '2%' }}>
-                    RANK
-                    <br />
-                    {monitor ? monitor.rank : null}
-                  </Typography>
-                </Box>
-                <Typography variant="h7" sx={{ margin: '2%' }}>
-                  E-MAIL ADDRESS
-                  <br />
-                  {monitor ? monitor.email : null}
-                </Typography>
-              </CardContent>
+                  <Divider />
+                </CardContent>
+              )}
             </Card>
           </Box>
         </Box>
@@ -292,20 +393,18 @@ const Airman = ({ airman, airmen }) => {
             <CardContent sx={{ textAlign: 'center' }}>
               <Typography variant="h5">ORGANIZATION</Typography>
               <Divider />
-              <Typography variant="h7" sx={{ margin: '2%' }}>
+              <Typography variant="h6">
                 <br />
-                AFGSC
-                <br />|
-                <br />2 AF
+                MAJCOM
                 <br />|
                 <br />
-                377 ABW
+                NAF
                 <br />|
                 <br />
-                377 SFG
+                WING
                 <br />|
                 <br />
-                377 SFS
+                GROUP
                 <br />|
                 <br />
                 {airman.organization}
@@ -317,26 +416,7 @@ const Airman = ({ airman, airmen }) => {
           </Card>
         </Box>
       </Box>
-      <DataGridPremium
-        rows={rows}
-        columns={columns}
-        pagination
-        pageSize={pageSize}
-        rowsPerPageOptions={[10, 20, 50, 100]}
-        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-        checkboxSelection
-        disableSelectionOnClick
-        sx={{ height: '75vh' }}
-        components={{ Toolbar: GridToolbar }}
-        componentsProps={{
-          toolbar: {
-            printOptions: {
-              hideToolbar: true,
-              hideFooter: true,
-            },
-          },
-        }}
-      />
+      <DataTable rows={rows} columns={columns} />
       <nav className="rw-button-group">
         <Button
           sx={{ marginX: 1 }}
@@ -356,106 +436,6 @@ const Airman = ({ airman, airmen }) => {
       </nav>
     </>
   )
-  // return (
-  //   <>
-  //     <div className="rw-segment">
-  //       <header
-  //         className={
-  //           mode === 'light' ? 'rw-segment-header' : 'rw-segment-header-dark'
-  //         }
-  //       >
-  //         <h2 className="rw-heading rw-heading-secondary">
-  //           {airman.rank} {airman.lastName}, {airman.firstName}
-  //         </h2>
-  //       </header>
-  //       <table className={mode === 'light' ? 'rw-table' : 'rw-table-dark'}>
-  //         <tbody>
-  //           <tr>
-  //             <th>ID</th>
-  //             <td>{airman.id}</td>
-  //           </tr>
-  //           <tr>
-  //             <th>E-Mail</th>
-  //             <td>{airman.email}</td>
-  //           </tr>
-  //           <tr>
-  //             <th>Rank</th>
-  //             <td>{airman.rank}</td>
-  //           </tr>
-  //           <tr>
-  //             <th>First Name</th>
-  //             <td>{airman.firstName}</td>
-  //           </tr>
-  //           <tr>
-  //             <th>Middle Name</th>
-  //             <td>{airman.middleName}</td>
-  //           </tr>
-  //           <tr>
-  //             <th>Last Name</th>
-  //             <td>{airman.lastName}</td>
-  //           </tr>
-  //           <tr>
-  //             <th>Organization</th>
-  //             <td>{airman.organization}</td>
-  //           </tr>
-  //           <tr>
-  //             <th>Office Symbol</th>
-  //             <td>{airman.officeSymbol}</td>
-  //           </tr>
-  //           <tr>
-  //             <th>DoD ID</th>
-  //             <td>{airman.dodId}</td>
-  //           </tr>
-  //           <tr>
-  //             <th>Role</th>
-  //             <td>{airman.roles}</td>
-  //           </tr>
-  //           <tr>
-  //             <th>Supervisor</th>
-  //             <td>
-  //               {supervisor
-  //                 ? `${supervisor.rank} ${supervisor.lastName}, ${
-  //                     supervisor.firstName
-  //                   } ${supervisor.middleName.charAt(0)} (${
-  //                     supervisor.organization
-  //                   } ${supervisor.officeSymbol})`
-  //                 : null}
-  //             </td>
-  //           </tr>
-  //           <tr>
-  //             <th>Monitor</th>
-  //             <td>
-  //               {monitor
-  //                 ? `${monitor.rank} ${monitor.lastName}, ${
-  //                     monitor.firstName
-  //                   } ${monitor.middleName.charAt(0)} (${
-  //                     monitor.organization
-  //                   } ${monitor.officeSymbol})`
-  //                 : null}
-  //             </td>
-  //           </tr>
-  //         </tbody>
-  //       </table>
-  //     </div>
-  //     <nav className="rw-button-group">
-  //       <Button
-  //         sx={{ marginX: 1 }}
-  //         variant={mode === 'light' ? 'contained' : 'outlined'}
-  //         onClick={() => navigate(routes.editAirman({ id: airman.id }))}
-  //       >
-  //         Edit
-  //       </Button>
-  //       <Button
-  //         sx={{ marginX: 1 }}
-  //         variant={mode === 'light' ? 'contained' : 'outlined'}
-  //         color="error"
-  //         onClick={() => onDeleteClick(airman, airman.id)}
-  //       >
-  //         Delete
-  //       </Button>
-  //     </nav>
-  //   </>
-  // )
 }
 
 export default Airman

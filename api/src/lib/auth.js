@@ -23,7 +23,6 @@ export const getCurrentUser = async (session) => {
   if (!session || typeof session.id !== 'number') {
     throw new Error('Invalid session')
   }
-  console.log('SESSION ==> ', session)
   const airman = await db.airman.findUnique({
     where: { id: session.id },
     select: { id: true, email: true, roles: true },

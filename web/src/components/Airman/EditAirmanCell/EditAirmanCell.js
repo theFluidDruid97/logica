@@ -20,7 +20,6 @@ export const QUERY = gql`
       dodId
       roles
       supervisorId
-      monitorId
     }
   }
 `
@@ -38,7 +37,6 @@ const UPDATE_AIRMAN_MUTATION = gql`
       dodId
       roles
       supervisorId
-      monitorId
     }
   }
 `
@@ -67,6 +65,7 @@ export const Success = ({ airman }) => {
   )
 
   const onSave = (input, id) => {
+    console.log('SAVED DATA ==>', input, id)
     updateAirman({ variables: { id, input } })
   }
 

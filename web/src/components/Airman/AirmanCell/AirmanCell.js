@@ -14,7 +14,6 @@ export const QUERY = gql`
       dodId
       roles
       supervisorId
-      monitorId
     }
     airmen {
       id
@@ -28,7 +27,6 @@ export const QUERY = gql`
       dodId
       roles
       supervisorId
-      monitorId
     }
   }
 `

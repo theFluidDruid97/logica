@@ -28,3 +28,12 @@ export const deleteAirman = ({ id }) => {
     where: { id },
   })
 }
+
+export const Airman = {
+  supervisor: (_obj, { root }) => {
+    return db.airman.findUnique({ where: { id: root?.id } }).supervisor()
+  },
+  airmen: (_obj, { root }) => {
+    return db.airman.findUnique({ where: { id: root?.id } }).airmen()
+  },
+}

@@ -14,6 +14,7 @@ import { ThemeModeContext } from '../../../App.js'
 const TrainingForm = (props) => {
   const { mode, setMode } = React.useContext(ThemeModeContext)
   const onSubmit = (data) => {
+    console.log(data)
     props.onSave(data, props?.training?.id)
   }
 
@@ -26,7 +27,6 @@ const TrainingForm = (props) => {
           titleClassName="rw-form-error-title"
           listClassName="rw-form-error-list"
         />
-
         <Label
           name="name"
           className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
@@ -34,7 +34,6 @@ const TrainingForm = (props) => {
         >
           Name
         </Label>
-
         <TextField
           name="name"
           defaultValue={props.training?.name}
@@ -46,9 +45,7 @@ const TrainingForm = (props) => {
           }
           validation={{ required: true }}
         />
-
         <FieldError name="name" className="rw-field-error" />
-
         <Label
           name="duration"
           className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
@@ -56,7 +53,6 @@ const TrainingForm = (props) => {
         >
           Duration
         </Label>
-
         <NumberField
           name="duration"
           defaultValue={props.training?.duration}
@@ -68,9 +64,7 @@ const TrainingForm = (props) => {
           }
           validation={{ required: true }}
         />
-
         <FieldError name="duration" className="rw-field-error" />
-
         <Label
           name="link"
           className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
@@ -78,7 +72,6 @@ const TrainingForm = (props) => {
         >
           Link
         </Label>
-
         <TextField
           name="link"
           defaultValue={props.training?.link}
@@ -89,9 +82,7 @@ const TrainingForm = (props) => {
               : 'rw-input-dark rw-input-error'
           }
         />
-
         <FieldError name="link" className="rw-field-error" />
-
         <Label
           name="description"
           className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
@@ -99,7 +90,6 @@ const TrainingForm = (props) => {
         >
           Description
         </Label>
-
         <TextField
           name="description"
           defaultValue={props.training?.description}
@@ -110,9 +100,7 @@ const TrainingForm = (props) => {
               : 'rw-input-dark rw-input-error'
           }
         />
-
         <FieldError name="description" className="rw-field-error" />
-
         <Label
           name="collections"
           className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
@@ -120,7 +108,6 @@ const TrainingForm = (props) => {
         >
           Collections
         </Label>
-
         <TextField
           name="collections"
           defaultValue={props.training?.collections}
@@ -132,9 +119,7 @@ const TrainingForm = (props) => {
           }
           emptyAs={undefined}
         />
-
         <FieldError name="collections" className="rw-field-error" />
-
         <div className="rw-button-group">
           <Button
             sx={{ marginX: 1 }}

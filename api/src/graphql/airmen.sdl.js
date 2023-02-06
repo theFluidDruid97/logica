@@ -2,8 +2,6 @@ export const schema = gql`
   type Airman {
     id: Int!
     email: String!
-    createdAt: DateTime!
-    updatedAt: DateTime!
     hashedPassword: String!
     salt: String!
     rank: String
@@ -13,11 +11,13 @@ export const schema = gql`
     organization: String
     officeSymbol: String
     dodId: String
+    afsc: String
     resetToken: String
     resetTokenExpiresAt: DateTime
-    roles: Role!
-    monitorId: Int
     supervisorId: Int
+    supervisor: Airman
+    airmen: [Airman]!
+    roles: Role!
   }
 
   enum Role {
@@ -43,11 +43,11 @@ export const schema = gql`
     organization: String
     officeSymbol: String
     dodId: String
+    afsc: String
     resetToken: String
     resetTokenExpiresAt: DateTime
-    roles: Role!
-    monitorId: Int
     supervisorId: Int
+    roles: Role!
   }
 
   input UpdateAirmanInput {
@@ -61,11 +61,11 @@ export const schema = gql`
     organization: String
     officeSymbol: String
     dodId: String
+    afsc: String
     resetToken: String
     resetTokenExpiresAt: DateTime
-    roles: Role
-    monitorId: Int
     supervisorId: Int
+    roles: Role
   }
 
   type Mutation {

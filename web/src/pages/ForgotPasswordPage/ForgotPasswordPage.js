@@ -47,8 +47,10 @@ const ForgotPasswordPage = () => {
   let cardGradient
   let cardShadow
   mode === 'light'
-    ? (cardGradient = 'rgba(218, 165, 32, 0.4), rgba(255, 255, 255, 0.4)')
-    : (cardGradient = 'rgba(0, 128, 128, 0.4), rgba(0, 0, 0, 0.8)')
+    ? (cardGradient =
+        'to bottom right, rgba(205, 133, 63, 0.4), rgba(255, 255, 255, 0.4)')
+    : (cardGradient =
+        'to top right, rgba(0, 128, 128, 0.4), rgba(0, 0, 0, 0.8)')
   mode === 'light'
     ? (cardShadow = '7px 7px 5px #212121')
     : (cardShadow = '-7px 7px 5px black')
@@ -62,7 +64,7 @@ const ForgotPasswordPage = () => {
         justifyContent="center"
         height="100%"
         alignItems="center"
-        padding="5%"
+        padding="15%"
       >
         <Card
           sx={{
@@ -71,15 +73,15 @@ const ForgotPasswordPage = () => {
             alignItems: 'center',
             justifyContent: 'space-around',
             border: 'solid 2px black',
-            width: '25%',
+            width: '30%',
             height: '100%',
-            background: `linear-gradient(to top right, ${cardGradient})`,
+            background: `linear-gradient(${cardGradient})`,
             boxShadow: `${cardShadow}`,
           }}
         >
           <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
-          <Box width="80%" className="rw-segment">
-            <Box marginBottom="5%" className="rw-segment-header">
+          <Box width="72.5%" className="rw-segment">
+            <Box className="rw-segment-header">
               <h2 className="rw-heading rw-heading-secondary">
                 Forgot Password
               </h2>
@@ -87,14 +89,15 @@ const ForgotPasswordPage = () => {
 
             <Form onSubmit={onSubmit} className="rw-form-wrapper">
               <Box
+                display="flex"
+                flexDirection="column"
                 backgroundColor={
                   mode === 'light'
                     ? 'rgba(255, 255, 255, 0.5)'
                     : 'rgba(0, 0, 0, 0.2)'
                 }
+                marginTop="15px"
                 paddingX="10%"
-                paddingBottom="10%"
-                paddingTop="5%"
               >
                 <Label
                   name="eMail"
@@ -118,14 +121,13 @@ const ForgotPasswordPage = () => {
 
                 <FieldError name="eMail" className="rw-field-error" />
 
-                <div className="rw-button-group">
-                  <Button
-                    type="submit"
-                    variant={mode === 'light' ? 'contained' : 'outlined'}
-                  >
-                    Submit
-                  </Button>
-                </div>
+                <Button
+                  type="submit"
+                  variant={mode === 'light' ? 'contained' : 'outlined'}
+                  sx={{ marginTop: '5%', marginBottom: '10%' }}
+                >
+                  Submit
+                </Button>
               </Box>
             </Form>
           </Box>

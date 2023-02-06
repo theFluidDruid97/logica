@@ -1,16 +1,15 @@
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import TextField from '@mui/material/TextField'
 
-import {
-  Form,
-  FormError,
-  FieldError,
-  Label,
-  TextField,
-  SelectField,
-} from '@redwoodjs/forms'
 import { useQuery } from '@redwoodjs/web'
 
+import { organizations } from '../../../../../scripts/airmen.js'
+import { ranks } from '../../../../../scripts/airmen.js'
 import { ThemeModeContext } from '../../../App.js'
 import { GeneralContext } from '../../../App.js'
 
@@ -35,285 +34,164 @@ const AirmanForm = (props) => {
   const { loading, error, data } = useQuery(QUERY)
   const { mode, setMode } = React.useContext(ThemeModeContext)
   const { rolesList } = React.useContext(GeneralContext)
+  const [changedValues, setChangedValues] = React.useState({
+    rank: false,
+    lastName: false,
+    firstName: false,
+    middleName: false,
+    email: false,
+    organization: false,
+    officeSymbol: false,
+    roles: false,
+  })
+  const [formValues, setFormValues] = React.useState(props.airman)
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    })
+    setChangedValues({ ...changedValues, [name]: true })
+  }
+  const onSubmit = (data) => {
+    data.preventDefault()
+    console.log('SUBMITTED DATA ==>', formValues)
+    console.log('AIRMAN ID ==>', props?.airman?.id)
+    delete formValues.id
+    delete formValues.__typename
+    props.onSave(formValues, props?.airman?.id)
+  }
 
   if (loading) return 'Loading...'
   if (error) return `Error! ${error.message}`
-  const supervisorsList = data.airmen.filter(
-    (airman) => airman.roles === 'Supervisor'
-  )
-  const monitorsList = data.airmen.filter(
-    (airman) => airman.roles === 'Monitor'
-  )
-  const onSubmit = (data) => {
-    props.onSave(data, props?.airman?.id)
-  }
 
   return (
-    <Box className="rw-form-wrapper">
-      <Form onSubmit={onSubmit} error={props.error}>
-        <FormError
-          error={props.error}
-          wrapperClassName="rw-form-error-wrapper"
-          titleClassName="rw-form-error-title"
-          listClassName="rw-form-error-list"
-        />
-        <Box display="flex" flexDirection="row">
-          <Box width="50%" marginX="5%">
-            <Label
+    <form onSubmit={onSubmit}>
+      <Box display="flex" flexDirection="row">
+        <Box display="flex" flexDirection="column" width="50%" marginX="5%">
+          <FormControl sx={{ marginY: '2.5%' }}>
+            <InputLabel>Rank</InputLabel>
+            <Select
               name="rank"
-              className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
-              errorClassName="rw-label rw-label-error"
+              value={changedValues.rank ? formValues.rank : props.airman?.rank}
+              label="Rank"
+              onChange={handleInputChange}
             >
-              Rank
-            </Label>
-            <TextField
-              name="rank"
-              defaultValue={props.airman?.rank}
-              className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName={
-                mode === 'light'
-                  ? 'rw-input rw-input-error'
-                  : 'rw-input-dark rw-input-error'
-              }
-            />
-            <FieldError name="rank" className="rw-field-error" />
-
-            <Label
-              name="lastName"
-              className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
-              errorClassName="rw-label rw-label-error"
-            >
-              Last Name
-            </Label>
-            <TextField
-              name="lastName"
-              defaultValue={props.airman?.lastName}
-              className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName={
-                mode === 'light'
-                  ? 'rw-input rw-input-error'
-                  : 'rw-input-dark rw-input-error'
-              }
-            />
-            <FieldError name="lastName" className="rw-field-error" />
-
-            <Label
-              name="middleName"
-              className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
-              errorClassName="rw-label rw-label-error"
-            >
-              Middle Name
-            </Label>
-            <TextField
-              name="middleName"
-              defaultValue={props.airman?.middleName}
-              className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName={
-                mode === 'light'
-                  ? 'rw-input rw-input-error'
-                  : 'rw-input-dark rw-input-error'
-              }
-            />
-            <FieldError name="middleName" className="rw-field-error" />
-
-            <Label
-              name="firstName"
-              className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
-              errorClassName="rw-label rw-label-error"
-            >
-              First Name
-            </Label>
-            <TextField
-              name="firstName"
-              defaultValue={props.airman?.firstName}
-              className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName={
-                mode === 'light'
-                  ? 'rw-input rw-input-error'
-                  : 'rw-input-dark rw-input-error'
-              }
-            />
-            <FieldError name="firstName" className="rw-field-error" />
-
-            <Label
-              name="email"
-              className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
-              errorClassName="rw-label rw-label-error"
-            >
-              E-Mail
-            </Label>
-            <TextField
-              name="email"
-              defaultValue={props.airman?.email}
-              className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName={
-                mode === 'light'
-                  ? 'rw-input rw-input-error'
-                  : 'rw-input-dark rw-input-error'
-              }
-              validation={{ required: true }}
-            />
-            <FieldError name="email" className="rw-field-error" />
-          </Box>
-          <Box width="50%" marginX="5%">
-            <Label
+              {ranks.map((rank) => (
+                <MenuItem key={rank} value={rank}>
+                  {rank}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <TextField
+            sx={{ marginY: '2.5%' }}
+            name="lastName"
+            label="Last Name"
+            type="text"
+            value={
+              changedValues.lastName
+                ? formValues.lastName
+                : props.airman?.lastName
+            }
+            onChange={handleInputChange}
+          />
+          <TextField
+            sx={{ marginY: '2.5%' }}
+            name="firstName"
+            label="First Name"
+            type="text"
+            value={
+              changedValues.firstName
+                ? formValues.firstName
+                : props.airman?.firstName
+            }
+            onChange={handleInputChange}
+          />
+          <TextField
+            sx={{ marginY: '2.5%' }}
+            name="middleName"
+            label="Middle Name"
+            type="text"
+            value={
+              changedValues.middleName
+                ? formValues.middleName
+                : props.airman?.middleName
+            }
+            onChange={handleInputChange}
+          />
+        </Box>
+        <Box display="flex" flexDirection="column" width="50%" marginX="5%">
+          <TextField
+            sx={{ marginY: '2.5%' }}
+            name="email"
+            label="E-Mail Address"
+            type="text"
+            value={changedValues.email ? formValues.email : props.airman?.email}
+            onChange={handleInputChange}
+          />
+          <FormControl sx={{ marginY: '2.5%' }}>
+            <InputLabel>Organization</InputLabel>
+            <Select
               name="organization"
-              className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
-              errorClassName="rw-label rw-label-error"
-            >
-              Organization
-            </Label>
-            <TextField
-              name="organization"
-              defaultValue={props.airman?.organization}
-              className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName={
-                mode === 'light'
-                  ? 'rw-input rw-input-error'
-                  : 'rw-input-dark rw-input-error'
+              value={
+                changedValues.organization
+                  ? formValues.organization
+                  : props.airman?.organization
               }
-            />
-            <FieldError name="organization" className="rw-field-error" />
-
-            <Label
-              name="officeSymbol"
-              className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
-              errorClassName="rw-label rw-label-error"
+              label="Organization"
+              onChange={handleInputChange}
             >
-              Office Symbol
-            </Label>
-            <TextField
-              name="officeSymbol"
-              defaultValue={props.airman?.officeSymbol}
-              className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName={
-                mode === 'light'
-                  ? 'rw-input rw-input-error'
-                  : 'rw-input-dark rw-input-error'
-              }
-            />
-            <FieldError name="officeSymbol" className="rw-field-error" />
-
-            <Label
+              {organizations.map((organization) => (
+                <MenuItem key={organization} value={organization}>
+                  {organization}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <TextField
+            sx={{ marginY: '2.5%' }}
+            name="officeSymbol"
+            label="Office Symbol"
+            type="text"
+            value={
+              changedValues.officeSymbol
+                ? formValues.officeSymbol
+                : props.airman?.officeSymbol
+            }
+            onChange={handleInputChange}
+          />
+          <FormControl sx={{ marginY: '2.5%' }}>
+            <InputLabel>Role</InputLabel>
+            <Select
               name="roles"
-              className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
-              errorClassName="rw-label rw-label-error"
-            >
-              Role
-            </Label>
-            <SelectField
-              name="roles"
-              defaultValue={props.airman?.roles || 'Airman'}
-              className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName={
-                mode === 'light'
-                  ? 'rw-input rw-input-error'
-                  : 'rw-input-dark rw-input-error'
+              value={
+                changedValues.roles ? formValues.roles : props.airman?.roles
               }
-              validation={{ required: true }}
+              label="Role"
+              onChange={handleInputChange}
             >
               {rolesList.map((role) => (
-                <option
-                  key={role}
-                  className={mode === 'light' ? 'rw-option' : 'rw-option-dark'}
-                  value={role}
-                >
+                <MenuItem key={role} value={role}>
                   {role}
-                </option>
+                </MenuItem>
               ))}
-            </SelectField>
-            <FieldError name="roles" className="rw-field-error" />
-
-            <Label
-              name="supervisorId"
-              className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
-              errorClassName="rw-label rw-label-error"
-            >
-              Supervisor
-            </Label>
-            <SelectField
-              name="supervisorId"
-              defaultValue={props.airman?.supervisorId}
-              className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName={
-                mode === 'light'
-                  ? 'rw-input rw-input-error'
-                  : 'rw-input-dark rw-input-error'
-              }
-              validation={{ valueAsNumber: true }}
-            >
-              <option
-                className={mode === 'light' ? 'rw-option' : 'rw-option-dark'}
-                value={undefined}
-              />
-              {supervisorsList.map((supervisor) => (
-                <option
-                  key={supervisor.id}
-                  className={mode === 'light' ? 'rw-option' : 'rw-option-dark'}
-                  value={supervisor.id}
-                >
-                  {`${supervisor.rank} ${supervisor.lastName}, ${
-                    supervisor.firstName
-                  } ${supervisor.middleName.charAt(0)} (${
-                    supervisor.organization
-                  } ${supervisor.officeSymbol})`}
-                </option>
-              ))}
-            </SelectField>
-            <FieldError name="supervisorId" className="rw-field-error" />
-
-            <Label
-              name="monitorId"
-              className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
-              errorClassName="rw-label rw-label-error"
-            >
-              Monitor
-            </Label>
-            <SelectField
-              name="monitorId"
-              defaultValue={props.airman?.monitorId}
-              className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-              errorClassName={
-                mode === 'light'
-                  ? 'rw-input rw-input-error'
-                  : 'rw-input-dark rw-input-error'
-              }
-              validation={{ valueAsNumber: true }}
-            >
-              <option
-                className={mode === 'light' ? 'rw-option' : 'rw-option-dark'}
-                value={undefined}
-              />
-              {monitorsList.map((monitor) => (
-                <option
-                  key={monitor.id}
-                  className={mode === 'light' ? 'rw-option' : 'rw-option-dark'}
-                  value={monitor.id}
-                >
-                  {`${monitor.rank} ${monitor.lastName}, ${
-                    monitor.firstName
-                  } ${monitor.middleName.charAt(0)} (${monitor.organization} ${
-                    monitor.officeSymbol
-                  })`}
-                </option>
-              ))}
-            </SelectField>
-            <FieldError name="monitorId" className="rw-field-error" />
-          </Box>
+            </Select>
+          </FormControl>
         </Box>
+      </Box>
 
-        <div className="rw-button-group">
-          <Button
-            sx={{ marginX: 1 }}
-            variant={mode === 'light' ? 'contained' : 'outlined'}
-            type="submit"
-            disabled={props.loading}
-          >
-            Save
-          </Button>
-        </div>
-      </Form>
-    </Box>
+      <div className="rw-button-group">
+        <Button
+          variant={mode === 'light' ? 'contained' : 'outlined'}
+          type="submit"
+          disabled={props.loading}
+        >
+          Save
+        </Button>
+      </div>
+    </form>
   )
 }
 

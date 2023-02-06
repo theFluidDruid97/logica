@@ -60,8 +60,10 @@ const ResetPasswordPage = ({ resetToken }) => {
   let cardGradient
   let cardShadow
   mode === 'light'
-    ? (cardGradient = 'rgba(218, 165, 32, 0.4), rgba(255, 255, 255, 0.4)')
-    : (cardGradient = 'rgba(0, 128, 128, 0.4), rgba(0, 0, 0, 0.8)')
+    ? (cardGradient =
+        'to bottom right, rgba(205, 133, 63, 0.4), rgba(255, 255, 255, 0.4)')
+    : (cardGradient =
+        'to top right, rgba(0, 128, 128, 0.4), rgba(0, 0, 0, 0.8)')
   mode === 'light'
     ? (cardShadow = '7px 7px 5px #212121')
     : (cardShadow = '-7px 7px 5px black')
@@ -86,7 +88,7 @@ const ResetPasswordPage = ({ resetToken }) => {
             border: 'solid 2px black',
             width: '25%',
             height: '100%',
-            background: `linear-gradient(to top right, ${cardGradient})`,
+            background: `linear-gradient(${cardGradient})`,
             boxShadow: `${cardShadow}`,
           }}
         >

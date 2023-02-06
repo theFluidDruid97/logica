@@ -49,7 +49,7 @@ const LoginPage = () => {
   let cardShadow
   mode === 'light'
     ? (cardGradient =
-        'to bottom right, rgba(218, 165, 32, 0.4), rgba(255, 255, 255, 0.8)')
+        'to bottom right, rgba(205, 133, 63, 0.4), rgba(255, 255, 255, 0.8)')
     : (cardGradient =
         'to top right, rgba(0, 128, 128, 0.4), rgba(0, 0, 0, 0.8)')
   mode === 'light'
@@ -90,11 +90,11 @@ const LoginPage = () => {
                 ? '/TrainTrackLogo.png'
                 : '/TrainTrackLogoDark.png'
             }
-            height="125"
+            width="90%"
             alt="TrainTrack"
           />
           <Box width="40%" marginBottom="5%" className="rw-segment">
-            <Box marginBottom="5%" className="rw-segment-header">
+            <Box className="rw-segment-header">
               <h2 className="rw-heading rw-heading-secondary">Login</h2>
             </Box>
             <Form onSubmit={onSubmit} className="rw-form-wrapper">
@@ -106,6 +106,7 @@ const LoginPage = () => {
                     ? 'rgba(255, 255, 255, 0.5)'
                     : 'rgba(0, 0, 0, 0.2)'
                 }
+                marginTop="15px"
                 paddingX="10%"
               >
                 <Label
@@ -177,144 +178,6 @@ const LoginPage = () => {
           </Box>
         </Card>
       </Box>
-
-      {/* <Box
-        display="flex"
-        width="100%"
-        height="80vh"
-        marginTop="2%"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Card
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            height: '100%',
-            border: 'solid 2px black',
-            padding: '2%',
-            background: `linear-gradient(to top right, ${cardGradient})`,
-            boxShadow: `${cardShadow}`,
-          }}
-        >
-          <Typography variant="h3" color="text.secondary">
-            WELCOME TO
-          </Typography>
-          <img
-            src={
-              mode === 'light'
-                ? '/TrainTrackLogo.png'
-                : '/TrainTrackLogoDark.png'
-            }
-            height="125"
-            alt="TrainTrack"
-          />
-          <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
-          <Box width="50%" margin="10%" className="rw-segment">
-            <header className="rw-segment-header">
-              <h2 className="rw-heading rw-heading-secondary">Login</h2>
-            </header>
-
-            <Box className="rw-segment-main">
-              <Form
-                onSubmit={onSubmit}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  fontSize: '0.875rem',
-                  alignItems: 'center',
-                }}
-              >
-                <Label
-                  name="eMail"
-                  className="rw-label"
-                  errorClassName="rw-label rw-label-error"
-                >
-                  E-Mail
-                </Label>
-                <TextField
-                  name="eMail"
-                  className="rw-input"
-                  errorClassName="rw-input rw-input-error"
-                  ref={eMailRef}
-                  validation={{
-                    required: {
-                      value: true,
-                      message: 'E-Mail is required',
-                    },
-                  }}
-                />
-
-                <FieldError name="eMail" className="rw-field-error" />
-
-                <Label
-                  name="password"
-                  className="rw-label"
-                  errorClassName="rw-label rw-label-error"
-                >
-                  Password
-                </Label>
-                <PasswordField
-                  name="password"
-                  className="rw-input"
-                  errorClassName="rw-input rw-input-error"
-                  autoComplete="current-password"
-                  validation={{
-                    required: {
-                      value: true,
-                      message: 'Password is required',
-                    },
-                  }}
-                />
-
-                <Box className="rw-forgot-link">
-                  <Link
-                    to={routes.forgotPassword()}
-                    className={
-                      mode === 'light'
-                        ? 'rw-forgot-link'
-                        : 'rw-forgot-link-dark'
-                    }
-                  >
-                    Forgot Password?
-                  </Link>
-                </Box>
-
-                <FieldError name="password" className="rw-field-error" />
-
-                <Button
-                  variant="outlined"
-                  type="submit"
-                  style={{ width: '200px', margin: '5%' }}
-                >
-                  Log In
-                </Button>
-              </Form>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                }}
-              >
-                <Typography color="#a0aec0" fontSize="0.75rem">
-                  Don&apos;t have an account?
-                </Typography>
-                <Button
-                  variant="outlined"
-                  onClick={() => navigate(routes.signup())}
-                  style={{
-                    width: '200px',
-                  }}
-                >
-                  Sign Up
-                </Button>
-              </Box>
-            </Box>
-          </Box>
-        </Card>
-      </Box> */}
     </>
   )
 }

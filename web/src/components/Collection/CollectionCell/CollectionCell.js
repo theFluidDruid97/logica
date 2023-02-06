@@ -5,6 +5,7 @@ export const QUERY = gql`
     collection: collection(id: $id) {
       id
       name
+      description
     }
   }
 `

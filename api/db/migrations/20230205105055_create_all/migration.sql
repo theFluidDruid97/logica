@@ -5,8 +5,6 @@ CREATE TYPE "Role" AS ENUM ('Airman', 'Admin', 'Monitor', 'Supervisor');
 CREATE TABLE "Airman" (
     "id" SERIAL NOT NULL,
     "email" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "hashedPassword" TEXT NOT NULL,
     "salt" TEXT NOT NULL,
     "rank" TEXT,
@@ -16,11 +14,11 @@ CREATE TABLE "Airman" (
     "organization" TEXT,
     "officeSymbol" TEXT,
     "dodId" TEXT,
+    "afsc" TEXT,
     "resetToken" TEXT,
     "resetTokenExpiresAt" TIMESTAMP(3),
-    "roles" "Role" NOT NULL DEFAULT 'Airman',
-    "monitorId" INTEGER,
     "supervisorId" INTEGER,
+    "roles" "Role" NOT NULL DEFAULT 'Airman',
 
     CONSTRAINT "Airman_pkey" PRIMARY KEY ("id")
 );
@@ -29,9 +27,9 @@ CREATE TABLE "Airman" (
 CREATE TABLE "Training" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "duration" INTEGER NOT NULL,
-    "link" TEXT,
     "description" TEXT,
+    "link" TEXT,
+    "duration" INTEGER,
 
     CONSTRAINT "Training_pkey" PRIMARY KEY ("id")
 );
@@ -41,9 +39,17 @@ CREATE TABLE "Collection" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT,
-    "trainingId" INTEGER,
 
     CONSTRAINT "Collection_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "TrainingCollection" (
+    "id" SERIAL NOT NULL,
+    "trainingId" INTEGER NOT NULL,
+    "collectionId" INTEGER NOT NULL,
+
+    CONSTRAINT "TrainingCollection_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -55,5 +61,14 @@ CREATE UNIQUE INDEX "Training_name_key" ON "Training"("name");
 -- CreateIndex
 CREATE UNIQUE INDEX "Collection_name_key" ON "Collection"("name");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "TrainingCollection_trainingId_collectionId_key" ON "TrainingCollection"("trainingId", "collectionId");
+
 -- AddForeignKey
-ALTER TABLE "Collection" ADD CONSTRAINT "Collection_trainingId_fkey" FOREIGN KEY ("trainingId") REFERENCES "Training"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Airman" ADD CONSTRAINT "Airman_supervisorId_fkey" FOREIGN KEY ("supervisorId") REFERENCES "Airman"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "TrainingCollection" ADD CONSTRAINT "TrainingCollection_trainingId_fkey" FOREIGN KEY ("trainingId") REFERENCES "Training"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "TrainingCollection" ADD CONSTRAINT "TrainingCollection_collectionId_fkey" FOREIGN KEY ("collectionId") REFERENCES "Collection"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -42,7 +42,7 @@ const Navigation = () => {
         setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'))
       },
     }),
-    []
+    [setMode]
   )
 
   return (
@@ -110,11 +110,8 @@ const Navigation = () => {
                   'aria-labelledby': 'basic-button',
                 }}
               >
-                <MenuItem>
-                  <DarkModeSwitch
-                    checked={mode === 'light'}
-                    onClick={colorMode.toggleColorMode}
-                  />
+                <MenuItem onClick={colorMode.toggleColorMode}>
+                  <DarkModeSwitch checked={mode === 'light'} />
                 </MenuItem>
                 <MenuItem
                   onClick={() =>
@@ -139,7 +136,7 @@ const Navigation = () => {
                   <SettingsIcon />
                 </MenuItem>
                 <MenuItem
-                  onClick={() => (logOut(), setAnchorEl(null))}
+                  onClick={() => (logOut(), setAnchorEl(null), setOpen(false))}
                   sx={{
                     display: 'flex',
                     justifyContent: 'space-between',

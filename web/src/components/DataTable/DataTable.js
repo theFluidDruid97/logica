@@ -13,7 +13,7 @@ import { jsPDF } from 'jspdf'
 require('jspdf-autotable')
 
 const DataTable = (data) => {
-  const [pageSize, setPageSize] = React.useState(10)
+  const [pageSize, setPageSize] = React.useState(20)
   let exportRows = []
 
   const exportDataGrid = () => {
@@ -44,27 +44,31 @@ const DataTable = (data) => {
   }
 
   const CustomToolbar = () => {
-    const apiRef = useGridApiContext()
-    const filteredRowIds = gridFilteredSortedRowIdsSelector(apiRef)
+    const apiContext = useGridApiContext()
+    const filteredRowIds = gridFilteredSortedRowIdsSelector(apiContext).filter(
+      (id) => Number.isInteger(id)
+    )
     let filteredRows = []
     for (let filteredRowId of filteredRowIds) {
       filteredRows.push(data.rows.find((row) => row.id === filteredRowId))
       exportRows = []
     }
-    filteredRows.map((row) => {
-      const exportRow = []
-      for (const field of data.columns.map((column) => column.field)) {
-        exportRow.push(row[field])
-      }
-      exportRows.push(exportRow)
-    })
+    filteredRows
+      .filter((row) => row !== undefined)
+      .map((row) => {
+        const exportRow = []
+        for (const field of data.columns.map((column) => column.field)) {
+          exportRow.push(row[field])
+        }
+        exportRows.push(exportRow)
+      })
 
     return (
       <GridToolbarContainer>
         <GridToolbarColumnsButton />
         <GridToolbarFilterButton />
         <GridToolbarDensitySelector />
-        <Button onClick={() => exportDataGrid()}>
+        <Button size="small" onClick={() => exportDataGrid()}>
           <DownloadIcon />
           Export
         </Button>
@@ -78,11 +82,13 @@ const DataTable = (data) => {
       columns={data.columns}
       pagination
       pageSize={pageSize}
+      initialState={data.initialState}
+      apiRef={data.apiRef}
       rowsPerPageOptions={[10, 20, 50, 100]}
       onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
       checkboxSelection
       disableSelectionOnClick
-      sx={{ height: '75vh' }}
+      sx={{ height: '74.5vh' }}
       components={{ Toolbar: CustomToolbar }}
       componentsProps={{
         toolbar: {
