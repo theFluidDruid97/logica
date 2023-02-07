@@ -20,13 +20,9 @@ const UPDATE_AIRMAN_MUTATION = gql`
   }
 `
 
-const ModalDrawer = ({ airman, airmen }) => {
-  const currentSupervisor = airmen.find(
-    (supervisor) => supervisor.id === airman.supervisorId
-  )
+const TrainingDrawer = ({ airman }) => {
   const { mode, setMode } = React.useContext(ThemeModeContext)
   const [open, setOpen] = React.useState(false)
-  const [supervisor, setSupervisor] = React.useState(currentSupervisor)
   const [updateAirman] = useMutation(UPDATE_AIRMAN_MUTATION, {
     onCompleted: () => {
       toast.success(
@@ -37,50 +33,45 @@ const ModalDrawer = ({ airman, airmen }) => {
       toast.error(error.message)
     },
   })
-  const squadronSupervisors = airmen.filter(
-    (supervisor) =>
-      supervisor.roles === 'Supervisor' &&
-      supervisor.organization === airman.organization
-  )
-  const handleChange = (event) => {
-    setSupervisor(event.target.value)
-  }
-  const handleSubmit = () => {
-    onSave({ supervisorId: supervisor.id }, airman.id)
-    toggleDrawer()
-  }
-  const onSave = (input, id) => {
-    updateAirman({ variables: { id, input } })
-  }
+  // const handleChange = (event) => {
+  //   setSupervisor(event.target.value)
+  // }
+  // const handleSubmit = () => {
+  //   onSave({ supervisorId: supervisor.id }, airman.id)
+  //   toggleDrawer()
+  // }
+  // const onSave = (input, id) => {
+  //   updateAirman({ variables: { id, input } })
+  // }
   const toggleDrawer = () => {
     setOpen(!open)
-    setSupervisor(currentSupervisor)
   }
 
   return (
     <div>
       <Button
+        sx={{ marginX: '1%' }}
         variant={mode === 'light' ? 'contained' : 'outlined'}
-        onClick={() => toggleDrawer()}
+        size="large"
       >
-        {currentSupervisor ? 'Re-Assign' : 'Assign'}
+        Assign Training
       </Button>
       <Drawer anchor={'right'} open={open} onClose={() => toggleDrawer()}>
         <Box sx={{ width: 400, marginTop: 10 }} role="presentation">
           <FormControl variant="standard" sx={{ m: 7, width: 300 }}>
             <InputLabel>Supervisor</InputLabel>
             <Select
-              value={supervisor}
-              onChange={handleChange}
+              value={null}
+              // onChange={handleChange}
               label="Supervisor"
             >
-              {squadronSupervisors.map((supervisor) => (
+              {/* {squadronSupervisors.map((supervisor) => (
                 <MenuItem key={supervisor.id} value={supervisor}>
                   {`${supervisor.rank} ${supervisor.lastName}, ${supervisor.firstName} ${supervisor.middleName}`}
                 </MenuItem>
-              ))}
+              ))} */}
             </Select>
-            <Button onClick={() => handleSubmit()}>Submit</Button>
+            <Button>Submit</Button>
           </FormControl>
         </Box>
       </Drawer>
@@ -88,4 +79,4 @@ const ModalDrawer = ({ airman, airmen }) => {
   )
 }
 
-export default ModalDrawer
+export default TrainingDrawer

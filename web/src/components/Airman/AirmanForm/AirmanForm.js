@@ -62,9 +62,9 @@ const AirmanForm = (props) => {
     console.log(formValues)
     if (props.airman === formValues) {
       toast.success(
-        `No changes submitted for\n${props.airman.rank} ${props.airman.lastName}, ${props.airman.firstName}`
+        `${props.airman.rank} ${props.airman.lastName}, ${props.airman.firstName} Updated`
       )
-      navigate(routes.airmen())
+      navigate(routes.airman({ id: props.airman.id }))
     }
     delete formValues.__typename
     delete formValues.id

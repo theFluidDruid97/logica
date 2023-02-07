@@ -9,7 +9,8 @@ import './scaffold.css'
 import './index.css'
 
 const App = () => {
-  const [mode, setMode] = React.useState('light')
+  const currentMode = localStorage.getItem('mode')
+  const [mode, setMode] = React.useState(currentMode || 'light')
   const [open, setOpen] = React.useState(false)
   const [supervisorModalOpen, setSupervisorModalOpen] = React.useState(false)
   const rolesList = ['Admin', 'Airman', 'Monitor', 'Supervisor']

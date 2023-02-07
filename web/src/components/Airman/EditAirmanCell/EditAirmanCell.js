@@ -19,6 +19,7 @@ export const QUERY = gql`
       officeSymbol
       dodId
       roles
+      afsc
       supervisorId
     }
   }
@@ -36,6 +37,7 @@ const UPDATE_AIRMAN_MUTATION = gql`
       officeSymbol
       dodId
       roles
+      afsc
       supervisorId
     }
   }
@@ -56,7 +58,7 @@ export const Success = ({ airman }) => {
         toast.success(
           `${airman.rank} ${airman.lastName}, ${airman.firstName} Updated`
         )
-        navigate(routes.airmen())
+        navigate(routes.airman({ id: airman.id }))
       },
       onError: (error) => {
         toast.error(error.message)

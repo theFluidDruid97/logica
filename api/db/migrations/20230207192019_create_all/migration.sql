@@ -44,6 +44,15 @@ CREATE TABLE "Collection" (
 );
 
 -- CreateTable
+CREATE TABLE "AirmanTraining" (
+    "id" SERIAL NOT NULL,
+    "airmanId" INTEGER NOT NULL,
+    "trainingId" INTEGER NOT NULL,
+
+    CONSTRAINT "AirmanTraining_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "TrainingCollection" (
     "id" SERIAL NOT NULL,
     "trainingId" INTEGER NOT NULL,
@@ -62,10 +71,19 @@ CREATE UNIQUE INDEX "Training_name_key" ON "Training"("name");
 CREATE UNIQUE INDEX "Collection_name_key" ON "Collection"("name");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "AirmanTraining_airmanId_trainingId_key" ON "AirmanTraining"("airmanId", "trainingId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "TrainingCollection_trainingId_collectionId_key" ON "TrainingCollection"("trainingId", "collectionId");
 
 -- AddForeignKey
 ALTER TABLE "Airman" ADD CONSTRAINT "Airman_supervisorId_fkey" FOREIGN KEY ("supervisorId") REFERENCES "Airman"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "AirmanTraining" ADD CONSTRAINT "AirmanTraining_airmanId_fkey" FOREIGN KEY ("airmanId") REFERENCES "Airman"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "AirmanTraining" ADD CONSTRAINT "AirmanTraining_trainingId_fkey" FOREIGN KEY ("trainingId") REFERENCES "Training"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "TrainingCollection" ADD CONSTRAINT "TrainingCollection_trainingId_fkey" FOREIGN KEY ("trainingId") REFERENCES "Training"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -73,7 +73,8 @@ const GeneralLayout = ({ children }) => {
         setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'))
       },
     }),
-    [setMode]
+    [setMode],
+    localStorage.setItem('mode', [mode])
   )
 
   mode === 'light'

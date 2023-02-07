@@ -15,6 +15,7 @@ export const QUERY = gql`
       officeSymbol
       dodId
       roles
+      afsc
       supervisorId
     }
   }

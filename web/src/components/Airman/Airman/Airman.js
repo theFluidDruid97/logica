@@ -30,7 +30,8 @@ import { toast } from '@redwoodjs/web/toast'
 
 import { ThemeModeContext } from '../../../App.js'
 import DataTable from '../../DataTable/DataTable.js'
-import ModalDrawer from '../../ModalDrawer/ModalDrawer.js'
+import SupervisorDrawer from '../../SupervisorDrawer/SupervisorDrawer.js'
+import TrainingDrawer from '../../TrainingDrawer/TrainingDrawer.js'
 
 ChartJS.register(
   CategoryScale,
@@ -90,7 +91,6 @@ const Airman = ({ airman, airmen }) => {
   const [pageSize, setPageSize] = React.useState(10)
   const [displayedMonitor, setDisplayedMonitor] = React.useState(0)
   const { mode, setMode } = React.useContext(ThemeModeContext)
-  const rows = []
   const columns = [
     { field: 'status', headerName: 'Status', flex: 1 },
     { field: 'name', headerName: 'Name', flex: 1 },
@@ -241,8 +241,7 @@ const Airman = ({ airman, airmen }) => {
                   justifyContent="space-between"
                 >
                   <Typography variant="h3">
-                    {airman.rank} {airman.lastName}, {airman.firstName}{' '}
-                    {airman.middleName}{' '}
+                    {`${airman.rank} ${airman.lastName}, ${airman.firstName} ${airman.middleName}`}
                   </Typography>
                   <Chip
                     sx={{ margin: '1%' }}
@@ -262,6 +261,11 @@ const Airman = ({ airman, airmen }) => {
                     E-MAIL ADDRESS
                     <br />
                     {airman.email}
+                  </Typography>
+                  <Typography variant="h6" sx={{ margin: '2%' }}>
+                    AFSC
+                    <br />
+                    {airman.afsc}
                   </Typography>
                 </Box>
               </CardContent>
@@ -311,7 +315,7 @@ const Airman = ({ airman, airmen }) => {
                       flexDirection="row"
                       justifyContent="center"
                     >
-                      <ModalDrawer airman={airman} airmen={airmen} />
+                      <SupervisorDrawer airman={airman} airmen={airmen} />
                     </Box>
                   </>
                 ) : (
@@ -331,7 +335,7 @@ const Airman = ({ airman, airmen }) => {
                         padding: '10%',
                       }}
                     >
-                      <ModalDrawer airman={airman} airmen={airmen} />
+                      <SupervisorDrawer airman={airman} airmen={airmen} />
                     </CardActions>
                   </>
                 )}
@@ -423,7 +427,38 @@ const Airman = ({ airman, airmen }) => {
           </Card>
         </Box>
       </Box>
-      <DataTable rows={rows} columns={columns} />
+      <Box marginBottom="1%" display="flex" justifyContent="space-between">
+        <Box width="50%">
+          <Button
+            sx={{ marginX: '1%' }}
+            variant={mode === 'light' ? 'contained' : 'outlined'}
+            size="large"
+            color="success"
+          >
+            Current
+          </Button>
+          <Button
+            sx={{ marginX: '1%' }}
+            variant={mode === 'light' ? 'contained' : 'outlined'}
+            size="large"
+            color="warning"
+          >
+            Due
+          </Button>
+          <Button
+            sx={{ marginX: '1%' }}
+            variant={mode === 'light' ? 'contained' : 'outlined'}
+            size="large"
+            color="error"
+          >
+            Over Due
+          </Button>
+        </Box>
+        <Box width="10%">
+          <TrainingDrawer />
+        </Box>
+      </Box>
+      <DataTable rows={[]} columns={columns} />
       <nav className="rw-button-group">
         <Button
           sx={{ marginX: 1 }}

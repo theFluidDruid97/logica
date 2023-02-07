@@ -11,6 +11,7 @@ import {
 } from '@redwoodjs/forms'
 
 import { ThemeModeContext } from '../../../App.js'
+
 const TrainingForm = (props) => {
   const { mode, setMode } = React.useContext(ThemeModeContext)
   const onSubmit = (data) => {
@@ -101,25 +102,6 @@ const TrainingForm = (props) => {
           }
         />
         <FieldError name="description" className="rw-field-error" />
-        <Label
-          name="collections"
-          className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
-          errorClassName="rw-label rw-label-error"
-        >
-          Collections
-        </Label>
-        <TextField
-          name="collections"
-          defaultValue={props.training?.collections}
-          className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-          errorClassName={
-            mode === 'light'
-              ? 'rw-input rw-input-error'
-              : 'rw-input-dark rw-input-error'
-          }
-          emptyAs={undefined}
-        />
-        <FieldError name="collections" className="rw-field-error" />
         <div className="rw-button-group">
           <Button
             sx={{ marginX: 1 }}

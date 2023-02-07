@@ -9,8 +9,8 @@ generator client {
 }
 
 model Airman {
-  id                  Int       @id @default(autoincrement())
-  email               String    @unique
+  id                  Int              @id @default(autoincrement())
+  email               String           @unique
   hashedPassword      String
   salt                String
   rank                String?
@@ -24,9 +24,10 @@ model Airman {
   resetToken          String?
   resetTokenExpiresAt DateTime?
   supervisorId        Int?
-  supervisor          Airman?   @relation("SupervisorAirman", fields: [supervisorId], references: [id])
-  airmen              Airman[]  @relation("SupervisorAirman")
-  roles               Role      @default(Airman)
+  supervisor          Airman?          @relation("SupervisorAirman", fields: [supervisorId], references: [id])
+  airmen              Airman[]         @relation("SupervisorAirman")
+  roles               Role             @default(Airman)
+  AirmanTraining      AirmanTraining[]
 }
 
 model Training {
@@ -36,6 +37,7 @@ model Training {
   link               String?
   duration           Int?
   TrainingCollection TrainingCollection[]
+  AirmanTraining     AirmanTraining[]
 }
 
 model Collection {
@@ -43,6 +45,16 @@ model Collection {
   name               String               @unique
   description        String?
   TrainingCollection TrainingCollection[]
+}
+
+model AirmanTraining {
+  id         Int      @id @default(autoincrement())
+  airman     Airman   @relation(fields: [airmanId], references: [id])
+  airmanId   Int
+  training   Training @relation(fields: [trainingId], references: [id])
+  trainingId Int
+
+  @@unique([airmanId, trainingId])
 }
 
 model TrainingCollection {

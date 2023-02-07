@@ -63,7 +63,6 @@ const TrainingsList = ({ trainings }) => {
         )
       },
     },
-    { field: 'collections', headerName: 'Collections', flex: 1 },
     {
       field: 'actions',
       headerName: 'Actions',
