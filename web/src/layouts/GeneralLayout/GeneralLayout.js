@@ -30,7 +30,7 @@ const getDesignTokens = (mode) => ({
         main: 'rgb(205, 133, 63)',
       }),
       ...(mode === 'dark' && {
-        main: teal['A400'],
+        main: teal[200],
       }),
     },
     secondary: {
@@ -54,7 +54,7 @@ const getDesignTokens = (mode) => ({
       divider: 'rgb(205, 133, 63)',
     }),
     ...(mode === 'dark' && {
-      divider: teal[500],
+      divider: teal[200],
     }),
   },
 })

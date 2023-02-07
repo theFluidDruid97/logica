@@ -11,11 +11,20 @@ import './index.css'
 const App = () => {
   const [mode, setMode] = React.useState('light')
   const [open, setOpen] = React.useState(false)
+  const [supervisorModalOpen, setSupervisorModalOpen] = React.useState(false)
   const rolesList = ['Admin', 'Airman', 'Monitor', 'Supervisor']
   return (
     <FatalErrorBoundary page={FatalErrorPage}>
       <ThemeModeContext.Provider value={{ mode, setMode }}>
-        <GeneralContext.Provider value={{ open, setOpen, rolesList }}>
+        <GeneralContext.Provider
+          value={{
+            open,
+            setOpen,
+            supervisorModalOpen,
+            setSupervisorModalOpen,
+            rolesList,
+          }}
+        >
           <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
             <AuthProvider type="dbAuth">
               <RedwoodApolloProvider>

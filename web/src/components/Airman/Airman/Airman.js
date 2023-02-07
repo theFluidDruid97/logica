@@ -306,6 +306,13 @@ const Airman = ({ airman, airmen }) => {
                         {supervisor.email}
                       </Typography>
                     </Box>
+                    <Box
+                      display="flex"
+                      flexDirection="row"
+                      justifyContent="center"
+                    >
+                      <ModalDrawer airman={airman} airmen={airmen} />
+                    </Box>
                   </>
                 ) : (
                   <>
@@ -324,7 +331,7 @@ const Airman = ({ airman, airmen }) => {
                         padding: '10%',
                       }}
                     >
-                      <ModalDrawer />
+                      <ModalDrawer airman={airman} airmen={airmen} />
                     </CardActions>
                   </>
                 )}

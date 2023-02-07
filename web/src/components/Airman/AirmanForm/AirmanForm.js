@@ -6,7 +6,9 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
 
+import { navigate, routes } from '@redwoodjs/router'
 import { useQuery } from '@redwoodjs/web'
+import { toast } from '@redwoodjs/web/toast'
 
 import { organizations } from '../../../../../scripts/airmen.js'
 import { ranks } from '../../../../../scripts/airmen.js'
@@ -56,10 +58,16 @@ const AirmanForm = (props) => {
   }
   const onSubmit = (data) => {
     data.preventDefault()
-    console.log('SUBMITTED DATA ==>', formValues)
-    console.log('AIRMAN ID ==>', props?.airman?.id)
-    delete formValues.id
+    console.log(props.airman)
+    console.log(formValues)
+    if (props.airman === formValues) {
+      toast.success(
+        `No changes submitted for\n${props.airman.rank} ${props.airman.lastName}, ${props.airman.firstName}`
+      )
+      navigate(routes.airmen())
+    }
     delete formValues.__typename
+    delete formValues.id
     props.onSave(formValues, props?.airman?.id)
   }
 
