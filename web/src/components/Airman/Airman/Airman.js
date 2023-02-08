@@ -11,6 +11,7 @@ import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import Chip from '@mui/material/Chip'
 import Divider from '@mui/material/Divider'
+import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import {
   Chart as ChartJS,
@@ -87,7 +88,7 @@ const DELETE_AIRMAN_MUTATION = gql`
   }
 `
 
-const Airman = ({ airman, airmen }) => {
+const Airman = ({ airman, airmen, trainings }) => {
   const [pageSize, setPageSize] = React.useState(10)
   const [displayedMonitor, setDisplayedMonitor] = React.useState(0)
   const { mode, setMode } = React.useContext(ThemeModeContext)
@@ -200,7 +201,7 @@ const Airman = ({ airman, airmen }) => {
     ChartJS.defaults.borderColor = 'peru'
     cardBackground = 'rgba(155, 155, 155, 0.1)'
   } else {
-    ChartJS.defaults.borderColor = 'teal'
+    ChartJS.defaults.borderColor = '#80cbc4'
     cardBackground = 'rgba(0, 0, 0, 0.75)'
   }
   for (let datum of data.datasets) {
@@ -251,22 +252,45 @@ const Airman = ({ airman, airmen }) => {
                   />
                 </Box>
                 <Divider />
-                <Box display="flex" flexDirection="row">
-                  <Typography variant="h6" sx={{ margin: '2%' }}>
-                    DOD ID
-                    <br />
-                    {airman.dodId}
-                  </Typography>
-                  <Typography variant="h6" sx={{ margin: '2%' }}>
-                    E-MAIL ADDRESS
-                    <br />
-                    {airman.email}
-                  </Typography>
-                  <Typography variant="h6" sx={{ margin: '2%' }}>
-                    AFSC
-                    <br />
-                    {airman.afsc}
-                  </Typography>
+                <Box
+                  display="flex"
+                  flexDirection="row"
+                  justifyContent="space-between"
+                >
+                  <Box display="flex" flexDirection="row" width="80%">
+                    <Typography variant="h6" sx={{ margin: '2%' }}>
+                      DOD ID
+                      <br />
+                      {airman.dodId}
+                    </Typography>
+                    <Typography variant="h6" sx={{ margin: '2%' }}>
+                      E-MAIL ADDRESS
+                      <br />
+                      {airman.email}
+                    </Typography>
+                    <Typography variant="h6" sx={{ margin: '2%' }}>
+                      AFSC
+                      <br />
+                      {airman.afsc}
+                    </Typography>
+                  </Box>
+                  <Stack spacing={2} sx={{ marginTop: '2%' }}>
+                    <Button
+                      variant={mode === 'light' ? 'contained' : 'outlined'}
+                      onClick={() =>
+                        navigate(routes.editAirman({ id: airman.id }))
+                      }
+                    >
+                      <EditIcon />
+                    </Button>
+                    <Button
+                      variant={mode === 'light' ? 'contained' : 'outlined'}
+                      color="error"
+                      onClick={() => onDeleteClick(airman, airman.id)}
+                    >
+                      <DeleteIcon />
+                    </Button>
+                  </Stack>
                 </Box>
               </CardContent>
             </Card>
@@ -404,8 +428,7 @@ const Airman = ({ airman, airmen }) => {
             <CardContent sx={{ textAlign: 'center' }}>
               <Typography variant="h5">ORGANIZATION</Typography>
               <Divider />
-              <Typography variant="h6">
-                <br />
+              <Typography variant="h6" sx={{ margin: '10%' }}>
                 MAJCOM
                 <br />|
                 <br />
@@ -427,8 +450,16 @@ const Airman = ({ airman, airmen }) => {
           </Card>
         </Box>
       </Box>
-      <Box marginBottom="1%" display="flex" justifyContent="space-between">
+      <Box marginBottom="1%" display="flex">
         <Box width="50%">
+          <Button
+            sx={{ marginX: '1%' }}
+            variant={mode === 'light' ? 'contained' : 'outlined'}
+            size="large"
+            color="secondary"
+          >
+            All
+          </Button>
           <Button
             sx={{ marginX: '1%' }}
             variant={mode === 'light' ? 'contained' : 'outlined'}
@@ -454,28 +485,11 @@ const Airman = ({ airman, airmen }) => {
             Over Due
           </Button>
         </Box>
-        <Box width="10%">
-          <TrainingDrawer />
+        <Box width="50%" display="flex" justifyContent="flex-end" marginX="1%">
+          <TrainingDrawer trainings={trainings} />
         </Box>
       </Box>
       <DataTable rows={[]} columns={columns} />
-      <nav className="rw-button-group">
-        <Button
-          sx={{ marginX: 1 }}
-          variant={mode === 'light' ? 'contained' : 'outlined'}
-          onClick={() => navigate(routes.editAirman({ id: airman.id }))}
-        >
-          Edit
-        </Button>
-        <Button
-          sx={{ marginX: 1 }}
-          variant={mode === 'light' ? 'contained' : 'outlined'}
-          color="error"
-          onClick={() => onDeleteClick(airman, airman.id)}
-        >
-          Delete
-        </Button>
-      </nav>
     </>
   )
 }

@@ -41,7 +41,7 @@ export const Success = ({ training }) => {
     UPDATE_TRAINING_MUTATION,
     {
       onCompleted: () => {
-        toast.success('Training updated')
+        toast.success(`${training.name} Updated`)
         navigate(routes.trainings())
       },
       onError: (error) => {

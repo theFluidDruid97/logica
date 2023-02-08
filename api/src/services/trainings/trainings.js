@@ -35,4 +35,7 @@ export const Training = {
       .findUnique({ where: { id: root?.id } })
       .TrainingCollection()
   },
+  AirmanTraining: (_obj, { root }) => {
+    return db.training.findUnique({ where: { id: root?.id } }).AirmanTraining()
+  },
 }

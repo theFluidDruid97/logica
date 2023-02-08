@@ -58,11 +58,9 @@ const AirmanForm = (props) => {
   }
   const onSubmit = (data) => {
     data.preventDefault()
-    console.log(props.airman)
-    console.log(formValues)
     if (props.airman === formValues) {
       toast.success(
-        `${props.airman.rank} ${props.airman.lastName}, ${props.airman.firstName} Updated`
+        `${props.airman.rank} ${props.airman.lastName}, ${props.airman.firstName} updated`
       )
       navigate(routes.airman({ id: props.airman.id }))
     }

@@ -25,7 +25,6 @@ const DELETE_COLLECTION_MUTATION = gql`
 `
 
 const CollectionsList = ({ collections }) => {
-  console.log(collections[1].id)
   const { mode, setMode } = React.useContext(ThemeModeContext)
   const apiRef = useGridApiRef()
 
@@ -70,7 +69,6 @@ const CollectionsList = ({ collections }) => {
       filterable: false,
       width: 225,
       renderCell: (params) => {
-        console.log(params)
         return (
           <>
             <Button

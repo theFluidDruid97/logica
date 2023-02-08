@@ -28,13 +28,13 @@ describe('airmen', () => {
   scenario('creates a airman', async () => {
     const result = await createAirman({
       input: {
-        email: 'String6546108',
+        email: 'String9744458',
         hashedPassword: 'String',
         salt: 'String',
       },
     })
 
-    expect(result.email).toEqual('String6546108')
+    expect(result.email).toEqual('String9744458')
     expect(result.hashedPassword).toEqual('String')
     expect(result.salt).toEqual('String')
   })
@@ -43,10 +43,10 @@ describe('airmen', () => {
     const original = await airman({ id: scenario.airman.one.id })
     const result = await updateAirman({
       id: original.id,
-      input: { email: 'String1418932' },
+      input: { email: 'String61452252' },
     })
 
-    expect(result.email).toEqual('String1418932')
+    expect(result.email).toEqual('String61452252')
   })
 
   scenario('deletes a airman', async (scenario) => {

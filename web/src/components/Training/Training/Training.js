@@ -1,6 +1,8 @@
 import { faker } from '@faker-js/faker'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
 import LaunchIcon from '@mui/icons-material/Launch'
 import UpdateIcon from '@mui/icons-material/Update'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
@@ -64,9 +66,34 @@ const Training = ({ training }) => {
             }}
           >
             <CardContent>
-              <Typography variant="h3" sx={{ marginLeft: '2%' }}>
-                {training.name}
-              </Typography>
+              <Box
+                display="flex"
+                flexDirection="row"
+                justifyContent="space-between"
+              >
+                <Typography variant="h3" sx={{ marginLeft: '2%' }}>
+                  {training.name}
+                </Typography>
+                <nav className="rw-button-group">
+                  <Button
+                    sx={{ marginX: 1 }}
+                    variant={mode === 'light' ? 'contained' : 'outlined'}
+                    onClick={() =>
+                      navigate(routes.editTraining({ id: training.id }))
+                    }
+                  >
+                    <EditIcon />
+                  </Button>
+                  <Button
+                    sx={{ marginX: 1 }}
+                    variant={mode === 'light' ? 'contained' : 'outlined'}
+                    color="error"
+                    onClick={() => onDeleteClick(training, training.id)}
+                  >
+                    <DeleteIcon />
+                  </Button>
+                </nav>
+              </Box>
               <Divider />
               <Typography variant="h6" sx={{ margin: '2%' }}>
                 DESCRIPTION
@@ -118,7 +145,19 @@ const Training = ({ training }) => {
                       )
                     ),
                   ].map((e) => (
-                    <Chip key={e} sx={{ marginX: '1%' }} label="TAG NAME" />
+                    <Chip
+                      key={e}
+                      sx={{ marginX: '1%' }}
+                      label="TAG NAME"
+                      color={faker.helpers.arrayElement([
+                        'primary',
+                        'secondary',
+                        'success',
+                        'warning',
+                        'error',
+                        'info',
+                      ])}
+                    />
                   ))}
                 </Typography>
               </Box>
@@ -127,74 +166,132 @@ const Training = ({ training }) => {
         </Box>
         <Box width="20%">
           <Card sx={{ height: '100%', backgroundColor: `${cardBackground}` }}>
-            <Box
-              display="flex"
-              flexDirection="column"
-              justifyContent="space-around"
-              height="100%"
-            >
-              <Box display="flex" flexDirection="row" justifyContent="center">
+            <Box display="flex" flexDirection="column" height="100%">
+              <Typography
+                variant="h4"
+                sx={{ margin: '2%', marginTop: '10%', textAlign: 'center' }}
+              >
+                OVERALL STATUS
+                <br />
+                <Divider />
+                <br />
                 <Box
                   display="flex"
-                  flexDirection="column"
+                  flexDirection="row"
                   justifyContent="center"
-                  alignItems="center"
-                  width="50%"
+                  marginTop="5%"
                 >
-                  <CheckCircleOutlineIcon fontSize="large" />
-                  <Typography variant="h5">
-                    {faker.random.numeric(4)}
-                  </Typography>
-                  <Typography variant="h5">CURRENT</Typography>
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="center"
+                    alignItems="center"
+                    width="50%"
+                    color="green"
+                  >
+                    <CheckCircleOutlineIcon fontSize="large" />
+                    <Typography
+                      color={mode === 'light' ? 'black' : 'white'}
+                      variant="h5"
+                    >
+                      {faker.random.numeric(4)}
+                    </Typography>
+                    <Typography
+                      color={mode === 'light' ? 'black' : 'white'}
+                      variant="h5"
+                    >
+                      CURRENT
+                    </Typography>
+                  </Box>
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="center"
+                    alignItems="center"
+                    width="50%"
+                    color="grey"
+                  >
+                    <CalendarTodayIcon fontSize="large" />
+                    <Typography
+                      color={mode === 'light' ? 'black' : 'white'}
+                      variant="h5"
+                    >
+                      {faker.random.numeric(2)}
+                    </Typography>
+                    <Typography
+                      color={mode === 'light' ? 'black' : 'white'}
+                      variant="h5"
+                    >
+                      SCHEDULED
+                    </Typography>
+                  </Box>
                 </Box>
                 <Box
                   display="flex"
-                  flexDirection="column"
+                  flexDirection="row"
                   justifyContent="center"
-                  alignItems="center"
-                  width="50%"
+                  marginTop="15%"
                 >
-                  <CalendarTodayIcon fontSize="large" />
-                  <Typography variant="h5">
-                    {faker.random.numeric(2)}
-                  </Typography>
-                  <Typography variant="h5">SCHEDULED</Typography>
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="center"
+                    alignItems="center"
+                    width="50%"
+                    color="yellow"
+                  >
+                    <UpdateIcon fontSize="large" />
+                    <Typography
+                      color={mode === 'light' ? 'black' : 'white'}
+                      variant="h5"
+                    >
+                      {faker.random.numeric(3)}
+                    </Typography>
+                    <Typography
+                      color={mode === 'light' ? 'black' : 'white'}
+                      variant="h5"
+                    >
+                      DUE
+                    </Typography>
+                  </Box>
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="center"
+                    alignItems="center"
+                    width="50%"
+                    color="red"
+                  >
+                    <WarningAmberIcon fontSize="large" />
+                    <Typography
+                      color={mode === 'light' ? 'black' : 'white'}
+                      variant="h5"
+                    >
+                      {faker.random.numeric(1)}
+                    </Typography>
+                    <Typography
+                      color={mode === 'light' ? 'black' : 'white'}
+                      variant="h5"
+                    >
+                      OVERDUE
+                    </Typography>
+                  </Box>
                 </Box>
-              </Box>
-              <Box display="flex" flexDirection="row" justifyContent="center">
-                <Box
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="center"
-                  alignItems="center"
-                  width="50%"
-                >
-                  <UpdateIcon fontSize="large" />
-                  <Typography variant="h5">
-                    {faker.random.numeric(3)}
-                  </Typography>
-                  <Typography variant="h5">DUE</Typography>
-                </Box>
-                <Box
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="center"
-                  alignItems="center"
-                  width="50%"
-                >
-                  <WarningAmberIcon fontSize="large" />
-                  <Typography variant="h5">
-                    {faker.random.numeric(1)}
-                  </Typography>
-                  <Typography variant="h5">OVERDUE</Typography>
-                </Box>
-              </Box>
+              </Typography>
             </Box>
           </Card>
         </Box>
       </Box>
       <Box marginBottom="1%" display="flex" justifyContent="space-between">
         <Box width="50%">
+          <Button
+            sx={{ marginX: '1%' }}
+            variant={mode === 'light' ? 'contained' : 'outlined'}
+            size="large"
+            color="secondary"
+          >
+            All
+          </Button>
           <Button
             sx={{ marginX: '1%' }}
             variant={mode === 'light' ? 'contained' : 'outlined'}
@@ -231,23 +328,6 @@ const Training = ({ training }) => {
         </Box>
       </Box>
       <DataTable rows={[]} columns={[]} />
-      <nav className="rw-button-group">
-        <Button
-          sx={{ marginX: 1 }}
-          variant={mode === 'light' ? 'contained' : 'outlined'}
-          onClick={() => navigate(routes.editTraining({ id: training.id }))}
-        >
-          Edit
-        </Button>
-        <Button
-          sx={{ marginX: 1 }}
-          variant={mode === 'light' ? 'contained' : 'outlined'}
-          color="error"
-          onClick={() => onDeleteClick(training, training.id)}
-        >
-          Delete
-        </Button>
-      </nav>
     </>
   )
 }

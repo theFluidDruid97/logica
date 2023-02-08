@@ -88,16 +88,8 @@ const DataTable = (data) => {
       onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
       checkboxSelection
       disableSelectionOnClick
-      sx={{ height: '75vh' }}
+      sx={{ height: '82vh' }}
       components={{ Toolbar: CustomToolbar }}
-      componentsProps={{
-        toolbar: {
-          printOptions: {
-            hideToolbar: true,
-            hideFooter: true,
-          },
-        },
-      }}
     />
   )
 }

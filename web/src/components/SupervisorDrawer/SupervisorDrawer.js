@@ -12,7 +12,10 @@ import { toast } from '@redwoodjs/web/toast'
 import { ThemeModeContext } from '../../App.js'
 
 const UPDATE_AIRMAN_MUTATION = gql`
-  mutation UpdateAirmanMutation($id: Int!, $input: UpdateAirmanInput!) {
+  mutation UpdateAirmanSupervisorMutation(
+    $id: Int!
+    $input: UpdateAirmanInput!
+  ) {
     updateAirman(id: $id, input: $input) {
       id
       supervisorId
@@ -46,15 +49,23 @@ const SupervisorDrawer = ({ airman, airmen }) => {
     setSupervisor(event.target.value)
   }
   const handleSubmit = () => {
-    onSave({ supervisorId: supervisor.id }, airman.id)
+    if (supervisor === 'none') {
+      onSave({ supervisorId: null }, airman.id)
+    } else {
+      onSave({ supervisorId: supervisor.id }, airman.id)
+    }
     toggleDrawer()
   }
   const onSave = (input, id) => {
     updateAirman({ variables: { id, input } })
   }
   const toggleDrawer = () => {
-    setOpen(!open)
-    setSupervisor(currentSupervisor)
+    if (squadronSupervisors[0]) {
+      setOpen(!open)
+      setSupervisor(currentSupervisor)
+    } else {
+      toast.error(`No supervisors to assign in ${airman.organization}`)
+    }
   }
 
   return (
@@ -67,13 +78,16 @@ const SupervisorDrawer = ({ airman, airmen }) => {
       </Button>
       <Drawer anchor={'right'} open={open} onClose={() => toggleDrawer()}>
         <Box sx={{ width: 400, marginTop: 10 }} role="presentation">
-          <FormControl variant="standard" sx={{ m: 7, width: 300 }}>
+          <FormControl variant="standard" sx={{ m: 6, width: 300 }}>
             <InputLabel>Supervisor</InputLabel>
             <Select
               value={supervisor}
               onChange={handleChange}
               label="Supervisor"
             >
+              <MenuItem key={null} value={'none'}>
+                NO SUPERVISOR
+              </MenuItem>
               {squadronSupervisors.map((supervisor) => (
                 <MenuItem key={supervisor.id} value={supervisor}>
                   {`${supervisor.rank} ${supervisor.lastName}, ${supervisor.firstName} ${supervisor.middleName}`}

@@ -40,7 +40,12 @@ const createRandomAirman = () => {
   const firstName = faker.name.firstName(sex)
   const middleName = faker.name.middleName(sex)
   const lastName = faker.name.lastName()
-  const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@us.af.mil`
+  const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}.${faker.random.numeric(
+    1,
+    {
+      allowLeadingZeros: false,
+    }
+  )}@us.af.mil`
   const organization = faker.helpers.arrayElement(organizations)
   const officeSymbol =
     organization.split(' ')[1].charAt(0) +

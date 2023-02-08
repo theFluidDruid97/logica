@@ -1,119 +1,94 @@
-import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
 
-import {
-  Form,
-  FormError,
-  FieldError,
-  Label,
-  TextField,
-  NumberField,
-} from '@redwoodjs/forms'
+import { navigate, routes } from '@redwoodjs/router'
+import { toast } from '@redwoodjs/web/toast'
 
 import { ThemeModeContext } from '../../../App.js'
 
 const TrainingForm = (props) => {
   const { mode, setMode } = React.useContext(ThemeModeContext)
+  const [changedValues, setChangedValues] = React.useState({
+    name: false,
+    duration: false,
+    link: false,
+    description: false,
+  })
+  const [formValues, setFormValues] = React.useState(props.training)
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    })
+    setChangedValues({ ...changedValues, [name]: true })
+  }
   const onSubmit = (data) => {
-    console.log(data)
-    props.onSave(data, props?.training?.id)
+    data.preventDefault()
+    if (props.training === formValues) {
+      toast.success(`${props.training.name} updated`)
+      navigate(routes.training({ id: props.training.id }))
+    }
+    formValues.duration = parseInt(formValues.duration)
+    delete formValues.__typename
+    delete formValues.id
+    props.onSave(formValues, props?.training?.id)
   }
 
   return (
-    <Box className="rw-form-wrapper">
-      <Form onSubmit={onSubmit} error={props.error}>
-        <FormError
-          error={props.error}
-          wrapperClassName="rw-form-error-wrapper"
-          titleClassName="rw-form-error-title"
-          listClassName="rw-form-error-list"
-        />
-        <Label
-          name="name"
-          className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
-          errorClassName="rw-label rw-label-error"
+    <form onSubmit={onSubmit}>
+      <TextField
+        sx={{ margin: '2%', width: '46%' }}
+        name="name"
+        label="Name"
+        type="text"
+        value={changedValues.name ? formValues.name : props.training.name}
+        onChange={handleInputChange}
+      />
+      <TextField
+        sx={{ margin: '2%', width: '46%' }}
+        name="duration"
+        label="Duration"
+        type="text"
+        value={
+          changedValues.duration ? formValues.duration : props.training.duration
+        }
+        onChange={handleInputChange}
+      />
+      <TextField
+        sx={{ margin: '2%', width: '96%' }}
+        name="link"
+        label="Link"
+        type="text"
+        value={changedValues.link ? formValues.link : props.training.link}
+        onChange={handleInputChange}
+      />
+      <TextField
+        fullWidth
+        multiline
+        sx={{ margin: '2%', width: '96%' }}
+        name="description"
+        label="Description"
+        type="text"
+        value={
+          changedValues.description
+            ? formValues.description
+            : props.training.description
+        }
+        onChange={handleInputChange}
+      />
+      <div className="rw-button-group">
+        <Button
+          sx={{ margin: '1%' }}
+          variant={mode === 'light' ? 'contained' : 'outlined'}
+          type="submit"
+          disabled={props.loading}
         >
-          Name
-        </Label>
-        <TextField
-          name="name"
-          defaultValue={props.training?.name}
-          className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-          errorClassName={
-            mode === 'light'
-              ? 'rw-input rw-input-error'
-              : 'rw-input-dark rw-input-error'
-          }
-          validation={{ required: true }}
-        />
-        <FieldError name="name" className="rw-field-error" />
-        <Label
-          name="duration"
-          className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
-          errorClassName="rw-label rw-label-error"
-        >
-          Duration
-        </Label>
-        <NumberField
-          name="duration"
-          defaultValue={props.training?.duration}
-          className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-          errorClassName={
-            mode === 'light'
-              ? 'rw-input rw-input-error'
-              : 'rw-input-dark rw-input-error'
-          }
-          validation={{ required: true }}
-        />
-        <FieldError name="duration" className="rw-field-error" />
-        <Label
-          name="link"
-          className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
-          errorClassName="rw-label rw-label-error"
-        >
-          Link
-        </Label>
-        <TextField
-          name="link"
-          defaultValue={props.training?.link}
-          className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-          errorClassName={
-            mode === 'light'
-              ? 'rw-input rw-input-error'
-              : 'rw-input-dark rw-input-error'
-          }
-        />
-        <FieldError name="link" className="rw-field-error" />
-        <Label
-          name="description"
-          className={mode === 'light' ? 'rw-label' : 'rw-label-dark'}
-          errorClassName="rw-label rw-label-error"
-        >
-          Description
-        </Label>
-        <TextField
-          name="description"
-          defaultValue={props.training?.description}
-          className={mode === 'light' ? 'rw-input' : 'rw-input-dark'}
-          errorClassName={
-            mode === 'light'
-              ? 'rw-input rw-input-error'
-              : 'rw-input-dark rw-input-error'
-          }
-        />
-        <FieldError name="description" className="rw-field-error" />
-        <div className="rw-button-group">
-          <Button
-            sx={{ marginX: 1 }}
-            variant={mode === 'light' ? 'contained' : 'outlined'}
-            type="submit"
-            disabled={props.loading}
-          >
-            Save
-          </Button>
-        </div>
-      </Form>
-    </Box>
+          Save
+        </Button>
+      </div>
+    </form>
   )
 }
 

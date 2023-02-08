@@ -1,6 +1,6 @@
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import Box from '@mui/material/Box'
-import { grey, teal, yellow } from '@mui/material/colors'
+import { grey, teal, yellow, deepPurple } from '@mui/material/colors'
 import CssBaseline from '@mui/material/CssBaseline'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
@@ -13,7 +13,6 @@ import { ThemeModeContext } from '../../App.js'
 import { GeneralContext } from '../../App.js'
 import DrawerListItems from '../../components/DrawerListItems/DrawerListItems.js'
 import DrawerListItemsAdmin from '../../components/DrawerListItemsAdmin/DrawerListItemsAdmin.js'
-import Footer from '../../components/Footer/Footer.js'
 import Navigation from '../../components/Navigation/Navigation.js'
 import {
   Drawer,
@@ -38,6 +37,9 @@ const getDesignTokens = (mode) => ({
     },
     warning: {
       ...yellow,
+    },
+    info: {
+      ...deepPurple,
     },
     text: {
       ...(mode === 'light'
@@ -108,11 +110,10 @@ const GeneralLayout = ({ children }) => {
           ) : (
             <></>
           )}
-          <Box width="100%" paddingX="1%" paddingBottom="4%">
+          <Box width="100%" paddingX="1%" paddingBottom="1%">
             <DrawerHeader />
             {children}
           </Box>
-          <Footer />
         </ThemeProvider>
       </ColorModeContext.Provider>
     </Box>

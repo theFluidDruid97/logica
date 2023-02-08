@@ -18,6 +18,7 @@ export const schema = gql`
     supervisor: Airman
     airmen: [Airman]!
     roles: Role!
+    AirmanTraining: [AirmanTraining]!
   }
 
   enum Role {

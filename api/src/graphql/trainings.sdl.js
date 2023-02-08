@@ -6,6 +6,7 @@ export const schema = gql`
     link: String
     duration: Int
     TrainingCollection: [TrainingCollection]!
+    AirmanTraining: [AirmanTraining]!
   }
 
   type Query {
