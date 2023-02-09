@@ -166,7 +166,7 @@ const LoginPage = () => {
                   Log In
                 </Button>
                 <Button
-                  color="secondary"
+                  color="grey"
                   variant={mode === 'light' ? 'contained' : 'outlined'}
                   onClick={() => navigate(routes.signup())}
                   sx={{ marginBottom: '10%' }}

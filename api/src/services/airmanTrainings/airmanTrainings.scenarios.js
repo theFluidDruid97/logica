@@ -4,24 +4,24 @@ export const standard = defineScenario({
       data: {
         airman: {
           create: {
-            email: 'String4869669',
+            email: 'String9339026',
             hashedPassword: 'String',
             salt: 'String',
           },
         },
-        training: { create: { name: 'String9694428' } },
+        training: { create: { name: 'String6237850' } },
       },
     },
     two: {
       data: {
         airman: {
           create: {
-            email: 'String5136494',
+            email: 'String3796475',
             hashedPassword: 'String',
             salt: 'String',
           },
         },
-        training: { create: { name: 'String8197747' } },
+        training: { create: { name: 'String2711292' } },
       },
     },
   },

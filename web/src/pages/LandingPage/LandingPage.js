@@ -45,10 +45,10 @@ const LandingPage = () => {
               alignItems: 'center',
             }}
           >
-            <Typography variant="h1" color="text.secondary" component="div">
+            <Typography variant="h1" component="div">
               Welcome
             </Typography>
-            <Typography variant="h1" color="text.secondary" component="div">
+            <Typography variant="h1" component="div">
               to
             </Typography>
             <img src="/TrainTrackLogo.png" height="200" alt="TrainTrack" />

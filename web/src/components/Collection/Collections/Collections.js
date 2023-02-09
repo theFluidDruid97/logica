@@ -74,7 +74,7 @@ const CollectionsList = ({ collections }) => {
             <Button
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
-              color="secondary"
+              color="grey"
               onClick={() => navigate(routes.collection({ id: params.row.id }))}
               title={'View'}
             >
@@ -93,7 +93,7 @@ const CollectionsList = ({ collections }) => {
             <Button
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
-              color="error"
+              color="red"
               onClick={() => onDeleteClick(params.row, params.row.id)}
               title={'Delete'}
             >

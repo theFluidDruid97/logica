@@ -1871,6 +1871,69 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@date-io/core@npm:^2.15.0, @date-io/core@npm:^2.16.0":
+  version: 2.16.0
+  resolution: "@date-io/core@npm:2.16.0"
+  checksum: c005ede35c4de3e69c20bb4e9fbd2f0e088469066f15e41879bc4cf4f8b9f68bf363811f08fac99ea15b940739a12440e9d3667f55034625dd22f77512758224
+  languageName: node
+  linkType: hard
+
+"@date-io/date-fns@npm:^2.15.0":
+  version: 2.16.0
+  resolution: "@date-io/date-fns@npm:2.16.0"
+  dependencies:
+    "@date-io/core": ^2.16.0
+  peerDependencies:
+    date-fns: ^2.0.0
+  peerDependenciesMeta:
+    date-fns:
+      optional: true
+  checksum: 4250eaa399de13c27f5e1904cd250d6d1012d81188709378df6a89beca9e59c5beba582da2cb942b0a6a913a9433274f5cd399e0fb5a6ef5745e09a776a217de
+  languageName: node
+  linkType: hard
+
+"@date-io/dayjs@npm:^2.15.0":
+  version: 2.16.0
+  resolution: "@date-io/dayjs@npm:2.16.0"
+  dependencies:
+    "@date-io/core": ^2.16.0
+  peerDependencies:
+    dayjs: ^1.8.17
+  peerDependenciesMeta:
+    dayjs:
+      optional: true
+  checksum: 33c45fc4ab871ad227c5bc687b93932ca4f57f6402e28f14fa048d1636bac5736bf69800a10dda8abb2ba8ca99f9af187e484e5a453db1b1fbf63a240d6b79a7
+  languageName: node
+  linkType: hard
+
+"@date-io/luxon@npm:^2.15.0":
+  version: 2.16.1
+  resolution: "@date-io/luxon@npm:2.16.1"
+  dependencies:
+    "@date-io/core": ^2.16.0
+  peerDependencies:
+    luxon: ^1.21.3 || ^2.x || ^3.x
+  peerDependenciesMeta:
+    luxon:
+      optional: true
+  checksum: 6ec1dc337cd8a17ef317bb09d6df15266eef2773694525bb346895c07d75184d0980ec9fb53da52ac692c889adf3bb0aec2aa7e67c98582fecec49c85a141cf1
+  languageName: node
+  linkType: hard
+
+"@date-io/moment@npm:^2.15.0":
+  version: 2.16.1
+  resolution: "@date-io/moment@npm:2.16.1"
+  dependencies:
+    "@date-io/core": ^2.16.0
+  peerDependencies:
+    moment: ^2.24.0
+  peerDependenciesMeta:
+    moment:
+      optional: true
+  checksum: 5be7fc76be7c59be531853a8692f5de4f743e56c7897af5f25ba7b0092a01167846ba592b443d213463799308c89f12712a062c3ef36c8fd6b3d15cf3483b376
+  languageName: node
+  linkType: hard
+
 "@discoveryjs/json-ext@npm:^0.5.0, @discoveryjs/json-ext@npm:^0.5.3":
   version: 0.5.7
   resolution: "@discoveryjs/json-ext@npm:0.5.7"
@@ -3936,6 +3999,50 @@ __metadata:
     react: ^17.0.2 || ^18.0.0
     react-dom: ^17.0.2 || ^18.0.0
   checksum: 7a7a30239c6c499f9ee8a2200cba6e1929a526a5f6da218f77ce4d90ac12d7c2a6cd5ab064b9389a7ae210e634144604f32ae145366d734df22b038ba97d9fd8
+  languageName: node
+  linkType: hard
+
+"@mui/x-date-pickers@npm:^5.0.17":
+  version: 5.0.17
+  resolution: "@mui/x-date-pickers@npm:5.0.17"
+  dependencies:
+    "@babel/runtime": ^7.18.9
+    "@date-io/core": ^2.15.0
+    "@date-io/date-fns": ^2.15.0
+    "@date-io/dayjs": ^2.15.0
+    "@date-io/luxon": ^2.15.0
+    "@date-io/moment": ^2.15.0
+    "@mui/utils": ^5.10.3
+    "@types/react-transition-group": ^4.4.5
+    clsx: ^1.2.1
+    prop-types: ^15.7.2
+    react-transition-group: ^4.4.5
+    rifm: ^0.12.1
+  peerDependencies:
+    "@emotion/react": ^11.9.0
+    "@emotion/styled": ^11.8.1
+    "@mui/material": ^5.4.1
+    "@mui/system": ^5.4.1
+    date-fns: ^2.25.0
+    dayjs: ^1.10.7
+    luxon: ^1.28.0 || ^2.0.0 || ^3.0.0
+    moment: ^2.29.1
+    react: ^17.0.2 || ^18.0.0
+    react-dom: ^17.0.2 || ^18.0.0
+  peerDependenciesMeta:
+    "@emotion/react":
+      optional: true
+    "@emotion/styled":
+      optional: true
+    date-fns:
+      optional: true
+    dayjs:
+      optional: true
+    luxon:
+      optional: true
+    moment:
+      optional: true
+  checksum: 0af48bd437cfecf16e5d8ac25ca0defc9e9f6e49fed512d9a515063f2900072bb146b33d5114480f9dfb9f77608de94c9160775ec48761d784d7c72c907f8e64
   languageName: node
   linkType: hard
 
@@ -11213,7 +11320,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.29.1":
+"date-fns@npm:^2.29.1, date-fns@npm:^2.29.3":
   version: 2.29.3
   resolution: "date-fns@npm:2.29.3"
   checksum: aa9128c876ef69a05988029d6aa3d7e5c47a1e978f18b77b48126683d1a2e6605a16c3f5293ca9f4ca790d0755b5061fcea5b469f097871cd53f6590a5c1adc4
@@ -21388,6 +21495,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rifm@npm:^0.12.1":
+  version: 0.12.1
+  resolution: "rifm@npm:0.12.1"
+  peerDependencies:
+    react: ">=16.8"
+  checksum: cdf158bbe2a921aaaa9858d8335b32723d1d3aba47e46a98165250a7656133cd910f995d9aabde13c159a4ba3a6a9ea902da78a4f48e9e916b4771465acd4831
+  languageName: node
+  linkType: hard
+
 "rimraf@npm:2, rimraf@npm:^2.5.4, rimraf@npm:^2.6.3":
   version: 2.7.1
   resolution: "rimraf@npm:2.7.1"
@@ -21433,8 +21549,10 @@ __metadata:
     "@mui/x-data-grid": ^5.17.21
     "@mui/x-data-grid-premium": ^5.17.21
     "@mui/x-data-grid-pro": ^5.17.21
+    "@mui/x-date-pickers": ^5.0.17
     "@redwoodjs/core": 3.8.0
     chart.js: ^4.2.0
+    date-fns: ^2.29.3
     jspdf: ^2.5.1
     jspdf-autotable: ^3.5.28
     node-fetch: 2.6.7

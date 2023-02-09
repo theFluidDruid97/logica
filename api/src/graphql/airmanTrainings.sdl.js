@@ -5,6 +5,15 @@ export const schema = gql`
     airmanId: Int!
     training: Training!
     trainingId: Int!
+    status: Status!
+    start: DateTime!
+    end: DateTime!
+  }
+
+  enum Status {
+    current
+    due
+    over_due
   }
 
   type Query {
@@ -15,11 +24,17 @@ export const schema = gql`
   input CreateAirmanTrainingInput {
     airmanId: Int!
     trainingId: Int!
+    status: Status!
+    start: DateTime!
+    end: DateTime!
   }
 
   input UpdateAirmanTrainingInput {
     airmanId: Int
     trainingId: Int
+    status: Status
+    start: DateTime
+    end: DateTime
   }
 
   type Mutation {

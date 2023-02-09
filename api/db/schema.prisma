@@ -53,6 +53,9 @@ model AirmanTraining {
   airmanId   Int
   training   Training @relation(fields: [trainingId], references: [id])
   trainingId Int
+  status     Status   @default(due)
+  start      DateTime @default(now())
+  end        DateTime @default(now())
 
   @@unique([airmanId, trainingId])
 }
@@ -72,4 +75,10 @@ enum Role {
   Admin
   Monitor
   Supervisor
+}
+
+enum Status {
+  current
+  due
+  over_due
 }

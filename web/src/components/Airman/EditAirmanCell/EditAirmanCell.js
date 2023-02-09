@@ -56,7 +56,7 @@ export const Success = ({ airman }) => {
     {
       onCompleted: () => {
         toast.success(
-          `${airman.rank} ${airman.lastName}, ${airman.firstName} Updated`
+          `${airman.rank} ${airman.lastName}, ${airman.firstName} updated`
         )
         navigate(routes.airman({ id: airman.id }))
       },

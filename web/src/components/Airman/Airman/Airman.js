@@ -23,6 +23,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
+import { format } from 'date-fns'
 import { Line } from 'react-chartjs-2'
 
 import { routes, navigate } from '@redwoodjs/router'
@@ -44,42 +45,6 @@ ChartJS.register(
   Legend
 )
 
-export const options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      position: 'top',
-    },
-  },
-}
-
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July']
-
-const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Current',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
-      borderColor: 'rgb(0, 128, 0)',
-      backgroundColor: 'rgba(0, 128, 0, 0.5)',
-    },
-    {
-      label: 'Due',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
-      borderColor: 'rgb(255, 255, 0)',
-      backgroundColor: 'rgba(255, 255, 0, 0.5)',
-    },
-    {
-      label: 'Over Due',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
-      borderColor: 'rgb(255, 0, 0)',
-      backgroundColor: 'rgba(255, 0, 0, 0.5)',
-    },
-  ],
-}
-
 const DELETE_AIRMAN_MUTATION = gql`
   mutation DeleteAirmanMutation($id: Int!) {
     deleteAirman(id: $id) {
@@ -88,16 +53,74 @@ const DELETE_AIRMAN_MUTATION = gql`
   }
 `
 
-const Airman = ({ airman, airmen, trainings }) => {
-  const [pageSize, setPageSize] = React.useState(10)
-  const [displayedMonitor, setDisplayedMonitor] = React.useState(0)
+const DELETE_AIRMAN_TRAINING_MUTATION = gql`
+  mutation DeleteAirmanTrainingMutation($id: Int!) {
+    deleteAirmanTraining(id: $id) {
+      id
+    }
+  }
+`
+
+const Airman = ({ airman, airmen, trainings, airmanTrainings }) => {
   const { mode, setMode } = React.useContext(ThemeModeContext)
+  const [displayedMonitor, setDisplayedMonitor] = React.useState(0)
+  const monitors = airmen.filter(
+    (monitor) =>
+      monitor.roles === 'Monitor' &&
+      monitor.organization === airman.organization
+  )
+  const supervisor = airmen.filter(
+    (supervisor) => supervisor.id === airman.supervisorId
+  )[0]
+  const labels = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+  ]
   const columns = [
-    { field: 'status', headerName: 'Status', flex: 1 },
-    { field: 'name', headerName: 'Name', flex: 1 },
+    {
+      field: 'status',
+      headerName: 'Status',
+      flex: 1,
+      renderCell: (params) => {
+        const statusSplit = params.row.status
+          .split('_')
+          .map((word) => word.toUpperCase())
+        if (statusSplit[1]) {
+          return (
+            <Chip
+              label="OVER DUE"
+              color="red"
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+            />
+          )
+        } else {
+          return (
+            <Chip
+              label={statusSplit[0]}
+              color={statusSplit[0] === 'DUE' ? 'yellow' : 'green'}
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+            />
+          )
+        }
+      },
+    },
+    {
+      field: 'training',
+      headerName: 'Training',
+      flex: 1,
+      renderCell: (params) => {
+        return trainings.find(
+          (training) => training.id === params.row.trainingId
+        ).name
+      },
+    },
     { field: 'start', headerName: 'Start', flex: 1 },
     { field: 'end', headerName: 'End', flex: 1 },
-    { field: 'collection', headerName: 'Collection', flex: 1 },
     {
       field: 'actions',
       headerName: 'Actions',
@@ -105,12 +128,16 @@ const Airman = ({ airman, airmen, trainings }) => {
       filterable: false,
       width: 225,
       renderCell: (params) => {
+        const training = trainings.find(
+          (training) => training.id === params.row.trainingId
+        )
         return (
           <>
             <Button
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
-              color="secondary"
+              color="grey"
+              onClick={() => navigate(routes.training({ id: params.row.id }))}
               title={'View'}
             >
               <FindInPageIcon />
@@ -118,6 +145,9 @@ const Airman = ({ airman, airmen, trainings }) => {
             <Button
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
+              onClick={() =>
+                navigate(routes.editTraining({ id: params.row.id }))
+              }
               title={'Edit'}
             >
               <EditIcon />
@@ -125,7 +155,10 @@ const Airman = ({ airman, airmen, trainings }) => {
             <Button
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
-              color="error"
+              color="red"
+              onClick={() =>
+                onDeleteAirmanTrainingClick(training, params.row.id)
+              }
               title={'Delete'}
             >
               <DeleteIcon />
@@ -135,18 +168,41 @@ const Airman = ({ airman, airmen, trainings }) => {
       },
     },
   ]
-  const monitors = airmen.filter(
-    (monitor) =>
-      monitor.roles === 'Monitor' &&
-      monitor.organization === airman.organization
-  )
-  const supervisor = airmen.filter(
-    (supervisor) => supervisor.id === airman.supervisorId
-  )[0]
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Current',
+        data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
+        borderColor: 'rgb(0, 128, 0)',
+        backgroundColor: 'rgba(0, 128, 0, 0.5)',
+      },
+      {
+        label: 'Due',
+        data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
+        borderColor: 'rgb(255, 255, 0)',
+        backgroundColor: 'rgba(255, 255, 0, 0.5)',
+      },
+      {
+        label: 'Over Due',
+        data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
+        borderColor: 'rgb(255, 0, 0)',
+        backgroundColor: 'rgba(255, 0, 0, 0.5)',
+      },
+    ],
+  }
   const [deleteAirman] = useMutation(DELETE_AIRMAN_MUTATION, {
     onCompleted: () => {
       toast.success('Airman deleted')
       navigate(routes.airmen())
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    },
+  })
+  const [deleteAirmanTraining] = useMutation(DELETE_AIRMAN_TRAINING_MUTATION, {
+    onCompleted: () => {
+      toast.success('Airman training deleted')
     },
     onError: (error) => {
       toast.error(error.message)
@@ -159,6 +215,15 @@ const Airman = ({ airman, airmen, trainings }) => {
       )
     ) {
       deleteAirman({ variables: { id } })
+    }
+  }
+  const onDeleteAirmanTrainingClick = (training, id) => {
+    if (
+      confirm(
+        `Are you sure you want to delete\n${training.name} training record for\n${airman.rank} ${airman.lastName}, ${airman.firstName}?`
+      )
+    ) {
+      deleteAirmanTraining({ variables: { id } })
     }
   }
   const nextMonitor = () => {
@@ -193,33 +258,26 @@ const Airman = ({ airman, airmen, trainings }) => {
       return <></>
     }
   }
-
-  let status, statusColor, statusChip
-  let allStatusLatest = []
   let cardBackground
+  let status = {}
+  if (airmanTrainings.find((training) => training.status === 'over_due')) {
+    status.name = 'OVER DUE'
+    status.color = 'red'
+  } else if (airmanTrainings.find((training) => training.status === 'due')) {
+    status.name = 'DUE'
+    status.color = 'yellow'
+  } else {
+    status.name = 'CURRENT'
+    status.color = 'green'
+  }
   if (mode === 'light') {
+    ChartJS.defaults.color = 'black'
     ChartJS.defaults.borderColor = 'peru'
     cardBackground = 'rgba(155, 155, 155, 0.1)'
   } else {
+    ChartJS.defaults.color = 'white'
     ChartJS.defaults.borderColor = '#80cbc4'
     cardBackground = 'rgba(0, 0, 0, 0.75)'
-  }
-  for (let datum of data.datasets) {
-    const statusLatest = datum.data.findLast((int) => Number.isInteger(int))
-    allStatusLatest.push(statusLatest)
-  }
-  if (Math.max(...allStatusLatest) === allStatusLatest[0]) {
-    status = 'CURRENT'
-    statusColor = 'green'
-    statusChip = 'success'
-  } else if (Math.max(...allStatusLatest) === allStatusLatest[1]) {
-    status = 'DUE'
-    statusColor = 'yellow'
-    statusChip = 'warning'
-  } else {
-    status = 'OVER DUE'
-    statusColor = 'red'
-    statusChip = 'error'
   }
 
   return (
@@ -232,7 +290,7 @@ const Airman = ({ airman, airmen, trainings }) => {
                 width: '70%',
                 marginBottom: '1%',
                 backgroundColor: `${cardBackground}`,
-                borderLeft: `10px solid ${statusColor}`,
+                borderLeft: `10px solid ${status.color}`,
               }}
             >
               <CardContent>
@@ -246,8 +304,8 @@ const Airman = ({ airman, airmen, trainings }) => {
                   </Typography>
                   <Chip
                     sx={{ margin: '1%' }}
-                    label={status}
-                    color={statusChip}
+                    label={status.name}
+                    color={status.color}
                     variant={mode === 'light' ? 'contained' : 'outlined'}
                   />
                 </Box>
@@ -285,7 +343,7 @@ const Airman = ({ airman, airmen, trainings }) => {
                     </Button>
                     <Button
                       variant={mode === 'light' ? 'contained' : 'outlined'}
-                      color="error"
+                      color="red"
                       onClick={() => onDeleteClick(airman, airman.id)}
                     >
                       <DeleteIcon />
@@ -374,7 +432,18 @@ const Airman = ({ airman, airmen, trainings }) => {
                 backgroundColor: `${cardBackground}`,
               }}
             >
-              <Line options={options} data={data} />
+              <Line
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: {
+                      position: 'top',
+                    },
+                  },
+                }}
+                data={data}
+              />
             </Card>
             <Card
               sx={{
@@ -395,16 +464,16 @@ const Airman = ({ airman, airmen, trainings }) => {
                       justifyContent="space-between"
                     >
                       <Typography variant="h7">
-                        <Typography color="primary">NAME</Typography>
+                        <Typography>NAME</Typography>
                         {`${monitors[displayedMonitor].lastName}, ${monitors[displayedMonitor].firstName} ${monitors[displayedMonitor].middleName}`}
                       </Typography>
                       <Typography variant="h7">
-                        <Typography color="primary">RANK</Typography>
+                        <Typography>RANK</Typography>
                         {monitors[displayedMonitor].rank}
                       </Typography>
                     </Box>
                     <Typography variant="h7">
-                      <Typography color="primary">E-MAIL ADDRESS</Typography>
+                      <Typography>E-MAIL ADDRESS</Typography>
                       {monitors[displayedMonitor].email}
                     </Typography>
                   </CardContent>
@@ -456,7 +525,7 @@ const Airman = ({ airman, airmen, trainings }) => {
             sx={{ marginX: '1%' }}
             variant={mode === 'light' ? 'contained' : 'outlined'}
             size="large"
-            color="secondary"
+            color="grey"
           >
             All
           </Button>
@@ -464,7 +533,7 @@ const Airman = ({ airman, airmen, trainings }) => {
             sx={{ marginX: '1%' }}
             variant={mode === 'light' ? 'contained' : 'outlined'}
             size="large"
-            color="success"
+            color="green"
           >
             Current
           </Button>
@@ -472,7 +541,7 @@ const Airman = ({ airman, airmen, trainings }) => {
             sx={{ marginX: '1%' }}
             variant={mode === 'light' ? 'contained' : 'outlined'}
             size="large"
-            color="warning"
+            color="yellow"
           >
             Due
           </Button>
@@ -480,16 +549,16 @@ const Airman = ({ airman, airmen, trainings }) => {
             sx={{ marginX: '1%' }}
             variant={mode === 'light' ? 'contained' : 'outlined'}
             size="large"
-            color="error"
+            color="red"
           >
             Over Due
           </Button>
         </Box>
         <Box width="50%" display="flex" justifyContent="flex-end" marginX="1%">
-          <TrainingDrawer trainings={trainings} />
+          <TrainingDrawer trainings={trainings} airman={airman} />
         </Box>
       </Box>
-      <DataTable rows={[]} columns={columns} />
+      <DataTable rows={airmanTrainings} columns={columns} />
     </>
   )
 }

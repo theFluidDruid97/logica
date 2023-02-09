@@ -87,7 +87,7 @@ const Training = ({ training }) => {
                   <Button
                     sx={{ marginX: 1 }}
                     variant={mode === 'light' ? 'contained' : 'outlined'}
-                    color="error"
+                    color="red"
                     onClick={() => onDeleteClick(training, training.id)}
                   >
                     <DeleteIcon />
@@ -149,14 +149,14 @@ const Training = ({ training }) => {
                       key={e}
                       sx={{ marginX: '1%' }}
                       label="TAG NAME"
-                      color={faker.helpers.arrayElement([
-                        'primary',
-                        'secondary',
-                        'success',
-                        'warning',
-                        'error',
-                        'info',
-                      ])}
+                      // color={faker.helpers.arrayElement([
+                      //   'primary',
+                      //   'secondary',
+                      //   'success',
+                      //   'warning',
+                      //   'error',
+                      //   'info',
+                      // ])}
                     />
                   ))}
                 </Typography>
@@ -187,21 +187,12 @@ const Training = ({ training }) => {
                     justifyContent="center"
                     alignItems="center"
                     width="50%"
-                    color="green"
                   >
                     <CheckCircleOutlineIcon fontSize="large" />
-                    <Typography
-                      color={mode === 'light' ? 'black' : 'white'}
-                      variant="h5"
-                    >
+                    <Typography variant="h5">
                       {faker.random.numeric(4)}
                     </Typography>
-                    <Typography
-                      color={mode === 'light' ? 'black' : 'white'}
-                      variant="h5"
-                    >
-                      CURRENT
-                    </Typography>
+                    <Typography variant="h5">CURRENT</Typography>
                   </Box>
                   <Box
                     display="flex"
@@ -209,21 +200,12 @@ const Training = ({ training }) => {
                     justifyContent="center"
                     alignItems="center"
                     width="50%"
-                    color="grey"
                   >
                     <CalendarTodayIcon fontSize="large" />
-                    <Typography
-                      color={mode === 'light' ? 'black' : 'white'}
-                      variant="h5"
-                    >
+                    <Typography variant="h5">
                       {faker.random.numeric(2)}
                     </Typography>
-                    <Typography
-                      color={mode === 'light' ? 'black' : 'white'}
-                      variant="h5"
-                    >
-                      SCHEDULED
-                    </Typography>
+                    <Typography variant="h5">SCHEDULED</Typography>
                   </Box>
                 </Box>
                 <Box
@@ -238,21 +220,12 @@ const Training = ({ training }) => {
                     justifyContent="center"
                     alignItems="center"
                     width="50%"
-                    color="yellow"
                   >
                     <UpdateIcon fontSize="large" />
-                    <Typography
-                      color={mode === 'light' ? 'black' : 'white'}
-                      variant="h5"
-                    >
+                    <Typography variant="h5">
                       {faker.random.numeric(3)}
                     </Typography>
-                    <Typography
-                      color={mode === 'light' ? 'black' : 'white'}
-                      variant="h5"
-                    >
-                      DUE
-                    </Typography>
+                    <Typography variant="h5">DUE</Typography>
                   </Box>
                   <Box
                     display="flex"
@@ -260,21 +233,12 @@ const Training = ({ training }) => {
                     justifyContent="center"
                     alignItems="center"
                     width="50%"
-                    color="red"
                   >
                     <WarningAmberIcon fontSize="large" />
-                    <Typography
-                      color={mode === 'light' ? 'black' : 'white'}
-                      variant="h5"
-                    >
+                    <Typography variant="h5">
                       {faker.random.numeric(1)}
                     </Typography>
-                    <Typography
-                      color={mode === 'light' ? 'black' : 'white'}
-                      variant="h5"
-                    >
-                      OVERDUE
-                    </Typography>
+                    <Typography variant="h5">OVERDUE</Typography>
                   </Box>
                 </Box>
               </Typography>
@@ -288,7 +252,7 @@ const Training = ({ training }) => {
             sx={{ marginX: '1%' }}
             variant={mode === 'light' ? 'contained' : 'outlined'}
             size="large"
-            color="secondary"
+            color="grey"
           >
             All
           </Button>
@@ -296,7 +260,7 @@ const Training = ({ training }) => {
             sx={{ marginX: '1%' }}
             variant={mode === 'light' ? 'contained' : 'outlined'}
             size="large"
-            color="success"
+            color="green"
           >
             Current
           </Button>
@@ -304,7 +268,7 @@ const Training = ({ training }) => {
             sx={{ marginX: '1%' }}
             variant={mode === 'light' ? 'contained' : 'outlined'}
             size="large"
-            color="warning"
+            color="yellow"
           >
             Due
           </Button>
@@ -312,7 +276,7 @@ const Training = ({ training }) => {
             sx={{ marginX: '1%' }}
             variant={mode === 'light' ? 'contained' : 'outlined'}
             size="large"
-            color="error"
+            color="red"
           >
             Over Due
           </Button>

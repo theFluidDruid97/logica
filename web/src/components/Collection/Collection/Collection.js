@@ -80,7 +80,7 @@ const Collection = ({ collection }) => {
                     View
                   </Button>
                   <Button
-                    color="warning"
+                    color="yellow"
                     onClick={() => onRemoveClick(training, training.id)}
                   >
                     Remove
@@ -102,7 +102,7 @@ const Collection = ({ collection }) => {
         <Button
           sx={{ marginX: 1 }}
           variant={mode === 'light' ? 'contained' : 'outlined'}
-          color="error"
+          color="red"
           onClick={() => onDeleteClick(collection.id)}
         >
           Delete

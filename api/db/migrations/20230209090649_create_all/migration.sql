@@ -1,6 +1,9 @@
 -- CreateEnum
 CREATE TYPE "Role" AS ENUM ('Airman', 'Admin', 'Monitor', 'Supervisor');
 
+-- CreateEnum
+CREATE TYPE "Status" AS ENUM ('current', 'due', 'over_due');
+
 -- CreateTable
 CREATE TABLE "Airman" (
     "id" SERIAL NOT NULL,
@@ -48,6 +51,9 @@ CREATE TABLE "AirmanTraining" (
     "id" SERIAL NOT NULL,
     "airmanId" INTEGER NOT NULL,
     "trainingId" INTEGER NOT NULL,
+    "status" "Status" NOT NULL DEFAULT 'due',
+    "start" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "end" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "AirmanTraining_pkey" PRIMARY KEY ("id")
 );
