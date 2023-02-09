@@ -34,9 +34,12 @@
     "@mui/x-data-grid-pro": "^5.17.21",
     "@mui/x-date-pickers": "^5.0.17",
     "chart.js": "^4.2.0",
+    "chartjs-adapter-moment": "^1.0.1",
+    "chartjs-plugin-trendline": "^2.0.0",
     "date-fns": "^2.29.3",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.28",
+    "moment": "^2.29.4",
     "node-fetch": "2.6.7",
     "react-chartjs-2": "^5.2.0"
   }

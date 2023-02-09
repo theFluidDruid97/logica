@@ -36,6 +36,12 @@ model Training {
   description        String?
   link               String?
   duration           Int?
+  createdAt          DateTime?            @default(now()) @db.Timestamptz(3)
+  createdBy          String?
+  deletedAt          DateTime?            @db.Timestamptz(3)
+  deletedBy          String?
+  editedAt           DateTime?            @updatedAt @db.Timestamptz(3)
+  editedBy           String?
   TrainingCollection TrainingCollection[]
   AirmanTraining     AirmanTraining[]
 }
@@ -44,6 +50,12 @@ model Collection {
   id                 Int                  @id @default(autoincrement())
   name               String               @unique
   description        String?
+  createdAt          DateTime?            @default(now()) @db.Timestamptz(3)
+  createdBy          String?
+  deletedAt          DateTime?            @db.Timestamptz(3)
+  deletedBy          String?
+  editedAt           DateTime?            @updatedAt @db.Timestamptz(3)
+  editedBy           String?
   TrainingCollection TrainingCollection[]
 }
 
