@@ -1,6 +1,6 @@
 # README
 
-Welcome to [TrainTrack]!
+Welcome to TrainTrack!
 
 > **Prerequisites**
 >
