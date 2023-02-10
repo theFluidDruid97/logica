@@ -1,10 +1,10 @@
 # README
 
-Welcome to [RedwoodJS](https://redwoodjs.com)!
+Welcome to [TrainTrack]!
 
 > **Prerequisites**
 >
-> - Redwood requires [Node.js](https://nodejs.org/en/) (>=14.19.x <=16.x) and [Yarn](https://yarnpkg.com/) (>=1.15)
+> - TrainTrack heavily utilizes RedwoodJS, a full-stack web framework, which requires [Node.js](https://nodejs.org/en/) (>=14.19.x <=16.x) and [Yarn](https://yarnpkg.com/) (>=1.15)
 > - A local Docker image of Postgres is necessary for the database setup. If you already have Docker installed on your machine you can run run this command from your CLI:
 ```
 docker run --rm --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 \
