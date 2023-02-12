@@ -33,6 +33,12 @@ CREATE TABLE "Training" (
     "description" TEXT,
     "link" TEXT,
     "duration" INTEGER,
+    "createdAt" TIMESTAMPTZ(3) DEFAULT CURRENT_TIMESTAMP,
+    "createdBy" TEXT,
+    "deletedAt" TIMESTAMPTZ(3),
+    "deletedBy" TEXT,
+    "editedAt" TIMESTAMPTZ(3),
+    "editedBy" TEXT,
 
     CONSTRAINT "Training_pkey" PRIMARY KEY ("id")
 );
@@ -42,8 +48,26 @@ CREATE TABLE "Collection" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT,
+    "createdAt" TIMESTAMPTZ(3) DEFAULT CURRENT_TIMESTAMP,
+    "createdBy" TEXT,
+    "deletedAt" TIMESTAMPTZ(3),
+    "deletedBy" TEXT,
+    "editedAt" TIMESTAMPTZ(3),
+    "editedBy" TEXT,
 
     CONSTRAINT "Collection_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Certificate" (
+    "id" SERIAL NOT NULL,
+    "airmanId" INTEGER NOT NULL,
+    "trainingId" INTEGER NOT NULL,
+    "url" TEXT NOT NULL,
+    "completion" TIMESTAMPTZ(3) NOT NULL,
+    "validated" BOOLEAN DEFAULT false,
+
+    CONSTRAINT "Certificate_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -51,9 +75,9 @@ CREATE TABLE "AirmanTraining" (
     "id" SERIAL NOT NULL,
     "airmanId" INTEGER NOT NULL,
     "trainingId" INTEGER NOT NULL,
-    "status" "Status" NOT NULL DEFAULT 'due',
-    "start" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "end" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "status" "Status" DEFAULT 'due',
+    "start" TIMESTAMP(3) NOT NULL,
+    "end" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "AirmanTraining_pkey" PRIMARY KEY ("id")
 );
@@ -84,6 +108,12 @@ CREATE UNIQUE INDEX "TrainingCollection_trainingId_collectionId_key" ON "Trainin
 
 -- AddForeignKey
 ALTER TABLE "Airman" ADD CONSTRAINT "Airman_supervisorId_fkey" FOREIGN KEY ("supervisorId") REFERENCES "Airman"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Certificate" ADD CONSTRAINT "Certificate_airmanId_fkey" FOREIGN KEY ("airmanId") REFERENCES "Airman"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Certificate" ADD CONSTRAINT "Certificate_trainingId_fkey" FOREIGN KEY ("trainingId") REFERENCES "Training"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "AirmanTraining" ADD CONSTRAINT "AirmanTraining_airmanId_fkey" FOREIGN KEY ("airmanId") REFERENCES "Airman"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

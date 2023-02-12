@@ -29,7 +29,7 @@ export const Failure = ({ error }) => (
 )
 
 export const Success = ({ collection }) => {
-  const { mode, setMode } = React.useContext(ThemeModeContext)
+  const { mode } = React.useContext(ThemeModeContext)
   const [updateCollection, { loading, error }] = useMutation(
     UPDATE_COLLECTION_MUTATION,
     {

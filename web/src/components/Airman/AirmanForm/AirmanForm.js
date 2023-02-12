@@ -5,7 +5,6 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
-import { PickerInline } from 'filestack-react'
 
 import { navigate, routes } from '@redwoodjs/router'
 import { useQuery } from '@redwoodjs/web'
@@ -34,8 +33,8 @@ export const QUERY = gql`
 `
 
 const AirmanForm = (props) => {
-  const { loading, error, data } = useQuery(QUERY)
-  const { mode, setMode } = React.useContext(ThemeModeContext)
+  const { loading, error } = useQuery(QUERY)
+  const { mode } = React.useContext(ThemeModeContext)
   const { rolesList } = React.useContext(GeneralContext)
   const [changedValues, setChangedValues] = React.useState({
     rank: false,
@@ -188,8 +187,6 @@ const AirmanForm = (props) => {
           </FormControl>
         </Box>
       </Box>
-      <PickerInline apikey={process.env.REDWOOD_ENV_FILESTACK_API_KEY} />
-
       <div className="rw-button-group">
         <Button
           variant={mode === 'light' ? 'contained' : 'outlined'}

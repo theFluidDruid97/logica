@@ -17,6 +17,7 @@ import List from '@mui/material/List'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 
 import { useAuth } from '@redwoodjs/auth'
+import { Toaster } from '@redwoodjs/web/toast'
 
 import { ThemeModeContext } from '../../App.js'
 import { GeneralContext } from '../../App.js'
@@ -158,8 +159,9 @@ const GeneralLayout = ({ children }) => {
           ) : (
             <></>
           )}
-          <Box width="100%" paddingX="1%" paddingBottom="1%">
+          <Box width="100%" paddingX="1%" paddingY="1%">
             <DrawerHeader />
+            <Toaster />
             {children}
           </Box>
         </ThemeProvider>

@@ -30,9 +30,7 @@ export const deleteCollection = ({ id }) => {
 }
 
 export const Collection = {
-  TrainingCollection: (_obj, { root }) => {
-    return db.collection
-      .findUnique({ where: { id: root?.id } })
-      .TrainingCollection()
+  trainings: (_obj, { root }) => {
+    return db.collection.findUnique({ where: { id: root?.id } }).trainings()
   },
 }

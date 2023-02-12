@@ -12,7 +12,7 @@ import {
 import { ThemeModeContext } from '../../../App.js'
 
 const CollectionForm = (props) => {
-  const { mode, setMode } = React.useContext(ThemeModeContext)
+  const { mode } = React.useContext(ThemeModeContext)
   const onSubmit = (data) => {
     props.onSave(data, props?.collection?.id)
   }

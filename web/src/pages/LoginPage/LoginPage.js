@@ -21,7 +21,7 @@ import { toast, Toaster } from '@redwoodjs/web/toast'
 import { ThemeModeContext } from '../../App.js'
 
 const LoginPage = () => {
-  const { mode, setMode } = React.useContext(ThemeModeContext)
+  const { mode } = React.useContext(ThemeModeContext)
   const { isAuthenticated, logIn } = useAuth()
   useEffect(() => {
     if (isAuthenticated) {

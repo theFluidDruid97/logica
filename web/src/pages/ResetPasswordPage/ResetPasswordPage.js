@@ -13,7 +13,7 @@ import { toast, Toaster } from '@redwoodjs/web/toast'
 import { ThemeModeContext } from '../../App.js'
 
 const ResetPasswordPage = ({ resetToken }) => {
-  const { mode, setMode } = React.useContext(ThemeModeContext)
+  const { mode } = React.useContext(ThemeModeContext)
   const { isAuthenticated, reauthenticate, validateResetToken, resetPassword } =
     useAuth()
   const [enabled, setEnabled] = useState(true)
@@ -35,7 +35,7 @@ const ResetPasswordPage = ({ resetToken }) => {
       }
     }
     validateToken()
-  }, [])
+  }, [resetToken, validateResetToken])
 
   const passwordRef = useRef(null)
   useEffect(() => {

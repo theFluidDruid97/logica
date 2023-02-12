@@ -7,7 +7,7 @@ import { toast } from '@redwoodjs/web/toast'
 import { ThemeModeContext } from '../../../App.js'
 
 const TrainingForm = (props) => {
-  const { mode, setMode } = React.useContext(ThemeModeContext)
+  const { mode } = React.useContext(ThemeModeContext)
   const [changedValues, setChangedValues] = React.useState({
     name: false,
     duration: false,

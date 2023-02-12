@@ -27,36 +27,49 @@ model Airman {
   supervisor          Airman?          @relation("SupervisorAirman", fields: [supervisorId], references: [id])
   airmen              Airman[]         @relation("SupervisorAirman")
   roles               Role             @default(Airman)
-  AirmanTraining      AirmanTraining[]
+  assignedTrainings   AirmanTraining[]
+  certificates        Certificate[]
 }
 
 model Training {
-  id                 Int                  @id @default(autoincrement())
-  name               String               @unique
-  description        String?
-  link               String?
-  duration           Int?
-  createdAt          DateTime?            @default(now()) @db.Timestamptz(3)
-  createdBy          String?
-  deletedAt          DateTime?            @db.Timestamptz(3)
-  deletedBy          String?
-  editedAt           DateTime?            @updatedAt @db.Timestamptz(3)
-  editedBy           String?
-  TrainingCollection TrainingCollection[]
-  AirmanTraining     AirmanTraining[]
+  id             Int                  @id @default(autoincrement())
+  name           String               @unique
+  description    String?
+  link           String?
+  duration       Int?
+  createdAt      DateTime?            @default(now()) @db.Timestamptz(3)
+  createdBy      String?
+  deletedAt      DateTime?            @db.Timestamptz(3)
+  deletedBy      String?
+  editedAt       DateTime?            @updatedAt @db.Timestamptz(3)
+  editedBy       String?
+  collections    TrainingCollection[]
+  assignedAirmen AirmanTraining[]
+  certificates   Certificate[]
 }
 
 model Collection {
-  id                 Int                  @id @default(autoincrement())
-  name               String               @unique
-  description        String?
-  createdAt          DateTime?            @default(now()) @db.Timestamptz(3)
-  createdBy          String?
-  deletedAt          DateTime?            @db.Timestamptz(3)
-  deletedBy          String?
-  editedAt           DateTime?            @updatedAt @db.Timestamptz(3)
-  editedBy           String?
-  TrainingCollection TrainingCollection[]
+  id          Int                  @id @default(autoincrement())
+  name        String               @unique
+  description String?
+  createdAt   DateTime?            @default(now()) @db.Timestamptz(3)
+  createdBy   String?
+  deletedAt   DateTime?            @db.Timestamptz(3)
+  deletedBy   String?
+  editedAt    DateTime?            @updatedAt @db.Timestamptz(3)
+  editedBy    String?
+  trainings   TrainingCollection[]
+}
+
+model Certificate {
+  id         Int      @id @default(autoincrement())
+  airman     Airman   @relation(fields: [airmanId], references: [id])
+  airmanId   Int
+  training   Training @relation(fields: [trainingId], references: [id])
+  trainingId Int
+  url        String
+  completion DateTime @db.Timestamptz(3)
+  validated  Boolean? @default(false)
 }
 
 model AirmanTraining {
@@ -65,9 +78,9 @@ model AirmanTraining {
   airmanId   Int
   training   Training @relation(fields: [trainingId], references: [id])
   trainingId Int
-  status     Status   @default(due)
-  start      DateTime @default(now())
-  end        DateTime @default(now())
+  status     Status?  @default(due)
+  start      DateTime
+  end        DateTime
 
   @@unique([airmanId, trainingId])
 }

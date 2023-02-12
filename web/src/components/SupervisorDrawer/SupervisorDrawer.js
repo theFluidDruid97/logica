@@ -1,4 +1,3 @@
-import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Drawer from '@mui/material/Drawer'
 import FormControl from '@mui/material/FormControl'
@@ -27,7 +26,7 @@ const SupervisorDrawer = ({ airman, airmen }) => {
   const currentSupervisor = airmen.find(
     (supervisor) => supervisor.id === airman.supervisorId
   )
-  const { mode, setMode } = React.useContext(ThemeModeContext)
+  const { mode } = React.useContext(ThemeModeContext)
   const [open, setOpen] = React.useState(false)
   const [supervisor, setSupervisor] = React.useState(currentSupervisor)
   const [updateAirman] = useMutation(UPDATE_AIRMAN_MUTATION, {
@@ -60,12 +59,8 @@ const SupervisorDrawer = ({ airman, airmen }) => {
     updateAirman({ variables: { id, input } })
   }
   const toggleDrawer = () => {
-    if (squadronSupervisors[0]) {
-      setOpen(!open)
-      setSupervisor(currentSupervisor)
-    } else {
-      toast.error(`No supervisors to assign in ${airman.organization}`)
-    }
+    setOpen(!open)
+    setSupervisor(currentSupervisor || 'none')
   }
 
   return (
@@ -77,26 +72,27 @@ const SupervisorDrawer = ({ airman, airmen }) => {
         {currentSupervisor ? 'Re-Assign' : 'Assign'}
       </Button>
       <Drawer anchor={'right'} open={open} onClose={() => toggleDrawer()}>
-        <Box sx={{ width: 400, marginTop: 10 }} role="presentation">
-          <FormControl variant="standard" sx={{ m: 6, width: 300 }}>
-            <InputLabel>Supervisor</InputLabel>
-            <Select
-              value={supervisor}
-              onChange={handleChange}
-              label="Supervisor"
-            >
-              <MenuItem key={null} value={'none'}>
-                NO SUPERVISOR
+        <FormControl sx={{ marginY: '25%', paddingX: '10%', width: '400px' }}>
+          <InputLabel sx={{ paddingX: '13.5%' }} id="supervisor-label">
+            Supervisor
+          </InputLabel>
+          <Select
+            value={supervisor}
+            onChange={handleChange}
+            label="Supervisor"
+            labelId="supervisor-label"
+          >
+            <MenuItem key={null} value={'none'}>
+              NO SUPERVISOR
+            </MenuItem>
+            {squadronSupervisors.map((supervisor) => (
+              <MenuItem key={supervisor.id} value={supervisor}>
+                {`${supervisor.rank} ${supervisor.lastName}, ${supervisor.firstName} ${supervisor.middleName}`}
               </MenuItem>
-              {squadronSupervisors.map((supervisor) => (
-                <MenuItem key={supervisor.id} value={supervisor}>
-                  {`${supervisor.rank} ${supervisor.lastName}, ${supervisor.firstName} ${supervisor.middleName}`}
-                </MenuItem>
-              ))}
-            </Select>
-            <Button onClick={() => handleSubmit()}>Submit</Button>
-          </FormControl>
-        </Box>
+            ))}
+          </Select>
+          <Button onClick={() => handleSubmit()}>Submit</Button>
+        </FormControl>
       </Drawer>
     </div>
   )
