@@ -45,6 +45,14 @@ export const QUERY = gql`
       start
       end
     }
+    certificates {
+      id
+      airmanId
+      trainingId
+      completion
+      validated
+      url
+    }
   }
 `
 
@@ -56,13 +64,20 @@ export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error?.message}</div>
 )
 
-export const Success = ({ airman, airmen, trainings, airmanTrainings }) => {
+export const Success = ({
+  airman,
+  airmen,
+  trainings,
+  airmanTrainings,
+  certificates,
+}) => {
   return (
     <Airman
       airman={airman}
       airmen={airmen}
       trainings={trainings}
       airmanTrainings={airmanTrainings}
+      certificates={certificates}
     />
   )
 }

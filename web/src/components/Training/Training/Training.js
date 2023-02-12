@@ -32,7 +32,7 @@ const DELETE_TRAINING_MUTATION = gql`
 `
 
 const Training = ({ training }) => {
-  const { mode, setMode } = React.useContext(ThemeModeContext)
+  const { mode } = React.useContext(ThemeModeContext)
   const [deleteTraining] = useMutation(DELETE_TRAINING_MUTATION, {
     onCompleted: () => {
       toast.success('Training deleted')
@@ -149,14 +149,16 @@ const Training = ({ training }) => {
                       key={e}
                       sx={{ marginX: '1%' }}
                       label="TAG NAME"
-                      // color={faker.helpers.arrayElement([
-                      //   'primary',
-                      //   'secondary',
-                      //   'success',
-                      //   'warning',
-                      //   'error',
-                      //   'info',
-                      // ])}
+                      color={faker.helpers.arrayElement([
+                        'red',
+                        'orange',
+                        'yellow',
+                        'green',
+                        'blue',
+                        'indigo',
+                        'purple',
+                        'grey',
+                      ])}
                     />
                   ))}
                 </Typography>
@@ -188,7 +190,7 @@ const Training = ({ training }) => {
                     alignItems="center"
                     width="50%"
                   >
-                    <CheckCircleOutlineIcon fontSize="large" />
+                    <CheckCircleOutlineIcon fontSize="large" color="green" />
                     <Typography variant="h5">
                       {faker.random.numeric(4)}
                     </Typography>
@@ -201,7 +203,7 @@ const Training = ({ training }) => {
                     alignItems="center"
                     width="50%"
                   >
-                    <CalendarTodayIcon fontSize="large" />
+                    <CalendarTodayIcon fontSize="large" color="grey" />
                     <Typography variant="h5">
                       {faker.random.numeric(2)}
                     </Typography>
@@ -221,7 +223,7 @@ const Training = ({ training }) => {
                     alignItems="center"
                     width="50%"
                   >
-                    <UpdateIcon fontSize="large" />
+                    <UpdateIcon fontSize="large" color="yellow" />
                     <Typography variant="h5">
                       {faker.random.numeric(3)}
                     </Typography>
@@ -234,7 +236,7 @@ const Training = ({ training }) => {
                     alignItems="center"
                     width="50%"
                   >
-                    <WarningAmberIcon fontSize="large" />
+                    <WarningAmberIcon fontSize="large" color="red" />
                     <Typography variant="h5">
                       {faker.random.numeric(1)}
                     </Typography>
@@ -246,50 +248,14 @@ const Training = ({ training }) => {
           </Card>
         </Box>
       </Box>
-      <Box marginBottom="1%" display="flex" justifyContent="space-between">
-        <Box width="50%">
-          <Button
-            sx={{ marginX: '1%' }}
-            variant={mode === 'light' ? 'contained' : 'outlined'}
-            size="large"
-            color="grey"
-          >
-            All
-          </Button>
-          <Button
-            sx={{ marginX: '1%' }}
-            variant={mode === 'light' ? 'contained' : 'outlined'}
-            size="large"
-            color="green"
-          >
-            Current
-          </Button>
-          <Button
-            sx={{ marginX: '1%' }}
-            variant={mode === 'light' ? 'contained' : 'outlined'}
-            size="large"
-            color="yellow"
-          >
-            Due
-          </Button>
-          <Button
-            sx={{ marginX: '1%' }}
-            variant={mode === 'light' ? 'contained' : 'outlined'}
-            size="large"
-            color="red"
-          >
-            Over Due
-          </Button>
-        </Box>
-        <Box width="10%">
-          <Button
-            sx={{ marginX: '1%' }}
-            variant={mode === 'light' ? 'contained' : 'outlined'}
-            size="large"
-          >
-            Assign Airmen
-          </Button>
-        </Box>
+      <Box marginBottom="1%" display="flex" justifyContent="flex-end">
+        <Button
+          sx={{ marginX: '1%' }}
+          variant={mode === 'light' ? 'contained' : 'outlined'}
+          size="large"
+        >
+          Assign Airmen
+        </Button>
       </Box>
       <DataTable rows={[]} columns={[]} />
     </>

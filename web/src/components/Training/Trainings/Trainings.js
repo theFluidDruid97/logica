@@ -21,7 +21,7 @@ const DELETE_TRAINING_MUTATION = gql`
 `
 
 const TrainingsList = ({ trainings }) => {
-  const { mode, setMode } = React.useContext(ThemeModeContext)
+  const { mode } = React.useContext(ThemeModeContext)
   const [deleteTraining] = useMutation(DELETE_TRAINING_MUTATION, {
     onCompleted: () => {
       toast.success('Training deleted')

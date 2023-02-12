@@ -78,6 +78,7 @@ const DataTable = (data) => {
 
   return (
     <DataGridPremium
+      rowHeight={data.rowHeight || 50}
       rows={data.rows}
       columns={data.columns}
       pagination
@@ -88,7 +89,7 @@ const DataTable = (data) => {
       onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
       checkboxSelection
       disableSelectionOnClick
-      sx={{ height: '82vh' }}
+      sx={{ height: '89vh' }}
       components={{ Toolbar: CustomToolbar }}
     />
   )

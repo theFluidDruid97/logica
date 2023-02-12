@@ -21,7 +21,7 @@ const DELETE_AIRMAN_MUTATION = gql`
 `
 
 const AirmenList = ({ airmen }) => {
-  const { mode, setMode } = React.useContext(ThemeModeContext)
+  const { mode } = React.useContext(ThemeModeContext)
   const [deleteAirman] = useMutation(DELETE_AIRMAN_MUTATION, {
     onCompleted: () => {
       toast.success('Airman deleted')

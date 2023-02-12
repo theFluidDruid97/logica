@@ -20,7 +20,7 @@ import { toast, Toaster } from '@redwoodjs/web/toast'
 import { ThemeModeContext } from '../../App.js'
 
 const SignupPage = () => {
-  const { mode, setMode } = React.useContext(ThemeModeContext)
+  const { mode } = React.useContext(ThemeModeContext)
   const { isAuthenticated, signUp } = useAuth()
 
   useEffect(() => {

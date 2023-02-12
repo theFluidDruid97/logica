@@ -3,7 +3,13 @@ export const schema = gql`
     id: Int!
     name: String!
     description: String
-    TrainingCollection: [TrainingCollection]!
+    createdAt: DateTime
+    createdBy: String
+    deletedAt: DateTime
+    deletedBy: String
+    editedAt: DateTime
+    editedBy: String
+    trainings: [TrainingCollection]!
   }
 
   type Query {
@@ -14,11 +20,21 @@ export const schema = gql`
   input CreateCollectionInput {
     name: String!
     description: String
+    createdBy: String
+    deletedAt: DateTime
+    deletedBy: String
+    editedAt: DateTime
+    editedBy: String
   }
 
   input UpdateCollectionInput {
     name: String
     description: String
+    createdBy: String
+    deletedAt: DateTime
+    deletedBy: String
+    editedAt: DateTime
+    editedBy: String
   }
 
   type Mutation {

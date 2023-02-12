@@ -15,7 +15,7 @@ const CREATE_TRAINING_MUTATION = gql`
 `
 
 const NewTraining = () => {
-  const { mode, setMode } = React.useContext(ThemeModeContext)
+  const { mode } = React.useContext(ThemeModeContext)
   const [createTraining, { loading, error }] = useMutation(
     CREATE_TRAINING_MUTATION,
     {

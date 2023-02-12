@@ -15,7 +15,7 @@ const CREATE_COLLECTION_MUTATION = gql`
 `
 
 const NewCollection = () => {
-  const { mode, setMode } = React.useContext(ThemeModeContext)
+  const { mode } = React.useContext(ThemeModeContext)
   const [createCollection, { loading, error }] = useMutation(
     CREATE_COLLECTION_MUTATION,
     {

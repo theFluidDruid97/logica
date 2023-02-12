@@ -1,6 +1,8 @@
 import { faker } from '@faker-js/faker'
+import CheckIcon from '@mui/icons-material/Check'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import CloseIcon from '@mui/icons-material/Close'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import FindInPageIcon from '@mui/icons-material/FindInPage'
@@ -31,6 +33,7 @@ import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import { ThemeModeContext } from '../../../App.js'
+import CertificateDrawer from '../../CertificateDrawer/CertificateDrawer.js'
 import DataTable from '../../DataTable/DataTable.js'
 import SupervisorDrawer from '../../SupervisorDrawer/SupervisorDrawer.js'
 import TrainingDrawer from '../../TrainingDrawer/TrainingDrawer.js'
@@ -61,8 +64,15 @@ const DELETE_AIRMAN_TRAINING_MUTATION = gql`
   }
 `
 
-const Airman = ({ airman, airmen, trainings, airmanTrainings }) => {
-  const { mode, setMode } = React.useContext(ThemeModeContext)
+const Airman = ({
+  airman,
+  airmen,
+  trainings,
+  airmanTrainings,
+  certificates,
+}) => {
+  const { mode } = React.useContext(ThemeModeContext)
+  const [dataTable, setDataTable] = React.useState('trainings')
   const [displayedMonitor, setDisplayedMonitor] = React.useState(0)
   const monitors = airmen.filter(
     (monitor) =>
@@ -72,6 +82,12 @@ const Airman = ({ airman, airmen, trainings, airmanTrainings }) => {
   const supervisor = airmen.filter(
     (supervisor) => supervisor.id === airman.supervisorId
   )[0]
+  const currentAirmanTrainings = airmanTrainings.filter(
+    (record) => record.airmanId === airman.id
+  )
+  const currentCertificates = certificates.filter(
+    (certificate) => certificate.airmanId === airman.id
+  )
   const labels = [
     'January',
     'February',
@@ -81,12 +97,32 @@ const Airman = ({ airman, airmen, trainings, airmanTrainings }) => {
     'June',
     'July',
   ]
-  const columns = [
+  const trainingsColumns = [
     {
       field: 'status',
       headerName: 'Status',
       flex: 1,
       renderCell: (params) => {
+        const duration = trainings.find(
+          (training) => training.id === params.row.trainingId
+        ).duration
+        const certificateDate = currentCertificates.find(
+          (certificate) => certificate.trainingId === params.row.trainingId
+        ).completion
+        const initDate = new Date(
+          certificateDate.split('T')[0].split('-')[0],
+          certificateDate.split('T')[0].split('-')[1] - 1,
+          certificateDate.split('T')[0].split('-')[2] - 1
+        )
+        const overDueDate = new Date(
+          initDate.setMonth(initDate.getMonth() + duration)
+        )
+        const dueDate = new Date(
+          initDate.setMonth(initDate.getMonth() + duration + 2)
+        )
+        console.log(dueDate.getTime() < new Date().getTime())
+        console.log(overDueDate.getTime() < new Date().getTime())
+
         const statusSplit = params.row.status
           .split('_')
           .map((word) => word.toUpperCase())
@@ -260,10 +296,14 @@ const Airman = ({ airman, airmen, trainings, airmanTrainings }) => {
   }
   let cardBackground
   let status = {}
-  if (airmanTrainings.find((training) => training.status === 'over_due')) {
+  if (
+    currentAirmanTrainings.find((training) => training.status === 'over_due')
+  ) {
     status.name = 'OVER DUE'
     status.color = 'red'
-  } else if (airmanTrainings.find((training) => training.status === 'due')) {
+  } else if (
+    currentAirmanTrainings.find((training) => training.status === 'due')
+  ) {
     status.name = 'DUE'
     status.color = 'yellow'
   } else {
@@ -525,40 +565,113 @@ const Airman = ({ airman, airmen, trainings, airmanTrainings }) => {
             sx={{ marginX: '1%' }}
             variant={mode === 'light' ? 'contained' : 'outlined'}
             size="large"
-            color="grey"
+            onClick={() => setDataTable('trainings')}
           >
-            All
+            Trainings
           </Button>
           <Button
             sx={{ marginX: '1%' }}
             variant={mode === 'light' ? 'contained' : 'outlined'}
             size="large"
-            color="green"
+            onClick={() => setDataTable('certificates')}
           >
-            Current
-          </Button>
-          <Button
-            sx={{ marginX: '1%' }}
-            variant={mode === 'light' ? 'contained' : 'outlined'}
-            size="large"
-            color="yellow"
-          >
-            Due
-          </Button>
-          <Button
-            sx={{ marginX: '1%' }}
-            variant={mode === 'light' ? 'contained' : 'outlined'}
-            size="large"
-            color="red"
-          >
-            Over Due
+            Certificates
           </Button>
         </Box>
-        <Box width="50%" display="flex" justifyContent="flex-end" marginX="1%">
-          <TrainingDrawer trainings={trainings} airman={airman} />
+        <Box width="50%" display="flex" justifyContent="flex-end">
+          <Box marginX="1%">
+            <TrainingDrawer trainings={trainings} airman={airman} />
+          </Box>
+          <Box marginX="1%">
+            <CertificateDrawer trainings={trainings} airman={airman} />
+          </Box>
         </Box>
       </Box>
-      <DataTable rows={airmanTrainings} columns={columns} />
+      {dataTable === 'trainings' ? (
+        <DataTable rows={currentAirmanTrainings} columns={trainingsColumns} />
+      ) : (
+        <Card
+          sx={{
+            height: '89vh',
+            width: '100%',
+            padding: '2%',
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            border: mode === 'light' ? 'solid 0.1px white' : 'solid 0.1px grey',
+          }}
+        >
+          <CardContent>
+            {currentCertificates.map((certificate) => (
+              <Card
+                sx={{ width: 335, backgroundColor: `${cardBackground}` }}
+                key={certificate.id}
+              >
+                <CardContent>
+                  <img
+                    src={certificate.url}
+                    alt="no content"
+                    height="200"
+                    width="300"
+                  />
+                  <Typography
+                    variant="h5"
+                    component="div"
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <span>Training</span>
+                    {
+                      trainings.find(
+                        (training) => training.id === certificate.trainingId
+                      ).name
+                    }
+                  </Typography>
+                  <Typography
+                    variant="h5"
+                    component="div"
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <span>Completion</span>
+                    {format(
+                      new Date(
+                        certificate.completion.split('T')[0].split('-')[0],
+                        certificate.completion.split('T')[0].split('-')[1] - 1,
+                        certificate.completion.split('T')[0].split('-')[2] - 1
+                      ),
+                      'ddMMMyyyy'
+                    ).toUpperCase()}
+                  </Typography>
+                  <Typography
+                    variant="h5"
+                    component="div"
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <span>Validated</span>
+                    {certificate.validated === true ? (
+                      <CheckIcon color="green" fontSize="large" />
+                    ) : (
+                      <CloseIcon color="red" fontSize="large" />
+                    )}
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))}
+          </CardContent>
+        </Card>
+      )}
     </>
   )
 }

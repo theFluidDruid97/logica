@@ -17,7 +17,7 @@ const DELETE_COLLECTION_MUTATION = gql`
 `
 
 const Collection = ({ collection }) => {
-  const { mode, setMode } = React.useContext(ThemeModeContext)
+  const { mode } = React.useContext(ThemeModeContext)
   const [deleteCollection] = useMutation(DELETE_COLLECTION_MUTATION, {
     onCompleted: () => {
       toast.success('Collection deleted')

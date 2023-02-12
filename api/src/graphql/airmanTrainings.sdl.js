@@ -5,7 +5,7 @@ export const schema = gql`
     airmanId: Int!
     training: Training!
     trainingId: Int!
-    status: Status!
+    status: Status
     start: DateTime!
     end: DateTime!
   }
@@ -24,7 +24,7 @@ export const schema = gql`
   input CreateAirmanTrainingInput {
     airmanId: Int!
     trainingId: Int!
-    status: Status!
+    status: Status
     start: DateTime!
     end: DateTime!
   }

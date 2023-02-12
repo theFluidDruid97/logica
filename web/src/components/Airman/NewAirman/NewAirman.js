@@ -15,7 +15,7 @@ const CREATE_AIRMAN_MUTATION = gql`
 `
 
 const NewAirman = () => {
-  const { mode, setMode } = React.useContext(ThemeModeContext)
+  const { mode } = React.useContext(ThemeModeContext)
   const [createAirman, { loading, error }] = useMutation(
     CREATE_AIRMAN_MUTATION,
     {

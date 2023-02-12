@@ -30,12 +30,13 @@ export const deleteTraining = ({ id }) => {
 }
 
 export const Training = {
-  TrainingCollection: (_obj, { root }) => {
-    return db.training
-      .findUnique({ where: { id: root?.id } })
-      .TrainingCollection()
+  collections: (_obj, { root }) => {
+    return db.training.findUnique({ where: { id: root?.id } }).collections()
   },
-  AirmanTraining: (_obj, { root }) => {
-    return db.training.findUnique({ where: { id: root?.id } }).AirmanTraining()
+  assignedAirmen: (_obj, { root }) => {
+    return db.training.findUnique({ where: { id: root?.id } }).assignedAirmen()
+  },
+  certificates: (_obj, { root }) => {
+    return db.training.findUnique({ where: { id: root?.id } }).certificates()
   },
 }

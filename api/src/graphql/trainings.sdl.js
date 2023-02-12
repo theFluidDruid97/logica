@@ -5,8 +5,15 @@ export const schema = gql`
     description: String
     link: String
     duration: Int
-    TrainingCollection: [TrainingCollection]!
-    AirmanTraining: [AirmanTraining]!
+    createdAt: DateTime
+    createdBy: String
+    deletedAt: DateTime
+    deletedBy: String
+    editedAt: DateTime
+    editedBy: String
+    collections: [TrainingCollection]!
+    assignedAirmen: [AirmanTraining]!
+    certificates: [Certificate]!
   }
 
   type Query {
@@ -19,6 +26,11 @@ export const schema = gql`
     description: String
     link: String
     duration: Int
+    createdBy: String
+    deletedAt: DateTime
+    deletedBy: String
+    editedAt: DateTime
+    editedBy: String
   }
 
   input UpdateTrainingInput {
@@ -26,6 +38,11 @@ export const schema = gql`
     description: String
     link: String
     duration: Int
+    createdBy: String
+    deletedAt: DateTime
+    deletedBy: String
+    editedAt: DateTime
+    editedBy: String
   }
 
   type Mutation {

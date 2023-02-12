@@ -36,7 +36,10 @@ export const Airman = {
   airmen: (_obj, { root }) => {
     return db.airman.findUnique({ where: { id: root?.id } }).airmen()
   },
-  AirmanTraining: (_obj, { root }) => {
-    return db.airman.findUnique({ where: { id: root?.id } }).AirmanTraining()
+  assignedTrainings: (_obj, { root }) => {
+    return db.airman.findUnique({ where: { id: root?.id } }).assignedTrainings()
+  },
+  certificates: (_obj, { root }) => {
+    return db.airman.findUnique({ where: { id: root?.id } }).certificates()
   },
 }

@@ -36,7 +36,7 @@ export const Failure = ({ error }) => (
 )
 
 export const Success = ({ training }) => {
-  const { mode, setMode } = React.useContext(ThemeModeContext)
+  const { mode } = React.useContext(ThemeModeContext)
   const [updateTraining, { loading, error }] = useMutation(
     UPDATE_TRAINING_MUTATION,
     {

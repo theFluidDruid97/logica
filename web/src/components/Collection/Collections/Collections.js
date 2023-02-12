@@ -4,7 +4,7 @@ import FindInPageIcon from '@mui/icons-material/FindInPage'
 import Button from '@mui/material/Button'
 import {
   useGridApiRef,
-  useKeepGroupedColumnsHidden,
+  // useKeepGroupedColumnsHidden,
 } from '@mui/x-data-grid-premium'
 
 import { navigate, routes } from '@redwoodjs/router'
@@ -25,7 +25,7 @@ const DELETE_COLLECTION_MUTATION = gql`
 `
 
 const CollectionsList = ({ collections }) => {
-  const { mode, setMode } = React.useContext(ThemeModeContext)
+  const { mode } = React.useContext(ThemeModeContext)
   const apiRef = useGridApiRef()
 
   // const initialState = useKeepGroupedColumnsHidden({

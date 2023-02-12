@@ -50,7 +50,7 @@ export const Failure = ({ error }) => (
 )
 
 export const Success = ({ airman }) => {
-  const { mode, setMode } = React.useContext(ThemeModeContext)
+  const { mode } = React.useContext(ThemeModeContext)
   const [updateAirman, { loading, error }] = useMutation(
     UPDATE_AIRMAN_MUTATION,
     {
