@@ -115,7 +115,7 @@
   text-decoration: underline;
 }
 .rw-link:hover {
-  color: #f57f17;
+  color: #cd853f;
 }
 .rw-link-dark:hover {
   color: #1de9b6;
@@ -134,7 +134,7 @@
 }
 .rw-forgot-link:hover {
   font-size: 0.75rem;
-  color: #ffc107;
+  color: #cd853f;
 }
 .rw-forgot-link-dark:hover {
   font-size: 0.75rem;

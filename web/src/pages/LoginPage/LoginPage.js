@@ -63,7 +63,7 @@ const LoginPage = () => {
       <Box
         display="flex"
         justifyContent="center"
-        height="100%"
+        height="89vh"
         alignItems="center"
         padding="2.5%"
       >
@@ -93,7 +93,12 @@ const LoginPage = () => {
             width="90%"
             alt="TrainTrack"
           />
-          <Box width="40%" marginBottom="5%" className="rw-segment">
+          <Box
+            width="40%"
+            marginBottom="5%"
+            height="50%"
+            className="rw-segment"
+          >
             <Box className="rw-segment-header">
               <h2 className="rw-heading rw-heading-secondary">Login</h2>
             </Box>
