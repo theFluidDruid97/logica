@@ -628,91 +628,94 @@ const Airman = ({
       {dataTable === 'trainings' ? (
         <DataTable rows={currentAirmanTrainings} columns={trainingsColumns} />
       ) : (
-        <Card
+        <Box
           sx={{
             height: '89vh',
             width: '100%',
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            alignContent: 'flex-start',
             padding: '0.5%',
             backgroundColor: 'rgba(0, 0, 0, 0)',
             border: mode === 'light' ? 'solid 0.1px white' : 'solid 0.1px grey',
           }}
         >
-          <CardContent>
-            {currentCertificates.map((certificate) => (
-              <Card
-                sx={{
-                  width: 335,
-                  backgroundColor: `${cardBackground}`,
-                  margin: '1%',
-                }}
-                key={certificate.id}
-              >
-                <CardContent>
-                  <img
-                    src={certificate.url}
-                    alt="no content"
-                    height="200"
-                    width="300"
-                  />
-                  <Typography
-                    variant="h5"
-                    component="div"
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <span>Training</span>
-                    {
-                      trainings.find(
-                        (training) => training.id === certificate.trainingId
-                      ).name
-                    }
-                  </Typography>
-                  <Typography
-                    variant="h5"
-                    component="div"
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <span>Completion</span>
-                    {format(
-                      new Date(
-                        certificate.completion.split('T')[0].split('-')[0],
-                        certificate.completion.split('T')[0].split('-')[1] - 1,
-                        certificate.completion.split('T')[0].split('-')[2] - 1
-                      ),
-                      'ddMMMyyyy'
-                    ).toUpperCase()}
-                  </Typography>
-                  <Typography
-                    variant="h5"
-                    component="div"
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <span>Validated</span>
-                    {certificate.validated === true ? (
-                      <CheckIcon color="green" fontSize="large" />
-                    ) : (
-                      <CloseIcon color="red" fontSize="large" />
-                    )}
-                  </Typography>
-                </CardContent>
-              </Card>
-            ))}
-          </CardContent>
-        </Card>
+          {currentCertificates.map((certificate) => (
+            <Card
+              sx={{
+                width: 335,
+                backgroundColor: `${cardBackground}`,
+                margin: '1%',
+                height: 350,
+              }}
+              key={certificate.id}
+            >
+              <CardContent>
+                <img
+                  src={certificate.url}
+                  alt="no content"
+                  height="200"
+                  width="300"
+                />
+                <Typography
+                  variant="h5"
+                  component="div"
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <span>Training</span>
+                  {
+                    trainings.find(
+                      (training) => training.id === certificate.trainingId
+                    ).name
+                  }
+                </Typography>
+                <Typography
+                  variant="h5"
+                  component="div"
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <span>Completion</span>
+                  {format(
+                    new Date(
+                      certificate.completion.split('T')[0].split('-')[0],
+                      certificate.completion.split('T')[0].split('-')[1] - 1,
+                      certificate.completion.split('T')[0].split('-')[2] - 1
+                    ),
+                    'ddMMMyyyy'
+                  ).toUpperCase()}
+                </Typography>
+                <Typography
+                  variant="h5"
+                  component="div"
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <span>Validated</span>
+                  {certificate.validated === true ? (
+                    <CheckIcon color="green" fontSize="large" />
+                  ) : (
+                    <CloseIcon color="red" fontSize="large" />
+                  )}
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
+        </Box>
       )}
     </>
   )

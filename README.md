@@ -15,7 +15,7 @@ After you have cloned the project and are inside the directory containing it, st
 yarn install
 ```
 
-Then add the `git.ignore` file with:
+Then add the `.gitignore` file with:
 
 ```
 git init
@@ -35,6 +35,7 @@ Add these lines to your `.env` file:
 ```
 SESSION_SECRET=[YOUR GENERATED SESSION SECRET TOKEN GOES HERE WITHOUT SQUARE BRACKETS]
 DATABASE_URL=postgresql://postgres:docker@localhost:5432/TrainTrack
+REDWOOD_ENV_FILESTACK_API_KEY=ARxHYtucNQOCAX5BkzNlkz
 ```
 
 Next you will need to create a database migration with:
