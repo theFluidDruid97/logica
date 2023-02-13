@@ -1,6 +1,4 @@
-# README
-
-Welcome to TrainTrack!
+# Welcome to TrainTrack!
 
 > **Prerequisites**
 >
@@ -55,7 +53,8 @@ Your browser should automatically open to http://localhost:8910 where, after log
 
 > **Afterthoughts**
 >
-> - Running `yarn rw dev` will spin up a server listening at port 8920 by defualt, you can change this setting in the `redwood.toml` file. When you hit the `graphql` endpoint at `localhost:8920` you will see Redwood's GraphQL Playground which allows you to run live queries for information within the database. While incorporating extra levels of security, our authentication provider does add some necessary steps in order to utilize this tool. You will need to provide request headers in order to gain proper authorization for running server-side queries. Luckily, there is a handy CLI setup we can run for this:
+> - Running `yarn rw dev` will spin up a server listening at port 8920 by defualt, you can change this setting in the `redwood.toml` file. When you hit the `graphql` endpoint at `localhost:8920` you will see Redwood's GraphQL Playground which allows you to run live queries for information within the database.
+> - While incorporating extra levels of security, our authentication provider does add some necessary steps in order to utilize this tool. You will need to provide request headers in order to gain proper authorization for running server-side queries. Luckily, there is a handy CLI setup we can run for this:
 
 ```
 yarn rw setup graphiql dbAuth -i 1

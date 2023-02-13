@@ -11,9 +11,9 @@ export const schema = gql`
   }
 
   enum Status {
-    current
-    due
-    over_due
+    Current
+    Due
+    Overdue
   }
 
   type Query {
