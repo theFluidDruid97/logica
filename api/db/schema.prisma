@@ -78,7 +78,7 @@ model AirmanTraining {
   airmanId   Int
   training   Training @relation(fields: [trainingId], references: [id])
   trainingId Int
-  status     Status?  @default(due)
+  status     Status?  @default(Due)
   start      DateTime
   end        DateTime
 
@@ -103,7 +103,7 @@ enum Role {
 }
 
 enum Status {
-  current
-  due
-  over_due
+  Current
+  Due
+  Overdue
 }

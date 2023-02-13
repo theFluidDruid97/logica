@@ -2,7 +2,7 @@
 CREATE TYPE "Role" AS ENUM ('Airman', 'Admin', 'Monitor', 'Supervisor');
 
 -- CreateEnum
-CREATE TYPE "Status" AS ENUM ('current', 'due', 'over_due');
+CREATE TYPE "Status" AS ENUM ('Current', 'Due', 'Overdue');
 
 -- CreateTable
 CREATE TABLE "Airman" (
@@ -75,7 +75,7 @@ CREATE TABLE "AirmanTraining" (
     "id" SERIAL NOT NULL,
     "airmanId" INTEGER NOT NULL,
     "trainingId" INTEGER NOT NULL,
-    "status" "Status" DEFAULT 'due',
+    "status" "Status" DEFAULT 'Due',
     "start" TIMESTAMP(3) NOT NULL,
     "end" TIMESTAMP(3) NOT NULL,
 

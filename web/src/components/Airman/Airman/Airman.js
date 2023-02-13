@@ -64,6 +64,17 @@ const DELETE_AIRMAN_TRAINING_MUTATION = gql`
   }
 `
 
+const UPDATE_AIRMAN_TRAINING_MUTATION = gql`
+  mutation UpdateAirmanTrainingMutation(
+    $id: Int!
+    $input: UpdateAirmanTrainingInput!
+  ) {
+    updateAirmanTraining(id: $id, input: $input) {
+      status
+    }
+  }
+`
+
 const Airman = ({
   airman,
   airmen,
@@ -72,8 +83,10 @@ const Airman = ({
   certificates,
 }) => {
   const { mode } = React.useContext(ThemeModeContext)
+  const [updateAirmanTraining] = useMutation(UPDATE_AIRMAN_TRAINING_MUTATION)
   const [dataTable, setDataTable] = React.useState('trainings')
   const [displayedMonitor, setDisplayedMonitor] = React.useState(0)
+  const [updated, setUpdated] = React.useState(false)
   const monitors = airmen.filter(
     (monitor) =>
       monitor.roles === 'Monitor' &&
@@ -88,15 +101,11 @@ const Airman = ({
   const currentCertificates = certificates.filter(
     (certificate) => certificate.airmanId === airman.id
   )
-  const labels = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-  ]
+  const update = (input, id) => {
+    updateAirmanTraining({
+      variables: { id, input },
+    })
+  }
   const trainingsColumns = [
     {
       field: 'status',
@@ -106,27 +115,24 @@ const Airman = ({
         const duration = trainings.find(
           (training) => training.id === params.row.trainingId
         ).duration
-        const certificateDate = currentCertificates.find(
-          (certificate) => certificate.trainingId === params.row.trainingId
-        ).completion
-        const initDate = new Date(
-          certificateDate.split('T')[0].split('-')[0],
-          certificateDate.split('T')[0].split('-')[1] - 1,
-          certificateDate.split('T')[0].split('-')[2] - 1
+        const certificateDate = new Date(
+          currentCertificates?.find(
+            (certificate) => certificate.trainingId === params.row.trainingId
+          )?.completion
         )
-        const overDueDate = new Date(
-          initDate.setMonth(initDate.getMonth() + duration)
-        )
-        const dueDate = new Date(
-          initDate.setMonth(initDate.getMonth() + duration + 2)
-        )
-        console.log(dueDate.getTime() < new Date().getTime())
-        console.log(overDueDate.getTime() < new Date().getTime())
-
-        const statusSplit = params.row.status
-          .split('_')
-          .map((word) => word.toUpperCase())
-        if (statusSplit[1]) {
+        const isOverDue =
+          new Date(
+            certificateDate.setMonth(certificateDate.getMonth() + duration)
+          ).getTime() < new Date().getTime()
+        const isDue =
+          new Date(
+            certificateDate.setMonth(certificateDate.getMonth() - 2)
+          ).getTime() < new Date().getTime()
+        if (isOverDue) {
+          if (!updated) {
+            update({ status: 'Overdue' }, params.row.id)
+            setUpdated(true)
+          }
           return (
             <Chip
               label="OVER DUE"
@@ -134,11 +140,34 @@ const Airman = ({
               variant={mode === 'light' ? 'contained' : 'outlined'}
             />
           )
-        } else {
+        } else if (
+          isDue ||
+          isNaN(
+            new Date(
+              certificateDate.setMonth(certificateDate.getMonth() - 2)
+            ).getTime()
+          )
+        ) {
+          if (!updated) {
+            update({ status: 'Due' }, params.row.id)
+            setUpdated(true)
+          }
           return (
             <Chip
-              label={statusSplit[0]}
-              color={statusSplit[0] === 'DUE' ? 'yellow' : 'green'}
+              label="DUE"
+              color="yellow"
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+            />
+          )
+        } else {
+          if (!updated) {
+            update({ status: 'Current' }, params.row.id)
+            setUpdated(true)
+          }
+          return (
+            <Chip
+              label="CURRENT"
+              color="green"
               variant={mode === 'light' ? 'contained' : 'outlined'}
             />
           )
@@ -204,6 +233,15 @@ const Airman = ({
       },
     },
   ]
+  const labels = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+  ]
   const data = {
     labels,
     datasets: [
@@ -256,7 +294,7 @@ const Airman = ({
   const onDeleteAirmanTrainingClick = (training, id) => {
     if (
       confirm(
-        `Are you sure you want to delete\n${training.name} training record for\n${airman.rank} ${airman.lastName}, ${airman.firstName}?`
+        `Are you sure you want to delete ${training.name} training record for\n${airman.rank} ${airman.lastName}, ${airman.firstName}?`
       )
     ) {
       deleteAirmanTraining({ variables: { id } })
@@ -297,12 +335,12 @@ const Airman = ({
   let cardBackground
   let status = {}
   if (
-    currentAirmanTrainings.find((training) => training.status === 'over_due')
+    currentAirmanTrainings.find((training) => training.status === 'Overdue')
   ) {
     status.name = 'OVER DUE'
     status.color = 'red'
   } else if (
-    currentAirmanTrainings.find((training) => training.status === 'due')
+    currentAirmanTrainings.find((training) => training.status === 'Due')
   ) {
     status.name = 'DUE'
     status.color = 'yellow'
@@ -594,7 +632,7 @@ const Airman = ({
           sx={{
             height: '89vh',
             width: '100%',
-            padding: '2%',
+            padding: '0.5%',
             backgroundColor: 'rgba(0, 0, 0, 0)',
             border: mode === 'light' ? 'solid 0.1px white' : 'solid 0.1px grey',
           }}
@@ -602,7 +640,11 @@ const Airman = ({
           <CardContent>
             {currentCertificates.map((certificate) => (
               <Card
-                sx={{ width: 335, backgroundColor: `${cardBackground}` }}
+                sx={{
+                  width: 335,
+                  backgroundColor: `${cardBackground}`,
+                  margin: '1%',
+                }}
                 key={certificate.id}
               >
                 <CardContent>
