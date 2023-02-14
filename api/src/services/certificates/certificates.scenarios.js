@@ -3,29 +3,17 @@ export const standard = defineScenario({
     one: {
       data: {
         url: 'String',
-        completion: '2023-02-13T01:07:36.023Z',
-        airman: {
-          create: {
-            email: 'String3549938',
-            hashedPassword: 'String',
-            salt: 'String',
-          },
-        },
-        training: { create: { name: 'String7978630' } },
+        completion: '2023-02-14T16:47:54.998Z',
+        airman: { create: { email: 'String9359563' } },
+        training: { create: { name: 'String1126003' } },
       },
     },
     two: {
       data: {
         url: 'String',
-        completion: '2023-02-13T01:07:36.024Z',
-        airman: {
-          create: {
-            email: 'String812634',
-            hashedPassword: 'String',
-            salt: 'String',
-          },
-        },
-        training: { create: { name: 'String3799316' } },
+        completion: '2023-02-14T16:47:54.998Z',
+        airman: { create: { email: 'String1030783' } },
+        training: { create: { name: 'String2295198' } },
       },
     },
   },

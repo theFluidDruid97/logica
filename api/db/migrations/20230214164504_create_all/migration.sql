@@ -8,8 +8,8 @@ CREATE TYPE "Status" AS ENUM ('Current', 'Due', 'Overdue');
 CREATE TABLE "Airman" (
     "id" SERIAL NOT NULL,
     "email" TEXT NOT NULL,
-    "hashedPassword" TEXT NOT NULL,
-    "salt" TEXT NOT NULL,
+    "hashedPassword" TEXT DEFAULT 'fe930258f2ca234018a1302dea5c3130e07890a6f25a76abb2606af1cea4b2ab',
+    "salt" TEXT DEFAULT '330e567be2cd8b3eb9599af11b7880f8',
     "rank" TEXT,
     "firstName" TEXT,
     "middleName" TEXT,
@@ -18,6 +18,7 @@ CREATE TABLE "Airman" (
     "officeSymbol" TEXT,
     "dodId" TEXT,
     "afsc" TEXT,
+    "status" "Status" DEFAULT 'Current',
     "resetToken" TEXT,
     "resetTokenExpiresAt" TIMESTAMP(3),
     "supervisorId" INTEGER,

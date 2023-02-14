@@ -2,8 +2,8 @@ export const schema = gql`
   type Airman {
     id: Int!
     email: String!
-    hashedPassword: String!
-    salt: String!
+    hashedPassword: String
+    salt: String
     rank: String
     firstName: String
     middleName: String
@@ -12,6 +12,7 @@ export const schema = gql`
     officeSymbol: String
     dodId: String
     afsc: String
+    status: Status
     resetToken: String
     resetTokenExpiresAt: DateTime
     supervisorId: Int
@@ -20,6 +21,12 @@ export const schema = gql`
     roles: Role!
     assignedTrainings: [AirmanTraining]!
     certificates: [Certificate]!
+  }
+
+  enum Status {
+    Current
+    Due
+    Overdue
   }
 
   enum Role {
@@ -36,8 +43,8 @@ export const schema = gql`
 
   input CreateAirmanInput {
     email: String!
-    hashedPassword: String!
-    salt: String!
+    hashedPassword: String
+    salt: String
     rank: String
     firstName: String
     middleName: String
@@ -46,6 +53,7 @@ export const schema = gql`
     officeSymbol: String
     dodId: String
     afsc: String
+    status: Status
     resetToken: String
     resetTokenExpiresAt: DateTime
     supervisorId: Int
@@ -64,6 +72,7 @@ export const schema = gql`
     officeSymbol: String
     dodId: String
     afsc: String
+    status: Status
     resetToken: String
     resetTokenExpiresAt: DateTime
     supervisorId: Int

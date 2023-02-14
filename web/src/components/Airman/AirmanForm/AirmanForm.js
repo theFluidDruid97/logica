@@ -35,7 +35,7 @@ export const QUERY = gql`
 const AirmanForm = (props) => {
   const { loading, error } = useQuery(QUERY)
   const { mode } = React.useContext(ThemeModeContext)
-  const { rolesList } = React.useContext(GeneralContext)
+  const { roles } = React.useContext(GeneralContext)
   const [changedValues, setChangedValues] = React.useState({
     rank: false,
     lastName: false,
@@ -84,8 +84,8 @@ const AirmanForm = (props) => {
               label="Rank"
               onChange={handleInputChange}
             >
-              {ranks.map((rank) => (
-                <MenuItem key={rank} value={rank}>
+              {ranks.map((rank, index) => (
+                <MenuItem key={index} value={rank}>
                   {rank}
                 </MenuItem>
               ))}
@@ -178,7 +178,7 @@ const AirmanForm = (props) => {
               label="Role"
               onChange={handleInputChange}
             >
-              {rolesList.map((role) => (
+              {roles.map((role) => (
                 <MenuItem key={role} value={role}>
                   {role}
                 </MenuItem>

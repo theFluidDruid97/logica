@@ -20,7 +20,9 @@ const NewAirman = () => {
     CREATE_AIRMAN_MUTATION,
     {
       onCompleted: () => {
-        toast.success('Airman created')
+        toast.success(
+          'Airman created.\nDefault password set to:\n\n\t123\n\nChange it as soon as possible.'
+        )
         navigate(routes.airmen())
       },
       onError: (error) => {

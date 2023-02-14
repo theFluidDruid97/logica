@@ -20,6 +20,7 @@ export const QUERY = gql`
       dodId
       roles
       afsc
+      status
       supervisorId
     }
   }
@@ -38,6 +39,7 @@ const UPDATE_AIRMAN_MUTATION = gql`
       dodId
       roles
       afsc
+      status
       supervisorId
     }
   }
