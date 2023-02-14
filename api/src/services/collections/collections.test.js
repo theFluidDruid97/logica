@@ -27,10 +27,10 @@ describe('collections', () => {
 
   scenario('creates a collection', async () => {
     const result = await createCollection({
-      input: { name: 'String8296412' },
+      input: { name: 'String9932606' },
     })
 
-    expect(result.name).toEqual('String8296412')
+    expect(result.name).toEqual('String9932606')
   })
 
   scenario('updates a collection', async (scenario) => {
@@ -39,10 +39,10 @@ describe('collections', () => {
     })
     const result = await updateCollection({
       id: original.id,
-      input: { name: 'String20734662' },
+      input: { name: 'String67785542' },
     })
 
-    expect(result.name).toEqual('String20734662')
+    expect(result.name).toEqual('String67785542')
   })
 
   scenario('deletes a collection', async (scenario) => {

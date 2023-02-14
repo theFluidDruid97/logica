@@ -13,7 +13,7 @@ const App = () => {
   const [mode, setMode] = React.useState(currentMode || 'light')
   const [open, setOpen] = React.useState(false)
   const [supervisorModalOpen, setSupervisorModalOpen] = React.useState(false)
-  const rolesList = ['Admin', 'Airman', 'Monitor', 'Supervisor']
+  const roles = ['Admin', 'Airman', 'Monitor', 'Supervisor']
   return (
     <FatalErrorBoundary page={FatalErrorPage}>
       <ThemeModeContext.Provider value={{ mode, setMode }}>
@@ -23,7 +23,7 @@ const App = () => {
             setOpen,
             supervisorModalOpen,
             setSupervisorModalOpen,
-            rolesList,
+            roles,
           }}
         >
           <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">

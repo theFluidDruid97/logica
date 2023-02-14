@@ -75,6 +75,14 @@ const UPDATE_AIRMAN_TRAINING_MUTATION = gql`
   }
 `
 
+const UPDATE_AIRMAN_MUTATION = gql`
+  mutation UpdateAirmanStatusMutation($id: Int!, $input: UpdateAirmanInput!) {
+    updateAirman(id: $id, input: $input) {
+      status
+    }
+  }
+`
+
 const Airman = ({
   airman,
   airmen,
@@ -84,9 +92,11 @@ const Airman = ({
 }) => {
   const { mode } = React.useContext(ThemeModeContext)
   const [updateAirmanTraining] = useMutation(UPDATE_AIRMAN_TRAINING_MUTATION)
+  const [updateAirman] = useMutation(UPDATE_AIRMAN_MUTATION)
   const [dataTable, setDataTable] = React.useState('trainings')
+  const [updatedA, setUpdatedA] = React.useState(false)
+  const [updatedAT, setUpdatedAT] = React.useState(false)
   const [displayedMonitor, setDisplayedMonitor] = React.useState(0)
-  const [updated, setUpdated] = React.useState(false)
   const monitors = airmen.filter(
     (monitor) =>
       monitor.roles === 'Monitor' &&
@@ -101,8 +111,13 @@ const Airman = ({
   const currentCertificates = certificates.filter(
     (certificate) => certificate.airmanId === airman.id
   )
-  const update = (input, id) => {
+  const updateAT = (input, id) => {
     updateAirmanTraining({
+      variables: { id, input },
+    })
+  }
+  const updateA = (input, id) => {
+    updateAirman({
       variables: { id, input },
     })
   }
@@ -129,9 +144,9 @@ const Airman = ({
             certificateDate.setMonth(certificateDate.getMonth() - 2)
           ).getTime() < new Date().getTime()
         if (isOverDue) {
-          if (!updated) {
-            update({ status: 'Overdue' }, params.row.id)
-            setUpdated(true)
+          if (!updatedAT) {
+            updateAT({ status: 'Overdue' }, params.row.id)
+            setUpdatedAT(true)
           }
           return (
             <Chip
@@ -148,9 +163,9 @@ const Airman = ({
             ).getTime()
           )
         ) {
-          if (!updated) {
-            update({ status: 'Due' }, params.row.id)
-            setUpdated(true)
+          if (!updatedAT) {
+            updateAT({ status: 'Due' }, params.row.id)
+            setUpdatedAT(true)
           }
           return (
             <Chip
@@ -160,9 +175,9 @@ const Airman = ({
             />
           )
         } else {
-          if (!updated) {
-            update({ status: 'Current' }, params.row.id)
-            setUpdated(true)
+          if (!updatedAT) {
+            updateAT({ status: 'Current' }, params.row.id)
+            setUpdatedAT(true)
           }
           return (
             <Chip
@@ -332,19 +347,36 @@ const Airman = ({
       return <></>
     }
   }
+  const thumbnail = (url) => {
+    const parts = url.split('/')
+    parts.splice(3, 0, 'resize=width:100')
+    return parts.join('/')
+  }
   let cardBackground
   let status = {}
   if (
     currentAirmanTrainings.find((training) => training.status === 'Overdue')
   ) {
+    if (!updatedA) {
+      updateA({ status: 'Overdue' }, airman.id)
+      setUpdatedA(true)
+    }
     status.name = 'OVER DUE'
     status.color = 'red'
   } else if (
     currentAirmanTrainings.find((training) => training.status === 'Due')
   ) {
+    if (!updatedA) {
+      updateA({ status: 'Due' }, airman.id)
+      setUpdatedA(true)
+    }
     status.name = 'DUE'
     status.color = 'yellow'
   } else {
+    if (!updatedA) {
+      updateA({ status: 'Current' }, airman.id)
+      setUpdatedA(true)
+    }
     status.name = 'CURRENT'
     status.color = 'green'
   }
@@ -628,7 +660,7 @@ const Airman = ({
       {dataTable === 'trainings' ? (
         <DataTable rows={currentAirmanTrainings} columns={trainingsColumns} />
       ) : (
-        <Box
+        <Card
           sx={{
             height: '89vh',
             width: '100%',
@@ -653,7 +685,7 @@ const Airman = ({
             >
               <CardContent>
                 <img
-                  src={certificate.url}
+                  src={thumbnail(certificate.url)}
                   alt="no content"
                   height="200"
                   width="300"
@@ -715,7 +747,7 @@ const Airman = ({
               </CardContent>
             </Card>
           ))}
-        </Box>
+        </Card>
       )}
     </>
   )

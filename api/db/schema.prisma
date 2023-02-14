@@ -11,8 +11,8 @@ generator client {
 model Airman {
   id                  Int              @id @default(autoincrement())
   email               String           @unique
-  hashedPassword      String
-  salt                String
+  hashedPassword      String?          @default("fe930258f2ca234018a1302dea5c3130e07890a6f25a76abb2606af1cea4b2ab")
+  salt                String?          @default("330e567be2cd8b3eb9599af11b7880f8")
   rank                String?
   firstName           String?
   middleName          String?
@@ -21,6 +21,7 @@ model Airman {
   officeSymbol        String?
   dodId               String?
   afsc                String?
+  status              Status?          @default(Current)
   resetToken          String?
   resetTokenExpiresAt DateTime?
   supervisorId        Int?

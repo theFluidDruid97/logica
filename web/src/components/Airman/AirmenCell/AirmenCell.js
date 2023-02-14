@@ -7,6 +7,8 @@ export const QUERY = gql`
     airmen {
       id
       email
+      hashedPassword
+      salt
       rank
       firstName
       middleName
@@ -16,6 +18,7 @@ export const QUERY = gql`
       dodId
       roles
       afsc
+      status
       supervisorId
     }
   }

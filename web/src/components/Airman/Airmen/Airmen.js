@@ -2,6 +2,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import FindInPageIcon from '@mui/icons-material/FindInPage'
 import Button from '@mui/material/Button'
+import Chip from '@mui/material/Chip'
 
 import { navigate, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
@@ -44,6 +45,38 @@ const AirmenList = ({ airmen }) => {
   }
 
   const columns = [
+    {
+      field: 'status',
+      headerName: 'Status',
+      width: 125,
+      renderCell: (params) => {
+        if (params.row.status === 'Overdue') {
+          return (
+            <Chip
+              label="OVER DUE"
+              color="red"
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+            />
+          )
+        } else if (params.row.status === 'Due') {
+          return (
+            <Chip
+              label="DUE"
+              color="yellow"
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+            />
+          )
+        } else {
+          return (
+            <Chip
+              label="CURRENT"
+              color="green"
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+            />
+          )
+        }
+      },
+    },
     { field: 'rank', headerName: 'Rank', flex: 0.75 },
     { field: 'lastName', headerName: 'Last Name', flex: 1 },
     { field: 'firstName', headerName: 'First Name', flex: 1 },
