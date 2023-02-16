@@ -22,7 +22,6 @@ import { GeneralContext } from '../../App.js'
 import { DarkModeSwitch } from '../../components/DarkModeSwitch/DarkModeSwitch.js'
 import { AppBar } from '../../components/NavigationFunctions/NavigationFunctions.js'
 import { LogicaLogo } from '../../LogicaLogo.js'
-import { Notify } from '../Notification/Notification.js'
 
 const Navigation = () => {
   const { isAuthenticated, currentUser, logOut } = useAuth()
@@ -84,11 +83,10 @@ const Navigation = () => {
           </Typography>
           {isAuthenticated ? (
             <Box>
-              {Notify(currentUser)}
               <Button color="inherit">
-                <Badge color="secondary" badgeContent={1}>
-                  <NotificationsIcon />
-                </Badge>
+                {/* <Badge color="red" badgeContent={1}> */}
+                <NotificationsIcon />
+                {/* </Badge> */}
               </Button>
               <Button
                 id="basic-button"
