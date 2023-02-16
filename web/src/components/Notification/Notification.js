@@ -1,7 +1,6 @@
 import { toast } from '@redwoodjs/web/dist/toast'
 
 import { GeneralContext } from 'src/App'
-// import { Success } from '../Airman/AirmanCell/AirmanCell'
 
 export const Notify = (currentUser) => {
   const { notified, setNotified } = React.useContext(GeneralContext)

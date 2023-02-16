@@ -25,7 +25,7 @@ export const getCurrentUser = async (session) => {
   }
   const airman = await db.airman.findUnique({
     where: { id: session.id },
-    select: { id: true, email: true, roles: true },
+    select: { id: true, email: true, roles: true, status: true },
   })
 
   return airman

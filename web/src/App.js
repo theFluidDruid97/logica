@@ -12,6 +12,7 @@ const App = () => {
   const currentMode = localStorage.getItem('mode')
   const [mode, setMode] = React.useState(currentMode || 'light')
   const [open, setOpen] = React.useState(false)
+  const [notified, setNotified] = React.useState(false)
   const [supervisorModalOpen, setSupervisorModalOpen] = React.useState(false)
   const roles = ['Admin', 'Airman', 'Monitor', 'Supervisor']
   return (
@@ -23,6 +24,8 @@ const App = () => {
             setOpen,
             supervisorModalOpen,
             setSupervisorModalOpen,
+            notified,
+            setNotified,
             roles,
           }}
         >
