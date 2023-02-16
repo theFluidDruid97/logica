@@ -5,6 +5,7 @@ function PieChart({ chartData }) {
     <div className="chart-container">
       <Pie
         data={chartData}
+        id="canvas"
         options={{
           responsive: true,
           aspectRatio: 0.5 | 2,

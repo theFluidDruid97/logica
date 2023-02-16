@@ -19,6 +19,8 @@ import { CategoryScale } from 'chart.js'
 import Chart from 'chart.js/auto'
 import chartTrendline from 'chartjs-plugin-trendline'
 
+import { saveAs } from 'file-saver'
+
 import { BarChart } from 'src/components/Charts/BarChart.js'
 import LineChart from 'src/components/Charts/LineChart.js'
 import PieChart from 'src/components/Charts/PieChart.js'
@@ -36,16 +38,11 @@ const ReportsPage = () => {
   const [presetDate, setPresetDate] = React.useState('')
 
   const exportChart = () => {
-    const chart = ["/html/body/div/div[1]/div[2]/div[3]/div/div[2]/div/canvas"]
-
-    const file = new Blob(chart, {type: 'image/png'});
-
-    const element = document.createElement("a");
-    element.href = URL.createObjectURL(file);
-    element.download = "Chart-" + Date.now() + ".png";
-    document.body.appendChild(element); // Required for this to work in FireFox
-    element.click();
-}
+    const canvas = document.getElementById('canvas')
+    canvas.toBlob(function (blob) {
+      saveAs(blob, 'Chart-' + Date.now() + '.png')
+    })
+  }
 
   const handleOrganizationChange = (event) => {
     setOrganization(event.target.value)
@@ -325,7 +322,7 @@ const ReportsPage = () => {
           <Box>
             <Button
               sx={{ marginX: 1 }}
-              variant={mode === 'light' ? 'contained' : 'outlined'}
+              variant={mode === 'light' ? 'contained' : 'contained'}
               text-align="left"
               onClick={() => toggleDrawer()}
             >
@@ -333,7 +330,7 @@ const ReportsPage = () => {
             </Button>
             <Button
               sx={{ marginX: 1 }}
-              variant={mode === 'light' ? 'contained' : 'outlined'}
+              variant={mode === 'light' ? 'contained' : 'contained'}
               onClick={exportChart}
             >
               Export
@@ -353,10 +350,7 @@ const ReportsPage = () => {
         </Card>
         <Drawer anchor={'right'} open={open} onClose={() => toggleDrawer()}>
           <Box sx={{ width: 400, marginTop: 10 }} role="presentation">
-            <FormControl
-              variant="standard"
-              sx={{ marginLeft: '20%' }}
-            >
+            <FormControl variant="standard" sx={{ marginLeft: '20%' }}>
               <Box marginY="10%">
                 <Box marginY="10%">
                   <p>Filters</p>

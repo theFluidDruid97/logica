@@ -5,6 +5,7 @@ function LineChart({ chartData }) {
     <div className="chart-container">
       <Line
         data={chartData}
+        id="canvas"
         options={{
           plugins: {
             title: {
