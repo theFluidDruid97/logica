@@ -5,6 +5,7 @@ export const BarChart = ({ chartData }) => {
     <div className="chart-container">
       <Bar
         data={chartData}
+        id="canvas"
         options={{
           plugins: {
             title: {

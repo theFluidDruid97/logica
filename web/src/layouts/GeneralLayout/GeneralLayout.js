@@ -40,14 +40,14 @@ const getDesignTokens = (mode) => ({
         main: deepPurple[900],
       }),
       ...(mode === 'dark' && {
-        main: 'rgb(255,255,255))',
+        main: 'rgb(255,255,255)',
       }),
     },
     ...(mode === 'light' && {
       divider: deepPurple[900],
     }),
     ...(mode === 'dark' && {
-      divider: 'rgb(255,255,255))',
+      divider: 'rgb(255,255,255)',
     }),
     text: {
       ...(mode === 'light'
