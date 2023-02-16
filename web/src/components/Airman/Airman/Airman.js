@@ -552,7 +552,7 @@ const Airman = ({
               </CardContent>
             </Card>
           </Box>
-          <Box display="flex" flexDirection="row" height="260px">
+          <Box display="flex" flexDirection="row">
             <Card
               sx={{
                 width: '70%',
@@ -560,18 +560,20 @@ const Airman = ({
                 backgroundColor: `${cardBackground}`,
               }}
             >
-              <Line
-                options={{
-                  responsive: true,
-                  maintainAspectRatio: false,
-                  plugins: {
-                    legend: {
-                      position: 'top',
+              <CardContent sx={{ height: '260px' }}>
+                <Line
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                      legend: {
+                        position: 'top',
+                      },
                     },
-                  },
-                }}
-                data={data}
-              />
+                  }}
+                  data={data}
+                />
+              </CardContent>
             </Card>
             <Card
               sx={{
