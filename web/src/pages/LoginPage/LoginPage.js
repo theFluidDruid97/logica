@@ -83,7 +83,7 @@ const LoginPage = () => {
             WELCOME TO
           </Typography>
           <Box className={mode === 'light' ? 'logo-light' : 'logo-dark'}>
-            <LogicaLogo width={800} />
+            <LogicaLogo width={600} />
           </Box>
           <Box
             width="40%"

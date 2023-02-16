@@ -22,7 +22,7 @@ import { GeneralContext } from '../../App.js'
 import { DarkModeSwitch } from '../../components/DarkModeSwitch/DarkModeSwitch.js'
 import { AppBar } from '../../components/NavigationFunctions/NavigationFunctions.js'
 import { LogicaLogo } from '../../LogicaLogo.js'
-import Notify from '../Notification/Notification.js'
+import { Notify } from '../Notification/Notification.js'
 
 const Navigation = () => {
   const { isAuthenticated, currentUser, logOut } = useAuth()
