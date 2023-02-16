@@ -24,7 +24,6 @@ import { AppBar } from '../../components/NavigationFunctions/NavigationFunctions
 import { LogicaLogo } from '../../LogicaLogo.js'
 import Notify from '../Notification/Notification.js'
 
-
 const Navigation = () => {
   const { isAuthenticated, currentUser, logOut } = useAuth()
   const { mode, setMode } = React.useContext(ThemeModeContext)
@@ -85,13 +84,10 @@ const Navigation = () => {
           </Typography>
           {isAuthenticated ? (
             <Box>
+              {Notify(currentUser)}
               <Button color="inherit">
                 <Badge color="secondary" badgeContent={1}>
-                  <NotificationsIcon
-                    onClick={() => {
-                      Notify('notification 1', 'notification')
-                    }}
-                  />
+                  <NotificationsIcon />
                 </Badge>
               </Button>
               <Button
