@@ -61,7 +61,6 @@ const CertificateDrawer = ({ trainings, airman }) => {
     }
   }
   const onSave = (input, id) => {
-    console.log(input)
     createCertificate({ variables: { id, input } })
   }
   const handleCompletionChange = (newDate) => {

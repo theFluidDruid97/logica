@@ -150,7 +150,8 @@ const Airman = ({
           }
           return (
             <Chip
-              label="OVER DUE"
+              sx={{ width: '95px' }}
+              label="OVERDUE"
               color="red"
               variant={mode === 'light' ? 'contained' : 'outlined'}
             />
@@ -169,6 +170,7 @@ const Airman = ({
           }
           return (
             <Chip
+              sx={{ width: '95px' }}
               label="DUE"
               color="yellow"
               variant={mode === 'light' ? 'contained' : 'outlined'}
@@ -181,6 +183,7 @@ const Airman = ({
           }
           return (
             <Chip
+              sx={{ width: '95px' }}
               label="CURRENT"
               color="green"
               variant={mode === 'light' ? 'contained' : 'outlined'}
@@ -216,7 +219,7 @@ const Airman = ({
             <Button
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
-              color="grey"
+              color={mode === 'light' ? 'grey' : 'primary'}
               onClick={() => navigate(routes.training({ id: params.row.id }))}
               title={'View'}
             >
@@ -235,7 +238,7 @@ const Airman = ({
             <Button
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
-              color="red"
+              color={mode === 'light' ? 'red' : 'primary'}
               onClick={() =>
                 onDeleteAirmanTrainingClick(training, params.row.id)
               }
@@ -349,7 +352,7 @@ const Airman = ({
   }
   const thumbnail = (url) => {
     const parts = url.split('/')
-    parts.splice(3, 0, 'resize=width:100')
+    parts.splice(3, 0, 'resize=width:500')
     return parts.join('/')
   }
   let cardBackground
@@ -361,7 +364,7 @@ const Airman = ({
       updateA({ status: 'Overdue' }, airman.id)
       setUpdatedA(true)
     }
-    status.name = 'OVER DUE'
+    status.name = 'OVERDUE'
     status.color = 'red'
   } else if (
     currentAirmanTrainings.find((training) => training.status === 'Due')
@@ -382,42 +385,72 @@ const Airman = ({
   }
   if (mode === 'light') {
     ChartJS.defaults.color = 'black'
-    ChartJS.defaults.borderColor = 'peru'
+    ChartJS.defaults.borderColor = 'rgb(49,27,146)'
     cardBackground = 'rgba(155, 155, 155, 0.1)'
   } else {
     ChartJS.defaults.color = 'white'
-    ChartJS.defaults.borderColor = '#80cbc4'
-    cardBackground = 'rgba(0, 0, 0, 0.75)'
+    ChartJS.defaults.borderColor = 'white'
+    cardBackground = 'rgba(0, 0, 0, 0.1)'
   }
 
   return (
     <>
       <Box display="flex" flexDirection="row">
         <Box width="80%">
-          <Box display="flex" flexDirection="row" height="50%">
+          <Box display="flex" flexDirection="row" height="260px">
             <Card
               sx={{
                 width: '70%',
-                marginBottom: '1%',
                 backgroundColor: `${cardBackground}`,
-                borderLeft: `10px solid ${status.color}`,
+                marginBottom: '1%',
+                display: 'flex',
               }}
             >
-              <CardContent>
+              <Box className={status.name}>
+                <Box
+                  className="flipper"
+                  color={status.name === 'DUE' ? 'black' : 'white'}
+                >
+                  {status.name}
+                </Box>
+              </Box>
+              <Box
+                display="flex"
+                flexDirection="column"
+                padding="1%"
+                width="96%"
+              >
                 <Box
                   display="flex"
                   flexDirection="row"
                   justifyContent="space-between"
+                  padding="1%"
                 >
-                  <Typography variant="h3">
+                  <Typography variant="h4">
                     {`${airman.rank} ${airman.lastName}, ${airman.firstName} ${airman.middleName}`}
                   </Typography>
-                  <Chip
-                    sx={{ margin: '1%' }}
-                    label={status.name}
-                    color={status.color}
-                    variant={mode === 'light' ? 'contained' : 'outlined'}
-                  />
+                  <Stack
+                    spacing={2}
+                    sx={{ paddingBottom: '1%' }}
+                    direction="row"
+                    alignItems="flex-start"
+                  >
+                    <Button
+                      variant={mode === 'light' ? 'contained' : 'outlined'}
+                      onClick={() =>
+                        navigate(routes.editAirman({ id: airman.id }))
+                      }
+                    >
+                      <EditIcon />
+                    </Button>
+                    <Button
+                      variant={mode === 'light' ? 'contained' : 'outlined'}
+                      color={mode === 'light' ? 'red' : 'primary'}
+                      onClick={() => onDeleteClick(airman, airman.id)}
+                    >
+                      <DeleteIcon />
+                    </Button>
+                  </Stack>
                 </Box>
                 <Divider />
                 <Box
@@ -425,7 +458,12 @@ const Airman = ({
                   flexDirection="row"
                   justifyContent="space-between"
                 >
-                  <Box display="flex" flexDirection="row" width="80%">
+                  <Box
+                    display="flex"
+                    flexDirection="row"
+                    width="80%"
+                    justifyContent="space-between"
+                  >
                     <Typography variant="h6" sx={{ margin: '2%' }}>
                       DOD ID
                       <br />
@@ -442,25 +480,8 @@ const Airman = ({
                       {airman.afsc}
                     </Typography>
                   </Box>
-                  <Stack spacing={2} sx={{ marginTop: '2%' }}>
-                    <Button
-                      variant={mode === 'light' ? 'contained' : 'outlined'}
-                      onClick={() =>
-                        navigate(routes.editAirman({ id: airman.id }))
-                      }
-                    >
-                      <EditIcon />
-                    </Button>
-                    <Button
-                      variant={mode === 'light' ? 'contained' : 'outlined'}
-                      color="red"
-                      onClick={() => onDeleteClick(airman, airman.id)}
-                    >
-                      <DeleteIcon />
-                    </Button>
-                  </Stack>
                 </Box>
-              </CardContent>
+              </Box>
             </Card>
             <Card
               sx={{
@@ -534,7 +555,7 @@ const Airman = ({
               </CardContent>
             </Card>
           </Box>
-          <Box display="flex" flexDirection="row" height="50%">
+          <Box display="flex" flexDirection="row" height="260px">
             <Card
               sx={{
                 width: '70%',

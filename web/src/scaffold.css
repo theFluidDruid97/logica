@@ -107,18 +107,18 @@
   padding: 1rem;
 }
 .rw-link {
-  color: #ffab00;
+  color: rgb(49, 27, 146);
   text-decoration: underline;
 }
 .rw-link-dark {
-  color: #00bfa5;
+  color: rgb(49, 27, 146);
   text-decoration: underline;
 }
 .rw-link:hover {
-  color: #cd853f;
+  color: rgb(49, 27, 146);
 }
 .rw-link-dark:hover {
-  color: #1de9b6;
+  color: rgb(49, 27, 146);
 }
 .rw-forgot-link {
   font-size: 0.75rem;
@@ -134,11 +134,11 @@
 }
 .rw-forgot-link:hover {
   font-size: 0.75rem;
-  color: #cd853f;
+  color: rgb(49, 27, 146);
 }
 .rw-forgot-link-dark:hover {
   font-size: 0.75rem;
-  color: #009688;
+  color: rgb(49, 27, 146);
 }
 .rw-heading {
   font-weight: 600;
