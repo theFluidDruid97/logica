@@ -365,7 +365,6 @@ const Airman = ({
       setUpdatedA(true)
     }
     status.name = 'OVERDUE'
-    status.color = 'red'
   } else if (
     currentAirmanTrainings.find((training) => training.status === 'Due')
   ) {
@@ -374,14 +373,12 @@ const Airman = ({
       setUpdatedA(true)
     }
     status.name = 'DUE'
-    status.color = 'yellow'
   } else {
     if (!updatedA) {
       updateA({ status: 'Current' }, airman.id)
       setUpdatedA(true)
     }
     status.name = 'CURRENT'
-    status.color = 'green'
   }
   if (mode === 'light') {
     ChartJS.defaults.color = 'black'
