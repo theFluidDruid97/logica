@@ -5,6 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import PersonIcon from '@mui/icons-material/Person'
 import SettingsIcon from '@mui/icons-material/Settings'
+import Badge from '@mui/material/Badge'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
@@ -21,6 +22,8 @@ import { GeneralContext } from '../../App.js'
 import { DarkModeSwitch } from '../../components/DarkModeSwitch/DarkModeSwitch.js'
 import { AppBar } from '../../components/NavigationFunctions/NavigationFunctions.js'
 import { LogicaLogo } from '../../LogicaLogo.js'
+import Notify from '../Notification/Notification.js'
+
 
 const Navigation = () => {
   const { isAuthenticated, currentUser, logOut } = useAuth()
@@ -83,7 +86,13 @@ const Navigation = () => {
           {isAuthenticated ? (
             <Box>
               <Button color="inherit">
-                <NotificationsIcon />
+                <Badge color="secondary" badgeContent={1}>
+                  <NotificationsIcon
+                    onClick={() => {
+                      Notify('notification 1', 'notification')
+                    }}
+                  />
+                </Badge>
               </Button>
               <Button
                 id="basic-button"
