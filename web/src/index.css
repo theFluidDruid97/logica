@@ -42,7 +42,7 @@ body {
 }
 
 .CURRENT {
-  background: green;
+  background: #388e3c;
   width: 40px;
   height: 100%;
   position: relative;
@@ -52,7 +52,7 @@ body {
 }
 
 .DUE {
-  background: yellow;
+  background: #fdd835;
   color: black;
   width: 40px;
   height: 100%;
@@ -63,7 +63,7 @@ body {
 }
 
 .OVERDUE {
-  background: red;
+  background: #d32f2f;
   width: 40px;
   height: 100%;
   position: relative;
