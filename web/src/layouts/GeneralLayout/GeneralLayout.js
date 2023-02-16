@@ -9,6 +9,7 @@ import {
   indigo,
   purple,
   grey,
+  deepPurple,
 } from '@mui/material/colors'
 import CssBaseline from '@mui/material/CssBaseline'
 import Divider from '@mui/material/Divider'
@@ -36,17 +37,17 @@ const getDesignTokens = (mode) => ({
     mode,
     primary: {
       ...(mode === 'light' && {
-        main: 'rgb(205, 134, 63)',
+        main: deepPurple[900],
       }),
       ...(mode === 'dark' && {
-        main: 'rgb(128, 203, 196)',
+        main: 'rgb(255,255,255))',
       }),
     },
     ...(mode === 'light' && {
-      divider: 'rgb(205, 134, 63)',
+      divider: deepPurple[900],
     }),
     ...(mode === 'dark' && {
-      divider: 'rgb(128, 203, 196)',
+      divider: 'rgb(255,255,255))',
     }),
     text: {
       ...(mode === 'light'
@@ -129,10 +130,9 @@ const GeneralLayout = ({ children }) => {
   )
 
   mode === 'light'
-    ? (document.querySelector('body').style.background =
-        'linear-gradient(to top left, peru, white)')
+    ? (document.querySelector('body').style.background = 'white')
     : (document.querySelector('body').style.background =
-        'linear-gradient(to bottom left, teal, black)')
+        'linear-gradient(310deg, rgba(49,27,146,1) 0%, rgba(0,0,0,1) 90%, rgba(0,0,0,1) 100%)')
 
   return (
     <Box sx={{ display: 'flex' }}>

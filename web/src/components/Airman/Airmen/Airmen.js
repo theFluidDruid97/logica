@@ -53,7 +53,8 @@ const AirmenList = ({ airmen }) => {
         if (params.row.status === 'Overdue') {
           return (
             <Chip
-              label="OVER DUE"
+              sx={{ width: '95px' }}
+              label="OVERDUE"
               color="red"
               variant={mode === 'light' ? 'contained' : 'outlined'}
             />
@@ -61,6 +62,7 @@ const AirmenList = ({ airmen }) => {
         } else if (params.row.status === 'Due') {
           return (
             <Chip
+              sx={{ width: '95px' }}
               label="DUE"
               color="yellow"
               variant={mode === 'light' ? 'contained' : 'outlined'}
@@ -69,6 +71,7 @@ const AirmenList = ({ airmen }) => {
         } else {
           return (
             <Chip
+              sx={{ width: '95px' }}
               label="CURRENT"
               color="green"
               variant={mode === 'light' ? 'contained' : 'outlined'}
@@ -98,7 +101,7 @@ const AirmenList = ({ airmen }) => {
             <Button
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
-              color="grey"
+              color={mode === 'light' ? 'grey' : 'primary'}
               onClick={() => navigate(routes.airman({ id: params.row.id }))}
               title={'View'}
             >
@@ -115,7 +118,7 @@ const AirmenList = ({ airmen }) => {
             <Button
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
-              color="red"
+              color={mode === 'light' ? 'red' : 'primary'}
               onClick={() => onDeleteClick(params.row, params.row.id)}
               title={'Delete'}
             >

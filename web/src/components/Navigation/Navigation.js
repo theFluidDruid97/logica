@@ -20,6 +20,7 @@ import { ThemeModeContext } from '../../App.js'
 import { GeneralContext } from '../../App.js'
 import { DarkModeSwitch } from '../../components/DarkModeSwitch/DarkModeSwitch.js'
 import { AppBar } from '../../components/NavigationFunctions/NavigationFunctions.js'
+import { LogicaLogo } from '../../LogicaLogo.js'
 
 const Navigation = () => {
   const { isAuthenticated, currentUser, logOut } = useAuth()
@@ -68,20 +69,15 @@ const Navigation = () => {
           sx={{
             display: 'flex',
             width: '100%',
+            paddingTop: '10px',
             justifyContent: 'space-between',
           }}
         >
           <Typography variant="h6" noWrap component="div">
             <Link to={routes.login()}>
-              <img
-                src={
-                  mode === 'light'
-                    ? '/TrainTrackLogo.png'
-                    : '/TrainTrackLogoDark.png'
-                }
-                height="40"
-                alt="TrainTrack"
-              />
+              <Box className="logo-dark">
+                <LogicaLogo height={40} />
+              </Box>
             </Link>
           </Typography>
           {isAuthenticated ? (

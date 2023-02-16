@@ -47,13 +47,11 @@ const ForgotPasswordPage = () => {
   let cardGradient
   let cardShadow
   mode === 'light'
-    ? (cardGradient =
-        'to bottom right, rgba(205, 133, 63, 0.4), rgba(255, 255, 255, 0.4)')
-    : (cardGradient =
-        'to top right, rgba(0, 128, 128, 0.4), rgba(0, 0, 0, 0.8)')
+    ? (cardGradient = 'white')
+    : (cardGradient = 'to top, rgba(49, 27, 146, 0.4), rgba(0, 0, 0, 0.8)')
   mode === 'light'
     ? (cardShadow = '7px 7px 5px #212121')
-    : (cardShadow = '-7px 7px 5px black')
+    : (cardShadow = '7px 7px 5px black')
 
   return (
     <>
@@ -93,7 +91,7 @@ const ForgotPasswordPage = () => {
                 flexDirection="column"
                 backgroundColor={
                   mode === 'light'
-                    ? 'rgba(255, 255, 255, 0.5)'
+                    ? 'rgba(200, 200, 200, 0.5)'
                     : 'rgba(0, 0, 0, 0.2)'
                 }
                 marginTop="15px"

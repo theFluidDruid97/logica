@@ -19,6 +19,7 @@ import { MetaTags } from '@redwoodjs/web'
 import { toast, Toaster } from '@redwoodjs/web/toast'
 
 import { ThemeModeContext } from '../../App.js'
+import { LogicaLogo } from '../../LogicaLogo.js'
 
 const LoginPage = () => {
   const { mode } = React.useContext(ThemeModeContext)
@@ -48,13 +49,11 @@ const LoginPage = () => {
   let cardGradient
   let cardShadow
   mode === 'light'
-    ? (cardGradient =
-        'to bottom right, rgba(205, 133, 63, 0.4), rgba(255, 255, 255, 0.8)')
-    : (cardGradient =
-        'to top right, rgba(0, 128, 128, 0.4), rgba(0, 0, 0, 0.8)')
+    ? (cardGradient = 'white')
+    : (cardGradient = 'rgba(49, 27, 146, 0.1)')
   mode === 'light'
-    ? (cardShadow = '7px 7px 5px #212121')
-    : (cardShadow = '-7px 7px 5px black')
+    ? (cardShadow = '-2px 1px 20px 8px #5a5a5a2b')
+    : (cardShadow = '-2px 1px 20px 8px black')
 
   return (
     <>
@@ -73,10 +72,9 @@ const LoginPage = () => {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'space-around',
-            border: 'solid 2px black',
             width: '40%',
             height: '100%',
-            background: `linear-gradient(${cardGradient})`,
+            background: `${cardGradient}`,
             boxShadow: `${cardShadow}`,
           }}
         >
@@ -84,15 +82,9 @@ const LoginPage = () => {
           <Typography variant="h3" color="text.secondary" marginTop="2.5%">
             WELCOME TO
           </Typography>
-          <img
-            src={
-              mode === 'light'
-                ? '/TrainTrackLogo.png'
-                : '/TrainTrackLogoDark.png'
-            }
-            width="90%"
-            alt="TrainTrack"
-          />
+          <Box className={mode === 'light' ? 'logo-light' : 'logo-dark'}>
+            <LogicaLogo width={800} />
+          </Box>
           <Box
             width="40%"
             marginBottom="5%"
@@ -108,7 +100,7 @@ const LoginPage = () => {
                 flexDirection="column"
                 backgroundColor={
                   mode === 'light'
-                    ? 'rgba(255, 255, 255, 0.5)'
+                    ? 'rgba(200, 200, 200, 0.5)'
                     : 'rgba(0, 0, 0, 0.2)'
                 }
                 marginTop="15px"
@@ -166,17 +158,9 @@ const LoginPage = () => {
                 <Button
                   variant={mode === 'light' ? 'contained' : 'outlined'}
                   type="submit"
-                  sx={{ marginY: '5%' }}
+                  sx={{ marginY: '15%' }}
                 >
                   Log In
-                </Button>
-                <Button
-                  color="grey"
-                  variant={mode === 'light' ? 'contained' : 'outlined'}
-                  onClick={() => navigate(routes.signup())}
-                  sx={{ marginBottom: '10%' }}
-                >
-                  Sign Up
                 </Button>
               </Box>
             </Form>
