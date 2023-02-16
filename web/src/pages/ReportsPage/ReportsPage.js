@@ -10,8 +10,13 @@ import TextField from '@mui/material/TextField'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import { airmen } from '../../../../scripts/airmen'
+import { organizations } from '../../../../scripts/airmen'
+import { trainings } from '../../../../scripts/trainings.js'
 
-import ReportsDrawer from 'src/components/ReportsDrawer/ReportsDrawer'
 import Button from '@mui/material/Button'
 import { CategoryScale } from 'chart.js'
 import Chart from 'chart.js/auto'
@@ -29,6 +34,25 @@ const ReportsPage = () => {
   const [open, setOpen] = React.useState(false)
   const [start, setStart] = React.useState(new Date())
   const [end, setEnd] = React.useState(new Date())
+  const [organization, setOrganization] = React.useState('')
+  const [selectedTrainings, setSelectedTrainings] = React.useState('')
+  // const [trainings, setTrainings] = React.useState('')
+
+  const handleOrganizationChange = (event) => {
+    setOrganization(event.target.value)
+  }
+
+  const handleTrainingsChange = (event) => {
+    setSelectedTrainings(event.target.value)
+  }
+
+  // const handleStartChange = (newDate) => {
+  //   setStart(newDate)
+  // }
+  // const handleEndChange = (newDate) => {
+  //   setEnd(newDate)
+  // }
+
   const { mode, setMode } = React.useContext(ThemeModeContext)
   const toggleDrawer = () => {
     setOpen(!open)
@@ -188,33 +212,62 @@ const ReportsPage = () => {
     cardBackground = 'rgba(0, 0, 0, 0.75)'
   }
 
-let bVarient1 = []
-let bVarient2 = []
-let bVarient3 = []
-let bVarient4 = []
-
+  let bVarient1 = []
+  let bVarient2 = []
+  let bVarient3 = []
+  let bVarient4 = []
 
   let buttonVariant
-  if ((mode === 'dark') && (displayed === 1) ) {
-    bVarient1 =  'outlined', bVarient2 = 'contained', bVarient3 = 'contained', bVarient4 = 'contained'
-  } else if ((mode === 'dark') && (displayed === 2) ) {
-    bVarient2 =  'outlined', bVarient1 = 'contained', bVarient3 = 'contained', bVarient4 = 'contained'
-  } else if ((mode === 'dark') && (displayed === 3) ) {
-    bVarient3 =  'outlined', bVarient1 = 'contained', bVarient2 = 'contained', bVarient4 = 'contained'
-  } else if ((mode === 'dark') && (displayed === 4) ) {
-    bVarient4 =  'outlined', bVarient1 = 'contained', bVarient2 = 'contained', bVarient3 = 'contained'
+  if (mode === 'dark' && displayed === 1) {
+    ;(bVarient1 = 'contained'),
+      (bVarient2 = 'outlined'),
+      (bVarient3 = 'outlined'),
+      (bVarient4 = 'outlined')
+  } else if (mode === 'dark' && displayed === 2) {
+    ;(bVarient2 = 'contained'),
+      (bVarient1 = 'outlined'),
+      (bVarient3 = 'outlined'),
+      (bVarient4 = 'outlined')
+  } else if (mode === 'dark' && displayed === 3) {
+    ;(bVarient3 = 'contained'),
+      (bVarient1 = 'outlined'),
+      (bVarient2 = 'outlined'),
+      (bVarient4 = 'outlined')
+  } else if (mode === 'dark' && displayed === 4) {
+    ;(bVarient4 = 'contained'),
+      (bVarient1 = 'outlined'),
+      (bVarient2 = 'outlined'),
+      (bVarient3 = 'outlined')
   } else if (mode === 'dark') {
-    bVarient1 = 'contained', bVarient2 = 'contained', bVarient3 = 'contained', bVarient4 = 'contained'
-  } else if ((mode === 'light') && (displayed === 1) ) {
-    bVarient1 =  'contained', bVarient2 = 'outlined', bVarient3 = 'outlined', bVarient4 = 'outlined'
-  } else if ((mode === 'light') && (displayed === 2) ) {
-    bVarient2 =  'contained', bVarient1 = 'outlined', bVarient3 = 'outlined', bVarient4 = 'outlined'
-  } else if ((mode === 'light') && (displayed === 3) ) {
-    bVarient3 =  'contained', bVarient1 = 'outlined', bVarient2 = 'outlined', bVarient4 = 'outlined'
-  } else if ((mode === 'light') && (displayed === 4) ) {
-    bVarient4 =  'contained', bVarient1 = 'outlined', bVarient2 = 'outlined', bVarient3 = 'outlined'
+    ;(bVarient1 = 'outlined'),
+      (bVarient2 = 'outlined'),
+      (bVarient3 = 'outlined'),
+      (bVarient4 = 'outlined')
+  } else if (mode === 'light' && displayed === 1) {
+    ;(bVarient1 = 'contained'),
+      (bVarient2 = 'outlined'),
+      (bVarient3 = 'outlined'),
+      (bVarient4 = 'outlined')
+  } else if (mode === 'light' && displayed === 2) {
+    ;(bVarient2 = 'contained'),
+      (bVarient1 = 'outlined'),
+      (bVarient3 = 'outlined'),
+      (bVarient4 = 'outlined')
+  } else if (mode === 'light' && displayed === 3) {
+    ;(bVarient3 = 'contained'),
+      (bVarient1 = 'outlined'),
+      (bVarient2 = 'outlined'),
+      (bVarient4 = 'outlined')
+  } else if (mode === 'light' && displayed === 4) {
+    ;(bVarient4 = 'contained'),
+      (bVarient1 = 'outlined'),
+      (bVarient2 = 'outlined'),
+      (bVarient3 = 'outlined')
   } else if (mode === 'light')
-    bVarient1 = 'outlined', bVarient2 = 'contained', bVarient3 = 'contained', bVarient4 = 'contained'
+    (bVarient1 = 'outlined'),
+      (bVarient2 = 'contained'),
+      (bVarient3 = 'contained'),
+      (bVarient4 = 'contained')
 
   return (
     <Box className="reports-wrap">
@@ -284,35 +337,66 @@ let bVarient4 = []
           <DisplayChart />
         </Card>
         <Drawer anchor={'right'} open={open} onClose={() => toggleDrawer()}>
-        <Box sx={{ width: 400, marginTop: 10 }} role="presentation">
-          <FormControl
-            variant="standard"
-            sx={{ marginTop: '20%', marginLeft: '20%' }}
-          >
-            <Box marginY="10%">
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DateTimePicker
-                  label="Start"
-                  value={start}
-                  // onChange={handleStartChange}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-            </Box>
-            <Box marginY="10%">
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DateTimePicker
-                  label="End"
-                  value={end}
-                  // onChange={handleEndChange}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-            </Box>
-            <Button onClick={() => handleSubmit(training.id)}>Submit</Button>
-          </FormControl>
-        </Box>
-      </Drawer>
+          <Box sx={{ width: 400, marginTop: 10 }} role="presentation">
+            <FormControl
+              variant="standard"
+              sx={{ marginTop: '20%', marginLeft: '20%' }}
+            >
+              <Box marginY="10%">
+                <Box marginY="10%">
+                  <InputLabel>Filters</InputLabel>
+                  <TextField
+                    fullWidth
+                    select
+                    value={organization}
+                    label="Organization"
+                    onChange={handleOrganizationChange}
+                  >
+                    {organizations.map((organization, index) => (
+                      <MenuItem key={organizations[index]} value={organization}>
+                        {organizations[index]}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Box>
+                <Box marginY="10%">
+                  <TextField
+                    fullWidth
+                    select
+                    value={trainings}
+                    label="Trainings"
+                    onChange={handleTrainingsChange}
+                  >
+                    {trainings.map((selecetedTrainings, index) => (
+                      <MenuItem key={trainings[index]} value={selectedTrainings}>
+                        {trainings[index].name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Box>
+              </Box>
+              <Box marginY="10%">
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DateTimePicker
+                    label="Start"
+                    value={start}
+                    // onChange={handleStartChange}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DateTimePicker
+                    label="End"
+                    value={end}
+                    // onChange={handleEndChange}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </Box>
+              <Button onClick={() => handleSubmit(training.id)}>Submit</Button>
+            </FormControl>
+          </Box>
+        </Drawer>
       </div>
     </Box>
   )
