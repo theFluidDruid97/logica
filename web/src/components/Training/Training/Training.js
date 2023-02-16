@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -12,7 +13,19 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Chip from '@mui/material/Chip'
 import Divider from '@mui/material/Divider'
+import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js'
+import { Line } from 'react-chartjs-2'
 
 import { routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
@@ -20,6 +33,16 @@ import { toast } from '@redwoodjs/web/toast'
 
 import { ThemeModeContext } from '../../../App.js'
 import DataTable from '../../DataTable/DataTable.js'
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+)
 
 import 'src/lib/formatters'
 
@@ -47,11 +70,47 @@ const Training = ({ training }) => {
       deleteTraining({ variables: { id } })
     }
   }
+  const labels = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+  ]
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Current',
+        data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
+        borderColor: 'rgb(0, 128, 0)',
+        backgroundColor: 'rgba(0, 128, 0, 0.5)',
+      },
+      {
+        label: 'Due',
+        data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
+        borderColor: 'rgb(255, 255, 0)',
+        backgroundColor: 'rgba(255, 255, 0, 0.5)',
+      },
+      {
+        label: 'Over Due',
+        data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
+        borderColor: 'rgb(255, 0, 0)',
+        backgroundColor: 'rgba(255, 0, 0, 0.5)',
+      },
+    ],
+  }
   let cardBackground
   if (mode === 'light') {
+    ChartJS.defaults.color = 'black'
+    ChartJS.defaults.borderColor = 'rgb(49,27,146)'
     cardBackground = 'rgba(155, 155, 155, 0.1)'
   } else {
-    cardBackground = 'rgba(0, 0, 0, 0.75)'
+    ChartJS.defaults.color = 'white'
+    ChartJS.defaults.borderColor = 'white'
+    cardBackground = 'rgba(0, 0, 0, 0.1)'
   }
 
   return (
@@ -60,9 +119,10 @@ const Training = ({ training }) => {
         <Box width="80%" marginRight="1%">
           <Card
             sx={{
-              width: '100%',
-              height: '100%',
               backgroundColor: `${cardBackground}`,
+              display: 'flex',
+              flexDirection: 'column',
+              marginBottom: '1%',
             }}
           >
             <CardContent>
@@ -71,12 +131,10 @@ const Training = ({ training }) => {
                 flexDirection="row"
                 justifyContent="space-between"
               >
-                <Typography variant="h3" sx={{ marginLeft: '2%' }}>
-                  {training.name}
-                </Typography>
-                <nav className="rw-button-group">
+                <Typography variant="h4">{training.name}</Typography>
+                <Stack direction="row" alignItems="flex-start">
                   <Button
-                    sx={{ marginX: 1 }}
+                    sx={{ margin: 1 }}
                     variant={mode === 'light' ? 'contained' : 'outlined'}
                     onClick={() =>
                       navigate(routes.editTraining({ id: training.id }))
@@ -85,39 +143,28 @@ const Training = ({ training }) => {
                     <EditIcon />
                   </Button>
                   <Button
-                    sx={{ marginX: 1 }}
+                    sx={{ margin: 1 }}
                     variant={mode === 'light' ? 'contained' : 'outlined'}
                     color="red"
                     onClick={() => onDeleteClick(training, training.id)}
                   >
                     <DeleteIcon />
                   </Button>
-                </nav>
+                </Stack>
               </Box>
               <Divider />
-              <Typography variant="h6" sx={{ margin: '2%' }}>
-                DESCRIPTION
-                <br />
-                <Divider />
-                <br />
-                {training.description}
-              </Typography>
               <Box
                 display="flex"
                 flexDirection="row"
                 justifyContent="space-between"
               >
-                <Typography variant="h6" sx={{ margin: '2%', width: '33%' }}>
+                <Typography variant="h5">
                   CERTIFICTION DURATION
-                  <br />
-                  <Divider />
                   <br />
                   {training.duration} Months
                 </Typography>
-                <Typography variant="h6" sx={{ margin: '2%', width: '33%' }}>
+                <Typography variant="h5">
                   TRAINING LINK
-                  <br />
-                  <Divider />
                   <br />
                   <Button variant={mode === 'light' ? 'contained' : 'outlined'}>
                     <a
@@ -131,20 +178,10 @@ const Training = ({ training }) => {
                     <LaunchIcon />
                   </Button>
                 </Typography>
-                <Typography variant="h6" sx={{ margin: '2%', width: '33%' }}>
+                <Typography variant="h5">
                   TAGS
                   <br />
-                  <Divider />
-                  <br />
-                  {[
-                    ...Array(
-                      parseInt(
-                        faker.random.numeric(1, {
-                          bannedDigits: ['0', '5', '6', '7', '8', '9'],
-                        })
-                      )
-                    ),
-                  ].map((e) => (
+                  {[...Array(parseInt(faker.random.numeric(1)))].map((e) => (
                     <Chip
                       key={e}
                       sx={{ marginX: '1%' }}
@@ -165,86 +202,120 @@ const Training = ({ training }) => {
               </Box>
             </CardContent>
           </Card>
-        </Box>
-        <Box width="20%">
-          <Card sx={{ height: '100%', backgroundColor: `${cardBackground}` }}>
-            <Box display="flex" flexDirection="column" height="100%">
-              <Typography
-                variant="h4"
-                sx={{ margin: '2%', marginTop: '10%', textAlign: 'center' }}
+          <Card
+            sx={{
+              backgroundColor: `${cardBackground}`,
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <CardContent>
+              <Line
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: true,
+                  plugins: {
+                    legend: {
+                      position: 'top',
+                    },
+                  },
+                }}
+                data={data}
+              />
+              <Box
+                display="flex"
+                flexDirection="row"
+                justifyContent="space-around"
               >
-                OVERALL STATUS
-                <br />
-                <Divider />
-                <br />
-                <Box
-                  display="flex"
-                  flexDirection="row"
-                  justifyContent="center"
-                  marginTop="5%"
-                >
+                <Box display="flex" flexDirection="row" alignItems="center">
+                  <AssignmentTurnedInIcon fontSize="large" color="grey" />
                   <Box
                     display="flex"
                     flexDirection="column"
-                    justifyContent="center"
                     alignItems="center"
-                    width="50%"
+                    marginX="10%"
                   >
-                    <CheckCircleOutlineIcon fontSize="large" color="green" />
+                    <Typography variant="h5">
+                      {faker.random.numeric(4)}
+                    </Typography>
+                    <Typography variant="h5">ASSIGNED</Typography>
+                  </Box>
+                </Box>
+                <Box display="flex" flexDirection="row" alignItems="center">
+                  <CheckCircleOutlineIcon fontSize="large" color="green" />
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    marginX="10%"
+                  >
                     <Typography variant="h5">
                       {faker.random.numeric(4)}
                     </Typography>
                     <Typography variant="h5">CURRENT</Typography>
                   </Box>
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    justifyContent="center"
-                    alignItems="center"
-                    width="50%"
-                  >
-                    <CalendarTodayIcon fontSize="large" color="grey" />
-                    <Typography variant="h5">
-                      {faker.random.numeric(2)}
-                    </Typography>
-                    <Typography variant="h5">SCHEDULED</Typography>
-                  </Box>
                 </Box>
-                <Box
-                  display="flex"
-                  flexDirection="row"
-                  justifyContent="center"
-                  marginTop="15%"
-                >
+                <Box display="flex" flexDirection="row" alignItems="center">
+                  <UpdateIcon fontSize="large" color="yellow" />
                   <Box
                     display="flex"
                     flexDirection="column"
-                    justifyContent="center"
                     alignItems="center"
-                    width="50%"
+                    marginX="10%"
                   >
-                    <UpdateIcon fontSize="large" color="yellow" />
                     <Typography variant="h5">
                       {faker.random.numeric(3)}
                     </Typography>
                     <Typography variant="h5">DUE</Typography>
                   </Box>
+                </Box>
+                <Box display="flex" flexDirection="row" alignItems="center">
+                  <WarningAmberIcon fontSize="large" color="red" />
                   <Box
                     display="flex"
                     flexDirection="column"
-                    justifyContent="center"
                     alignItems="center"
-                    width="50%"
+                    marginX="10%"
                   >
-                    <WarningAmberIcon fontSize="large" color="red" />
                     <Typography variant="h5">
                       {faker.random.numeric(1)}
                     </Typography>
                     <Typography variant="h5">OVERDUE</Typography>
                   </Box>
                 </Box>
+                <Box display="flex" flexDirection="row" alignItems="center">
+                  <CalendarTodayIcon fontSize="large" color="grey" />
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    marginX="10%"
+                  >
+                    <Typography variant="h5">
+                      {faker.random.numeric(2)}
+                    </Typography>
+                    <Typography variant="h5">SCHEDULED</Typography>
+                  </Box>
+                </Box>
+              </Box>
+            </CardContent>
+          </Card>
+        </Box>
+        <Box width="20%">
+          <Card
+            sx={{
+              backgroundColor: `${cardBackground}`,
+            }}
+          >
+            <CardContent>
+              <Typography variant="h5">
+                DESCRIPTION
+                <br />
+                <Divider />
+                <br />
+                {training.description}
               </Typography>
-            </Box>
+            </CardContent>
           </Card>
         </Box>
       </Box>
