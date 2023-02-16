@@ -8,12 +8,9 @@ import Drawer from '@mui/material/Drawer'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
-import Select from '@mui/material/Select'
-import { airmen } from '../../../../scripts/airmen'
 import { organizations } from '../../../../scripts/airmen'
 import { trainings } from '../../../../scripts/trainings.js'
 
@@ -35,23 +32,41 @@ const ReportsPage = () => {
   const [start, setStart] = React.useState(new Date())
   const [end, setEnd] = React.useState(new Date())
   const [organization, setOrganization] = React.useState('')
-  const [selectedTrainings, setSelectedTrainings] = React.useState('')
-  // const [trainings, setTrainings] = React.useState('')
+  const [training, setTraining] = React.useState('')
+  const [presetDate, setPresetDate] = React.useState('')
+
+  const exportChart = () => {
+    const chart = ["/html/body/div/div[1]/div[2]/div[3]/div/div[2]/div/canvas"]
+
+    const file = new Blob(chart, {type: 'image/png'});
+
+    const element = document.createElement("a");
+    element.href = URL.createObjectURL(file);
+    element.download = "Chart-" + Date.now() + ".png";
+    document.body.appendChild(element); // Required for this to work in FireFox
+    element.click();
+}
 
   const handleOrganizationChange = (event) => {
     setOrganization(event.target.value)
   }
 
   const handleTrainingsChange = (event) => {
-    setSelectedTrainings(event.target.value)
+    setTraining(event.target.value)
   }
 
-  // const handleStartChange = (newDate) => {
-  //   setStart(newDate)
-  // }
-  // const handleEndChange = (newDate) => {
-  //   setEnd(newDate)
-  // }
+  const handleStartChange = (newDate) => {
+    setStart(newDate)
+  }
+  const handleEndChange = (newDate) => {
+    setEnd(newDate)
+  }
+
+  const handlePresetDateChange = (event) => {
+    setPresetDate(event.target.value)
+  }
+
+  const presetDates = ['Last Month', 'Last Quarter', 'Last Year']
 
   const { mode, setMode } = React.useContext(ThemeModeContext)
   const toggleDrawer = () => {
@@ -319,7 +334,7 @@ const ReportsPage = () => {
             <Button
               sx={{ marginX: 1 }}
               variant={mode === 'light' ? 'contained' : 'outlined'}
-              // onClick={() => setDisplayed(4)}
+              onClick={exportChart}
             >
               Export
             </Button>
@@ -340,11 +355,11 @@ const ReportsPage = () => {
           <Box sx={{ width: 400, marginTop: 10 }} role="presentation">
             <FormControl
               variant="standard"
-              sx={{ marginTop: '20%', marginLeft: '20%' }}
+              sx={{ marginLeft: '20%' }}
             >
               <Box marginY="10%">
                 <Box marginY="10%">
-                  <InputLabel>Filters</InputLabel>
+                  <p>Filters</p>
                   <TextField
                     fullWidth
                     select
@@ -363,37 +378,66 @@ const ReportsPage = () => {
                   <TextField
                     fullWidth
                     select
-                    value={trainings}
-                    label="Trainings"
+                    value={training}
                     onChange={handleTrainingsChange}
+                    label="Training"
                   >
-                    {trainings.map((selecetedTrainings, index) => (
-                      <MenuItem key={trainings[index]} value={selectedTrainings}>
-                        {trainings[index].name}
+                    {trainings.map((training) => (
+                      <MenuItem key={training.id} value={training}>
+                        {training.name}
                       </MenuItem>
                     ))}
                   </TextField>
                 </Box>
               </Box>
-              <Box marginY="10%">
+              <Box>
+                <p>Date Range</p>
+                <Box marginY="10%"></Box>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DateTimePicker
+                  <DatePicker
+                    className="reportsStartDate"
                     label="Start"
                     value={start}
-                    // onChange={handleStartChange}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </LocalizationProvider>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DateTimePicker
-                    label="End"
-                    value={end}
-                    // onChange={handleEndChange}
+                    onChange={handleStartChange}
                     renderInput={(params) => <TextField {...params} />}
                   />
                 </LocalizationProvider>
               </Box>
-              <Button onClick={() => handleSubmit(training.id)}>Submit</Button>
+              <Box marginY="10%">
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    className="reportsEndDate"
+                    label="End"
+                    value={end}
+                    onChange={handleEndChange}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </Box>
+              <Box>
+                <TextField
+                  className="reportsPresetDate"
+                  fullWidth
+                  select
+                  value={presetDate}
+                  onChange={handlePresetDateChange}
+                  label="PresetDate"
+                >
+                  {presetDates.map((presetDate) => (
+                    <MenuItem key={presetDate.id} value={presetDate}>
+                      {presetDate}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Box>
+              <Button
+                sx={{ marginY: 10 }}
+                variant={mode === 'light' ? 'contained' : 'outlined'}
+                text-align="left"
+                // onClick={() => handleSubmit(training.id)}
+              >
+                Submit
+              </Button>
             </FormControl>
           </Box>
         </Drawer>
