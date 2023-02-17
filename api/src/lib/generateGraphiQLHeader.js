@@ -3,7 +3,7 @@ const generateGraphiQLHeader = () => {
     {
       'auth-provider': 'dbAuth',
       cookie:
-        'session=U2FsdGVkX1+jvfU3C1Ob76tgBKS8GYw4A9jLKNcAIaxF/xaAAc+H7z/3U7yUrRYqB5D3ZMWlsqolwyQz6fhyQg==',
+        'session=U2FsdGVkX1/L/tZnZ4S+8SW21+7fToWghO0ugKDPlVOAnvFdZuBxx1rlpv8zsgGrhxycC29dXllDXDgTlmraTw==',
       authorization: 'Bearer 1',
     },
     null,
