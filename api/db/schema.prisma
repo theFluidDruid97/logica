@@ -30,6 +30,7 @@ model Airman {
   roles               Role             @default(Airman)
   assignedTrainings   AirmanTraining[]
   certificates        Certificate[]
+  notifications       Notification[]
 }
 
 model Training {
@@ -107,4 +108,12 @@ enum Status {
   Current
   Due
   Overdue
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  airmanId  Int
+  airman    Airman   @relation(fields: [airmanId], references: [id])
+  message   String
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
 }

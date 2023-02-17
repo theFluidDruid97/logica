@@ -83,7 +83,10 @@ const Navigation = () => {
           </Typography>
           {isAuthenticated ? (
             <Box>
-              <Button color="inherit">
+              <Button
+                color="inherit"
+                onClick={() => navigate(routes.notifications())}
+              >
                 {/* <Badge color="red" badgeContent={1}> */}
                 <NotificationsIcon />
                 {/* </Badge> */}

@@ -7,6 +7,10 @@ const Routes = () => {
     <Router>
       <Set wrap={GeneralLayout}>
         <Private unauthenticated="login">
+          <Route path="/notifications/new" page={NotificationNewNotificationPage} name="newNotification" />
+          <Route path="/notifications/{id:Int}/edit" page={NotificationEditNotificationPage} name="editNotification" />
+          <Route path="/notifications/{id:Int}" page={NotificationNotificationPage} name="notification" />
+          <Route path="/notifications" page={NotificationNotificationsPage} name="notifications" />
           <Route path="/collections/new" page={CollectionNewCollectionPage} name="newCollection" />
           <Route path="/collections/{id:Int}/edit" page={CollectionEditCollectionPage} name="editCollection" />
           <Route path="/collections/{id:Int}" page={CollectionCollectionPage} name="collection" />
