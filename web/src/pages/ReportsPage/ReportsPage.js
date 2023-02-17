@@ -224,62 +224,62 @@ const ReportsPage = () => {
     cardBackground = 'rgba(0, 0, 0, 0.75)'
   }
 
-  let bVarient1 = []
-  let bVarient2 = []
-  let bVarient3 = []
-  let bVarient4 = []
+  let bVariant1 = []
+  let bVariant2 = []
+  let bVariant3 = []
+  let bVariant4 = []
 
   let buttonVariant
   if (mode === 'dark' && displayed === 1) {
-    ;(bVarient1 = 'contained'),
-      (bVarient2 = 'outlined'),
-      (bVarient3 = 'outlined'),
-      (bVarient4 = 'outlined')
+    ;(bVariant1 = 'contained'),
+      (bVariant2 = 'outlined'),
+      (bVariant3 = 'outlined'),
+      (bVariant4 = 'outlined')
   } else if (mode === 'dark' && displayed === 2) {
-    ;(bVarient2 = 'contained'),
-      (bVarient1 = 'outlined'),
-      (bVarient3 = 'outlined'),
-      (bVarient4 = 'outlined')
+    ;(bVariant2 = 'contained'),
+      (bVariant1 = 'outlined'),
+      (bVariant3 = 'outlined'),
+      (bVariant4 = 'outlined')
   } else if (mode === 'dark' && displayed === 3) {
-    ;(bVarient3 = 'contained'),
-      (bVarient1 = 'outlined'),
-      (bVarient2 = 'outlined'),
-      (bVarient4 = 'outlined')
+    ;(bVariant3 = 'contained'),
+      (bVariant1 = 'outlined'),
+      (bVariant2 = 'outlined'),
+      (bVariant4 = 'outlined')
   } else if (mode === 'dark' && displayed === 4) {
-    ;(bVarient4 = 'contained'),
-      (bVarient1 = 'outlined'),
-      (bVarient2 = 'outlined'),
-      (bVarient3 = 'outlined')
+    ;(bVariant4 = 'contained'),
+      (bVariant1 = 'outlined'),
+      (bVariant2 = 'outlined'),
+      (bVariant3 = 'outlined')
   } else if (mode === 'dark') {
-    ;(bVarient1 = 'outlined'),
-      (bVarient2 = 'outlined'),
-      (bVarient3 = 'outlined'),
-      (bVarient4 = 'outlined')
+    ;(bVariant1 = 'outlined'),
+      (bVariant2 = 'outlined'),
+      (bVariant3 = 'outlined'),
+      (bVariant4 = 'outlined')
   } else if (mode === 'light' && displayed === 1) {
-    ;(bVarient1 = 'contained'),
-      (bVarient2 = 'outlined'),
-      (bVarient3 = 'outlined'),
-      (bVarient4 = 'outlined')
+    ;(bVariant1 = 'contained'),
+      (bVariant2 = 'outlined'),
+      (bVariant3 = 'outlined'),
+      (bVariant4 = 'outlined')
   } else if (mode === 'light' && displayed === 2) {
-    ;(bVarient2 = 'contained'),
-      (bVarient1 = 'outlined'),
-      (bVarient3 = 'outlined'),
-      (bVarient4 = 'outlined')
+    ;(bVariant2 = 'contained'),
+      (bVariant1 = 'outlined'),
+      (bVariant3 = 'outlined'),
+      (bVariant4 = 'outlined')
   } else if (mode === 'light' && displayed === 3) {
-    ;(bVarient3 = 'contained'),
-      (bVarient1 = 'outlined'),
-      (bVarient2 = 'outlined'),
-      (bVarient4 = 'outlined')
+    ;(bVariant3 = 'contained'),
+      (bVariant1 = 'outlined'),
+      (bVariant2 = 'outlined'),
+      (bVariant4 = 'outlined')
   } else if (mode === 'light' && displayed === 4) {
-    ;(bVarient4 = 'contained'),
-      (bVarient1 = 'outlined'),
-      (bVarient2 = 'outlined'),
-      (bVarient3 = 'outlined')
+    ;(bVariant4 = 'contained'),
+      (bVariant1 = 'outlined'),
+      (bVariant2 = 'outlined'),
+      (bVariant3 = 'outlined')
   } else if (mode === 'light')
     (bVarient1 = 'outlined'),
-      (bVarient2 = 'contained'),
-      (bVarient3 = 'contained'),
-      (bVarient4 = 'contained')
+      (bVariant2 = 'contained'),
+      (bVariant3 = 'contained'),
+      (bVariant4 = 'contained')
 
   return (
     <Box className="reports-wrap">
@@ -288,7 +288,7 @@ const ReportsPage = () => {
           <Box>
             <Button
               sx={{ marginX: 1 }}
-              variant={bVarient1}
+              variant={bVariant1}
               color="primary"
               onClick={() => setDisplayed(1)}
             >
@@ -296,7 +296,7 @@ const ReportsPage = () => {
             </Button>
             <Button
               sx={{ marginX: 1 }}
-              variant={bVarient2}
+              variant={bVariant2}
               color="primary"
               onClick={() => setDisplayed(2)}
             >
@@ -304,7 +304,7 @@ const ReportsPage = () => {
             </Button>
             <Button
               sx={{ marginX: 1 }}
-              variant={bVarient3}
+              variant={bVariant3}
               color="primary"
               onClick={() => setDisplayed(3)}
             >
@@ -312,7 +312,7 @@ const ReportsPage = () => {
             </Button>
             <Button
               sx={{ marginX: 1 }}
-              variant={bVarient4}
+              variant={bVariant4}
               color="primary"
               onClick={() => setDisplayed(4)}
             >

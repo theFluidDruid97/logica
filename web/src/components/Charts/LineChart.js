@@ -7,6 +7,7 @@ function LineChart({ chartData }) {
         data={chartData}
         id="canvas"
         options={{
+          fill: true,
           plugins: {
             title: {
               display: true,
