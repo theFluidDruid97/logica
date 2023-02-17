@@ -210,18 +210,20 @@ const Training = ({ training }) => {
             }}
           >
             <CardContent>
-              <Line
-                options={{
-                  responsive: true,
-                  maintainAspectRatio: true,
-                  plugins: {
-                    legend: {
-                      position: 'top',
+              <Box height="200px">
+                <Line
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                      legend: {
+                        position: 'top',
+                      },
                     },
-                  },
-                }}
-                data={data}
-              />
+                  }}
+                  data={data}
+                />
+              </Box>
               <Box
                 display="flex"
                 flexDirection="row"
@@ -305,6 +307,7 @@ const Training = ({ training }) => {
           <Card
             sx={{
               backgroundColor: `${cardBackground}`,
+              height: '100%',
             }}
           >
             <CardContent>
