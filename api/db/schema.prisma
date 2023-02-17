@@ -30,7 +30,7 @@ model Airman {
   roles               Role             @default(Airman)
   assignedTrainings   AirmanTraining[]
   certificates        Certificate[]
-  Notification        Notification[]
+  notifications       Notification[]
 }
 
 model Training {
