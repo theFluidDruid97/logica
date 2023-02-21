@@ -399,8 +399,9 @@ const Airman = ({
               sx={{
                 width: '70%',
                 backgroundColor: `${cardBackground}`,
-                marginBottom: '1%',
+                marginBottom: '2%',
                 display: 'flex',
+                borderRadius: '20px',
               }}
             >
               <Box className={status.name}>
@@ -483,9 +484,10 @@ const Airman = ({
             <Card
               sx={{
                 width: '30%',
-                marginBottom: '1%',
-                marginX: '1%',
+                marginBottom: '2%',
+                marginX: '2%',
                 backgroundColor: `${cardBackground}`,
+                borderRadius: '20px',
               }}
             >
               <CardContent>
@@ -556,8 +558,9 @@ const Airman = ({
             <Card
               sx={{
                 width: '70%',
-                marginBottom: '1%',
+                marginBottom: '2%',
                 backgroundColor: `${cardBackground}`,
+                borderRadius: '20px',
               }}
             >
               <CardContent sx={{ height: '260px' }}>
@@ -578,9 +581,10 @@ const Airman = ({
             <Card
               sx={{
                 width: '30%',
-                marginBottom: '1%',
-                marginX: '1%',
+                marginBottom: '2%',
+                marginX: '2%',
                 backgroundColor: `${cardBackground}`,
+                borderRadius: '20px',
               }}
             >
               {monitors[0] ? (
@@ -622,8 +626,14 @@ const Airman = ({
             </Card>
           </Box>
         </Box>
-        <Box width="20%" marginBottom="0.8%">
-          <Card sx={{ height: '100%', backgroundColor: `${cardBackground}` }}>
+        <Box width="20%" marginBottom="1.6%">
+          <Card
+            sx={{
+              height: '100%',
+              backgroundColor: `${cardBackground}`,
+              borderRadius: '20px',
+            }}
+          >
             <CardContent sx={{ textAlign: 'center' }}>
               <Typography variant="h5">ORGANIZATION</Typography>
               <Divider />
@@ -649,7 +659,7 @@ const Airman = ({
           </Card>
         </Box>
       </Box>
-      <Box marginBottom="1%" display="flex">
+      <Box marginBottom="2%" display="flex">
         <Box width="50%">
           <Button
             sx={{ marginX: '1%' }}
@@ -678,7 +688,16 @@ const Airman = ({
         </Box>
       </Box>
       {dataTable === 'trainings' ? (
-        <DataTable rows={currentAirmanTrainings} columns={trainingsColumns} />
+        <Card
+          sx={{ backgroundColor: `${cardBackground}`, borderRadius: '20px' }}
+        >
+          <CardContent>
+            <DataTable
+              rows={currentAirmanTrainings}
+              columns={trainingsColumns}
+            />
+          </CardContent>
+        </Card>
       ) : (
         <Card
           sx={{
@@ -689,84 +708,96 @@ const Airman = ({
             flexWrap: 'wrap',
             alignContent: 'flex-start',
             padding: '0.5%',
-            backgroundColor: 'rgba(0, 0, 0, 0)',
-            border: mode === 'light' ? 'solid 0.1px white' : 'solid 0.1px grey',
+            backgroundColor: `${cardBackground}`,
+            borderRadius: '20px',
           }}
         >
-          {currentCertificates.map((certificate) => (
-            <Card
-              sx={{
-                width: 335,
-                backgroundColor: `${cardBackground}`,
-                margin: '1%',
-                height: 350,
-              }}
-              key={certificate.id}
-            >
-              <CardContent>
-                <img
-                  src={thumbnail(certificate.url)}
-                  alt="no content"
-                  height="200"
-                  width="300"
-                />
-                <Typography
-                  variant="h5"
-                  component="div"
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <span>Training</span>
-                  {
-                    trainings.find(
-                      (training) => training.id === certificate.trainingId
-                    ).name
-                  }
-                </Typography>
-                <Typography
-                  variant="h5"
-                  component="div"
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <span>Completion</span>
-                  {format(
-                    new Date(
-                      certificate.completion.split('T')[0].split('-')[0],
-                      certificate.completion.split('T')[0].split('-')[1] - 1,
-                      certificate.completion.split('T')[0].split('-')[2] - 1
-                    ),
-                    'ddMMMyyyy'
-                  ).toUpperCase()}
-                </Typography>
-                <Typography
-                  variant="h5"
-                  component="div"
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <span>Validated</span>
-                  {certificate.validated === true ? (
-                    <CheckIcon color="green" fontSize="large" />
-                  ) : (
-                    <CloseIcon color="red" fontSize="large" />
-                  )}
-                </Typography>
-              </CardContent>
-            </Card>
-          ))}
+          <Box
+            height="97%"
+            width="100%"
+            border={
+              mode === 'light'
+                ? '1px solid rgb(231,229,241)'
+                : '1px solid rgb(81,81,81)'
+            }
+            borderRadius="5px"
+            margin="7px"
+          >
+            {currentCertificates.map((certificate) => (
+              <Card
+                sx={{
+                  width: 335,
+                  backgroundColor: `${cardBackground}`,
+                  margin: '1%',
+                  height: 350,
+                }}
+                key={certificate.id}
+              >
+                <CardContent>
+                  <img
+                    src={thumbnail(certificate.url)}
+                    alt="no content"
+                    height="200"
+                    width="300"
+                  />
+                  <Typography
+                    variant="h5"
+                    component="div"
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <span>Training</span>
+                    {
+                      trainings.find(
+                        (training) => training.id === certificate.trainingId
+                      ).name
+                    }
+                  </Typography>
+                  <Typography
+                    variant="h5"
+                    component="div"
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <span>Completion</span>
+                    {format(
+                      new Date(
+                        certificate.completion.split('T')[0].split('-')[0],
+                        certificate.completion.split('T')[0].split('-')[1] - 1,
+                        certificate.completion.split('T')[0].split('-')[2] - 1
+                      ),
+                      'ddMMMyyyy'
+                    ).toUpperCase()}
+                  </Typography>
+                  <Typography
+                    variant="h5"
+                    component="div"
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <span>Validated</span>
+                    {certificate.validated === true ? (
+                      <CheckIcon color="green" fontSize="large" />
+                    ) : (
+                      <CloseIcon color="red" fontSize="large" />
+                    )}
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))}
+          </Box>
         </Card>
       )}
     </>
