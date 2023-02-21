@@ -390,6 +390,24 @@ const Airman = ({
     cardBackground = 'rgba(0, 0, 0, 0.1)'
   }
 
+  let bVariant1 = []
+  let bVariant2 = []
+
+  let buttonVariant
+  if (mode === 'dark' && dataTable === 'trainings') {
+    ;(bVariant1 = 'contained'),
+      (bVariant2 = 'outlined')
+  } else if (mode === 'dark' && dataTable === 'certificates') {
+    ;(bVariant2 = 'contained'),
+      (bVariant1 = 'outlined')
+  } else if (mode === 'light' && dataTable === 'trainings') {
+    ;(bVariant1 = 'contained'),
+      (bVariant2 = 'outlined')
+  } else if (mode === 'light' && dataTable === 'certificates') {
+    ;(bVariant2 = 'contained'),
+      (bVariant1 = 'outlined')
+  }
+
   return (
     <>
       <Box display="flex" flexDirection="row">
@@ -653,7 +671,7 @@ const Airman = ({
         <Box width="50%">
           <Button
             sx={{ marginX: '1%' }}
-            variant={mode === 'light' ? 'contained' : 'outlined'}
+            variant={bVariant1}
             size="large"
             onClick={() => setDataTable('trainings')}
           >
@@ -661,7 +679,7 @@ const Airman = ({
           </Button>
           <Button
             sx={{ marginX: '1%' }}
-            variant={mode === 'light' ? 'contained' : 'outlined'}
+            variant={bVariant2}
             size="large"
             onClick={() => setDataTable('certificates')}
           >
