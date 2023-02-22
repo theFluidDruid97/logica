@@ -13,7 +13,7 @@ import {
 } from '@redwoodjs/forms'
 import { useQuery } from '@redwoodjs/web'
 export const QUERY = gql`
-  query FindAirmen {
+  query FindNotificationAirmen {
     airmen {
       id
       firstName

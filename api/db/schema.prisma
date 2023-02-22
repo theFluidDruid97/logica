@@ -75,14 +75,14 @@ model Certificate {
 }
 
 model AirmanTraining {
-  id         Int      @id @default(autoincrement())
-  airman     Airman   @relation(fields: [airmanId], references: [id])
+  id         Int       @id @default(autoincrement())
+  airman     Airman    @relation(fields: [airmanId], references: [id])
   airmanId   Int
-  training   Training @relation(fields: [trainingId], references: [id])
+  training   Training  @relation(fields: [trainingId], references: [id])
   trainingId Int
-  status     Status?  @default(Due)
-  start      DateTime
-  end        DateTime
+  status     Status?   @default(Due)
+  start      DateTime?
+  end        DateTime?
 
   @@unique([airmanId, trainingId])
 }

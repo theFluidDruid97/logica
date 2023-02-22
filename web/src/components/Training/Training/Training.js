@@ -4,6 +4,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
+import FindInPageIcon from '@mui/icons-material/FindInPage'
 import LaunchIcon from '@mui/icons-material/Launch'
 import UpdateIcon from '@mui/icons-material/Update'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
@@ -32,6 +33,7 @@ import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import { ThemeModeContext } from '../../../App.js'
+import AirmanDrawer from '../../AirmanDrawer/AirmanDrawer.js'
 import DataTable from '../../DataTable/DataTable.js'
 
 ChartJS.register(
@@ -54,7 +56,17 @@ const DELETE_TRAINING_MUTATION = gql`
   }
 `
 
-const Training = ({ training }) => {
+const Training = ({ training, airmanTrainings, airmen }) => {
+  const currentAirmanTrainings = []
+  let trainingRecords = airmanTrainings.filter(
+    (airmanTraining) => airmanTraining.trainingId === training.id
+  )
+  for (let trainingRecord of trainingRecords) {
+    currentAirmanTrainings.push(
+      airmen.find((airman) => trainingRecord.airmanId === airman.id)
+    )
+  }
+
   const { mode } = React.useContext(ThemeModeContext)
   const [deleteTraining] = useMutation(DELETE_TRAINING_MUTATION, {
     onCompleted: () => {
@@ -102,6 +114,96 @@ const Training = ({ training }) => {
       },
     ],
   }
+  const columns = [
+    {
+      field: 'status',
+      headerName: 'Status',
+      width: 125,
+      renderCell: (params) => {
+        let trainingStatus = airmanTrainings.find(
+          (airmanTraining) =>
+            airmanTraining.airmanId === params.row.id &&
+            airmanTraining.trainingId === training.id
+        ).status
+        if (trainingStatus === 'Overdue') {
+          return (
+            <Chip
+              sx={{ width: '95px' }}
+              label="OVERDUE"
+              color="red"
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+            />
+          )
+        } else if (trainingStatus === 'Due') {
+          return (
+            <Chip
+              sx={{ width: '95px' }}
+              label="DUE"
+              color="yellow"
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+            />
+          )
+        } else {
+          return (
+            <Chip
+              sx={{ width: '95px' }}
+              label="CURRENT"
+              color="green"
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+            />
+          )
+        }
+      },
+    },
+    { field: 'rank', headerName: 'Rank', flex: 0.75 },
+    { field: 'lastName', headerName: 'Last Name', flex: 1 },
+    { field: 'firstName', headerName: 'First Name', flex: 1 },
+    { field: 'middleName', headerName: 'Middle Name', flex: 1 },
+    { field: 'email', headerName: 'E-Mail', flex: 1 },
+    { field: 'organization', headerName: 'Organization', flex: 1 },
+    { field: 'officeSymbol', headerName: 'Office Symbol', flex: 0.75 },
+    { field: 'dodId', headerName: 'DoD ID', flex: 1 },
+    { field: 'roles', headerName: 'Role', flex: 1 },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      sortable: false,
+      filterable: false,
+      width: 225,
+      renderCell: (params) => {
+        return (
+          <>
+            <Button
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+              size="small"
+              color={mode === 'light' ? 'grey' : 'primary'}
+              onClick={() => navigate(routes.airman({ id: params.row.id }))}
+              title={'View'}
+            >
+              <FindInPageIcon />
+            </Button>
+            <Button
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+              size="small"
+              onClick={() => navigate(routes.editAirman({ id: params.row.id }))}
+              title={'Edit'}
+            >
+              <EditIcon />
+            </Button>
+            <Button
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+              size="small"
+              color={mode === 'light' ? 'red' : 'primary'}
+              onClick={() => onDeleteClick(params.row, params.row.id)}
+              title={'Delete'}
+            >
+              <DeleteIcon />
+            </Button>
+          </>
+        )
+      },
+    },
+  ]
   let cardBackground
   if (mode === 'light') {
     ChartJS.defaults.color = 'black'
@@ -115,14 +217,15 @@ const Training = ({ training }) => {
 
   return (
     <>
-      <Box display="flex" flexDirection="row" marginBottom="1%">
-        <Box width="80%" marginRight="1%">
+      <Box display="flex" flexDirection="row" marginBottom="1.75%">
+        <Box width="80%" marginRight="1.75%">
           <Card
             sx={{
               backgroundColor: `${cardBackground}`,
               display: 'flex',
               flexDirection: 'column',
-              marginBottom: '1%',
+              marginBottom: '2%',
+              borderRadius: '20px',
             }}
           >
             <CardContent>
@@ -145,7 +248,7 @@ const Training = ({ training }) => {
                   <Button
                     sx={{ margin: 1 }}
                     variant={mode === 'light' ? 'contained' : 'outlined'}
-                    color="red"
+                    color={mode === 'light' ? 'red' : 'primary'}
                     onClick={() => onDeleteClick(training, training.id)}
                   >
                     <DeleteIcon />
@@ -158,47 +261,55 @@ const Training = ({ training }) => {
                 flexDirection="row"
                 justifyContent="space-between"
               >
-                <Typography variant="h5">
-                  CERTIFICTION DURATION
-                  <br />
-                  {training.duration} Months
-                </Typography>
-                <Typography variant="h5">
-                  TRAINING LINK
-                  <br />
-                  <Button variant={mode === 'light' ? 'contained' : 'outlined'}>
-                    <a
-                      href={training.link}
-                      target="_blank"
-                      rel="noreferrer"
-                      title={training.link}
+                <Box width="33%">
+                  <Typography variant="h5">
+                    CERTIFICTION DURATION
+                    <br />
+                    {training.duration} Months
+                  </Typography>
+                </Box>
+                <Box width="33%">
+                  <Typography variant="h5">
+                    TRAINING LINK
+                    <br />
+                    <Button
+                      variant={mode === 'light' ? 'contained' : 'outlined'}
                     >
-                      {training.name}
-                    </a>
-                    <LaunchIcon />
-                  </Button>
-                </Typography>
-                <Typography variant="h5">
-                  TAGS
-                  <br />
-                  {[...Array(parseInt(faker.random.numeric(1)))].map((e) => (
-                    <Chip
-                      key={e}
-                      sx={{ marginX: '1%' }}
-                      label="TAG NAME"
-                      color={faker.helpers.arrayElement([
-                        'red',
-                        'orange',
-                        'yellow',
-                        'green',
-                        'blue',
-                        'indigo',
-                        'purple',
-                        'grey',
-                      ])}
-                    />
-                  ))}
-                </Typography>
+                      <a
+                        href={training.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        title={training.link}
+                      >
+                        {training.name}
+                      </a>
+                      <LaunchIcon />
+                    </Button>
+                  </Typography>
+                </Box>
+                <Box width="33%">
+                  <Typography variant="h5">
+                    TAGS
+                    <br />
+                    {[...Array(parseInt(faker.random.numeric(1)))].map((e) => (
+                      <Chip
+                        key={e}
+                        sx={{ marginX: '1%' }}
+                        label="TAG NAME"
+                        color={faker.helpers.arrayElement([
+                          'red',
+                          'orange',
+                          'yellow',
+                          'green',
+                          'blue',
+                          'indigo',
+                          'purple',
+                          'grey',
+                        ])}
+                      />
+                    ))}
+                  </Typography>
+                </Box>
               </Box>
             </CardContent>
           </Card>
@@ -207,6 +318,7 @@ const Training = ({ training }) => {
               backgroundColor: `${cardBackground}`,
               display: 'flex',
               flexDirection: 'column',
+              borderRadius: '20px',
             }}
           >
             <CardContent>
@@ -308,6 +420,7 @@ const Training = ({ training }) => {
             sx={{
               backgroundColor: `${cardBackground}`,
               height: '100%',
+              borderRadius: '20px',
             }}
           >
             <CardContent>
@@ -322,16 +435,23 @@ const Training = ({ training }) => {
           </Card>
         </Box>
       </Box>
-      <Box marginBottom="1%" display="flex" justifyContent="flex-end">
-        <Button
-          sx={{ marginX: '1%' }}
-          variant={mode === 'light' ? 'contained' : 'outlined'}
-          size="large"
-        >
-          Assign Airmen
-        </Button>
+      <Box
+        marginBottom="1.75%"
+        marginX="1%"
+        display="flex"
+        justifyContent="flex-end"
+      >
+        <AirmanDrawer
+          airmen={airmen}
+          training={training}
+          currentAirmanTrainings={currentAirmanTrainings}
+        />
       </Box>
-      <DataTable rows={[]} columns={[]} />
+      <Card sx={{ backgroundColor: `${cardBackground}`, borderRadius: '20px' }}>
+        <CardContent>
+          <DataTable rows={currentAirmanTrainings} columns={columns} />
+        </CardContent>
+      </Card>
     </>
   )
 }

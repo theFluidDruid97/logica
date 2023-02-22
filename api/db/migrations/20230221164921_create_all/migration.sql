@@ -77,8 +77,8 @@ CREATE TABLE "AirmanTraining" (
     "airmanId" INTEGER NOT NULL,
     "trainingId" INTEGER NOT NULL,
     "status" "Status" DEFAULT 'Due',
-    "start" TIMESTAMP(3) NOT NULL,
-    "end" TIMESTAMP(3) NOT NULL,
+    "start" TIMESTAMP(3),
+    "end" TIMESTAMP(3),
 
     CONSTRAINT "AirmanTraining_pkey" PRIMARY KEY ("id")
 );

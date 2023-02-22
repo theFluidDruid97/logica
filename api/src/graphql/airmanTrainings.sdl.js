@@ -6,8 +6,8 @@ export const schema = gql`
     training: Training!
     trainingId: Int!
     status: Status
-    start: DateTime!
-    end: DateTime!
+    start: DateTime
+    end: DateTime
   }
 
   enum Status {
@@ -25,8 +25,8 @@ export const schema = gql`
     airmanId: Int!
     trainingId: Int!
     status: Status
-    start: DateTime!
-    end: DateTime!
+    start: DateTime
+    end: DateTime
   }
 
   input UpdateAirmanTrainingInput {

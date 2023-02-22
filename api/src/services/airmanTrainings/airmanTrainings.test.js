@@ -32,15 +32,11 @@ describe('airmanTrainings', () => {
       input: {
         airmanId: scenario.airmanTraining.two.airmanId,
         trainingId: scenario.airmanTraining.two.trainingId,
-        start: '2023-02-14T16:47:36.527Z',
-        end: '2023-02-14T16:47:36.527Z',
       },
     })
 
     expect(result.airmanId).toEqual(scenario.airmanTraining.two.airmanId)
     expect(result.trainingId).toEqual(scenario.airmanTraining.two.trainingId)
-    expect(result.start).toEqual(new Date('2023-02-14T16:47:36.527Z'))
-    expect(result.end).toEqual(new Date('2023-02-14T16:47:36.527Z'))
   })
 
   scenario('updates a airmanTraining', async (scenario) => {
@@ -49,10 +45,10 @@ describe('airmanTrainings', () => {
     })
     const result = await updateAirmanTraining({
       id: original.id,
-      input: { start: '2023-02-15T16:47:36.528Z' },
+      input: { airmanId: scenario.airmanTraining.two.airmanId },
     })
 
-    expect(result.start).toEqual(new Date('2023-02-15T16:47:36.528Z'))
+    expect(result.airmanId).toEqual(scenario.airmanTraining.two.airmanId)
   })
 
   scenario('deletes a airmanTraining', async (scenario) => {
