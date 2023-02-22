@@ -1,5 +1,4 @@
 import 'chartjs-adapter-moment'
-import { Chart as ChartJS } from 'chart.js'
 import 'moment'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -11,6 +10,7 @@ import TextField from '@mui/material/TextField'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { Chart as ChartJS } from 'chart.js'
 import { CategoryScale } from 'chart.js'
 import Chart from 'chart.js/auto'
 import chartTrendline from 'chartjs-plugin-trendline'
@@ -321,7 +321,7 @@ const ReportsPage = () => {
           <Box>
             <Button
               sx={{ marginX: 1 }}
-              variant={mode === 'light' ? 'contained' : 'contained'}
+              variant={mode === 'light' ? 'contained' : 'outlined'}
               text-align="left"
               onClick={() => toggleDrawer()}
             >
@@ -329,7 +329,7 @@ const ReportsPage = () => {
             </Button>
             <Button
               sx={{ marginX: 1 }}
-              variant={mode === 'light' ? 'contained' : 'contained'}
+              variant={mode === 'light' ? 'contained' : 'outlined'}
               onClick={exportChart}
             >
               Export
