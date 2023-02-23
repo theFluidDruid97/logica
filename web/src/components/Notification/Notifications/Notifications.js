@@ -133,8 +133,11 @@ const NotificationsList = ({ notifications }) => {
       </table>
 
       <Drawer anchor={'right'} open={open} onClose={() => toggleDrawer()}>
-        <FormControl variant="standard" sx={{ marginLeft: '20%' }}>
-          <Box sx={{ width: 400, marginTop: 10 }} role="presentation">
+        <FormControl
+          variant="standard"
+          sx={{ marginLeft: '5%', textOverflow: '0' }}
+        >
+          <Box sx={{ width: 500, marginTop: 10 }} role="presentation">
             <div>
               {notifications.map((notification) => (
                 <div key={notification.id}>
