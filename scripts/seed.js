@@ -12,6 +12,7 @@ import { airmanTrainings } from './trainings.js'
 let trainingsCount = 0
 let collectionsCount = 0
 let airmanCount = 0
+let airmanTrainingCount = 0
 const defaultPassword = '123'
 const adminEmail = 'admin@mail.com'
 const adminPassword = '1776'
@@ -60,16 +61,18 @@ const createAirmenTrainings = async (airmanTrainings) => {
   for (let airmanTraining of airmanTrainings) {
   await db.airmanTraining.create({
     data: {
-      // airman: airmanTraining.airman,
       airmanId: airmanTraining.airmanId,
-      // training: airmanTraining.training,
       trainingId: airmanTraining.trainingId,
       status: airmanTraining.status,
       start: airmanTraining.start,
       end: airmanTraining.end,
     },
   })
+  airmanTrainingCount = airmanTrainingCount + 1
   }
+  console.log(
+    `\tAIRMAN TRAININGS CREATED\t${airmanTrainingCount}\n\n`
+  )
 }
 
 export default async () => {
@@ -94,35 +97,3 @@ export default async () => {
     console.error(error)
   }
 }
-
-
-// export const status = ['Current', 'Due', 'Overdue']
-
-// const repeat = (func, times) => {
-//   func()
-//   times && --times && repeat(func, times)
-// }
-
-// export function createAirmanTraining(AirmanTraining) {
-//   return {
-//     data: {
-//     // airman: [],
-//     airmanId: faker.datatype.number({
-//       min: 1,
-//       max: 100,
-//       allowLeadingZeros: false,
-//     }),
-//     // training: [],
-//     trainingId: faker.datatype.number({
-//       min: 1,
-//       max: 10,
-//       allowLeadingZeros: false,
-//     }),
-//     status: faker.helpers.arrayElement(status),
-//     start: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
-//     end: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
-//   }
-//   };
-// }
-
-// repeat(createAirmanTraining, 100)
