@@ -35,20 +35,29 @@ const ColorModeContext = React.createContext({ toggleColorMode: () => {} })
 const getDesignTokens = (mode) => ({
   palette: {
     mode,
-    primary: {
-      ...(mode === 'light' && {
-        main: deepPurple[900],
-      }),
-      ...(mode === 'dark' && {
-        main: 'rgb(255,255,255)',
-      }),
+    ...(mode === 'light'
+      ? {
+          divider: deepPurple[900],
+        }
+      : {
+          divider: 'rgb(255,255,255)',
+        }),
+    background: {
+      ...(mode === 'light'
+        ? {
+            paper: 'white',
+          }
+        : { paper: 'black' }),
     },
-    ...(mode === 'light' && {
-      divider: deepPurple[900],
-    }),
-    ...(mode === 'dark' && {
-      divider: 'rgb(255,255,255)',
-    }),
+    primary: {
+      ...(mode === 'light'
+        ? {
+            main: deepPurple[900],
+          }
+        : {
+            main: 'rgb(255,255,255)',
+          }),
+    },
     text: {
       ...(mode === 'light'
         ? {

@@ -2,7 +2,6 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Drawer from '@mui/material/Drawer'
 import FormControl from '@mui/material/FormControl'
-import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
@@ -79,9 +78,6 @@ const TrainingDrawer = ({ airman, trainings }) => {
       <Drawer anchor={'right'} open={open} onClose={() => toggleDrawer()}>
         <FormControl sx={{ marginY: '25%', paddingX: '10%', width: '400px' }}>
           <Box marginBottom="10%">
-            <InputLabel sx={{ paddingX: '13.5%' }} id="training-label">
-              Training
-            </InputLabel>
             <Select
               fullWidth
               value={training}

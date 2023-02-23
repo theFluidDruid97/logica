@@ -80,9 +80,9 @@ model AirmanTraining {
   airmanId   Int
   training   Training? @relation(fields: [trainingId], references: [id])
   trainingId Int
-  status     Status?  @default(Due)
-  start      DateTime
-  end        DateTime
+  status     Status?   @default(Due)
+  start      DateTime?
+  end        DateTime?
 
   @@unique([airmanId, trainingId])
 }

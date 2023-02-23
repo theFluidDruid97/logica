@@ -1,5 +1,12 @@
 import * as React from 'react'
 
+import { FormControl, TextField } from '@mui/material'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Drawer from '@mui/material/Drawer'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+
 import { Link, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { useQuery } from '@redwoodjs/web'
@@ -26,6 +33,8 @@ export const QUERY = gql`
 `
 
 const NotificationsList = ({ notifications }) => {
+  const [open, setOpen] = React.useState(false)
+
   const { data } = useQuery(QUERY)
   console.log(data.airmen)
   const [deleteNotification] = useMutation(DELETE_NOTIFICATION_MUTATION, {
@@ -48,8 +57,17 @@ const NotificationsList = ({ notifications }) => {
     }
   }
 
+  const toggleDrawer = () => {
+    setOpen(!open)
+  }
   return (
     <div className="rw-segment rw-table-wrapper-responsive">
+      <div>
+        <Button sx={{ marginLeft: 161 }}>
+          <Link to={routes.newNotification()}>New Notification</Link>
+        </Button>
+      </div>
+
       <table className="rw-table">
         <thead>
           <tr>
@@ -84,13 +102,14 @@ const NotificationsList = ({ notifications }) => {
               <td>{truncate(notification.message)}</td>
               <td>
                 <nav className="rw-table-actions">
-                  <Link
-                    to={routes.notification({ id: notification.id })}
-                    title={'Show notification ' + notification.id + ' detail'}
-                    className="rw-button rw-button-small"
+                  <Button
+                    onClick={() => toggleDrawer()}
+                    // to={routes.notification({ id: notification.id })}
+                    // title={'Show notification ' + notification.id + ' detail'}
+                    // className="rw-button rw-button-small"
                   >
                     Show
-                  </Link>
+                  </Button>
                   <Link
                     to={routes.editNotification({ id: notification.id })}
                     title={'Edit notification ' + notification.id}
@@ -112,6 +131,20 @@ const NotificationsList = ({ notifications }) => {
           ))}
         </tbody>
       </table>
+
+      <Drawer anchor={'right'} open={open} onClose={() => toggleDrawer()}>
+        <FormControl variant="standard" sx={{ marginLeft: '20%' }}>
+          <Box sx={{ width: 400, marginTop: 10 }} role="presentation">
+            <div>
+              {notifications.map((notification) => (
+                <div key={notification.id}>
+                  <p>{truncate(notification.message)}</p>
+                </div>
+              ))}
+            </div>
+          </Box>
+        </FormControl>
+      </Drawer>
     </div>
   )
 }
