@@ -1,3 +1,7 @@
+import { faker } from '@faker-js/faker'
+
+export const airmanTrainings = []
+
 export const trainings = [
   {
     name: 'Sig Sauer M18',
@@ -70,3 +74,34 @@ export const trainings = [
       'The Combating Trafficking in Persons General Awareness course is designed for all DoD personnel. This course provides information regarding policy and laws applicable to Trafficking in Persons.',
   },
 ]
+
+export const status = ['Current', 'Due', 'Overdue']
+
+const repeat = (func, times) => {
+  func()
+  times && --times && repeat(func, times)
+}
+const createAssignedTraining = () => {
+
+  airmanTrainings.push({
+    // airman: [],
+    airmanId: faker.datatype.number({
+      min: 1,
+      max: 101,
+      allowLeadingZeros: false,
+    }),
+    // training: [],
+    trainingId: faker.datatype.number({
+      min: 1,
+      max: 10,
+      allowLeadingZeros: false,
+    }),
+    status: faker.helpers.arrayElement(status),
+    start: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+    end: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+  })
+  // console.log("CAT", airmanTrainings)
+}
+
+
+ repeat(createAssignedTraining, 65)

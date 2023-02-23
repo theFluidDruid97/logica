@@ -5,6 +5,9 @@ import { hashPassword } from '@redwoodjs/api'
 import { airmen } from './airmen.js'
 import { collections } from './collections.js'
 import { trainings } from './trainings.js'
+import { airmanTrainings } from './trainings.js'
+
+// import { faker } from '@faker-js/faker';
 
 let trainingsCount = 0
 let collectionsCount = 0
@@ -53,6 +56,22 @@ const createAirmen = async (airmen) => {
   )
 }
 
+const createAirmenTrainings = async (airmanTrainings) => {
+  for (let airmanTraining of airmanTrainings) {
+  await db.airmanTraining.create({
+    data: {
+      // airman: airmanTraining.airman,
+      airmanId: airmanTraining.airmanId,
+      // training: airmanTraining.training,
+      trainingId: airmanTraining.trainingId,
+      status: airmanTraining.status,
+      start: airmanTraining.start,
+      end: airmanTraining.end,
+    },
+  })
+  }
+}
+
 export default async () => {
   try {
     await db.airman.create({ data: admin })
@@ -68,9 +87,42 @@ export default async () => {
       await db.collection.create({ data })
     })
 
-    createAirmen(airmen)
+    await createAirmen(airmen)
+    createAirmenTrainings(airmanTrainings)
   } catch (error) {
     console.warn('Please define your seed data.')
     console.error(error)
   }
 }
+
+
+// export const status = ['Current', 'Due', 'Overdue']
+
+// const repeat = (func, times) => {
+//   func()
+//   times && --times && repeat(func, times)
+// }
+
+// export function createAirmanTraining(AirmanTraining) {
+//   return {
+//     data: {
+//     // airman: [],
+//     airmanId: faker.datatype.number({
+//       min: 1,
+//       max: 100,
+//       allowLeadingZeros: false,
+//     }),
+//     // training: [],
+//     trainingId: faker.datatype.number({
+//       min: 1,
+//       max: 10,
+//       allowLeadingZeros: false,
+//     }),
+//     status: faker.helpers.arrayElement(status),
+//     start: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+//     end: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+//   }
+//   };
+// }
+
+// repeat(createAirmanTraining, 100)
