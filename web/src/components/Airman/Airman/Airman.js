@@ -32,12 +32,13 @@ import { routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
+import RequestTrainingDrawer from 'src/components/RequestTrainingDrawer/RequestTrainingDrawer.js'
+
 import { ThemeModeContext } from '../../../App.js'
 import CertificateDrawer from '../../CertificateDrawer/CertificateDrawer.js'
 import DataTable from '../../DataTable/DataTable.js'
 import SupervisorDrawer from '../../SupervisorDrawer/SupervisorDrawer.js'
 import TrainingDrawer from '../../TrainingDrawer/TrainingDrawer.js'
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -395,17 +396,13 @@ const Airman = ({
 
   let buttonVariant
   if (mode === 'dark' && dataTable === 'trainings') {
-    ;(bVariant1 = 'contained'),
-      (bVariant2 = 'outlined')
+    ;(bVariant1 = 'contained'), (bVariant2 = 'outlined')
   } else if (mode === 'dark' && dataTable === 'certificates') {
-    ;(bVariant2 = 'contained'),
-      (bVariant1 = 'outlined')
+    ;(bVariant2 = 'contained'), (bVariant1 = 'outlined')
   } else if (mode === 'light' && dataTable === 'trainings') {
-    ;(bVariant1 = 'contained'),
-      (bVariant2 = 'outlined')
+    ;(bVariant1 = 'contained'), (bVariant2 = 'outlined')
   } else if (mode === 'light' && dataTable === 'certificates') {
-    ;(bVariant2 = 'contained'),
-      (bVariant1 = 'outlined')
+    ;(bVariant2 = 'contained'), (bVariant1 = 'outlined')
   }
 
   return (
@@ -702,6 +699,9 @@ const Airman = ({
           </Box>
           <Box marginX="1%">
             <CertificateDrawer trainings={trainings} airman={airman} />
+          </Box>
+          <Box>
+            <RequestTrainingDrawer trainings={trainings} airman={airman} />
           </Box>
         </Box>
       </Box>
