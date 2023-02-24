@@ -27,7 +27,7 @@ model Airman {
   supervisorId        Int?
   supervisor          Airman?          @relation("SupervisorAirman", fields: [supervisorId], references: [id])
   airmen              Airman[]         @relation("SupervisorAirman")
-  roles               Role             @default(Airman)
+  roles               Role
   assignedTrainings   AirmanTraining[]
   certificates        Certificate[]
   notifications       Notification[]
@@ -83,7 +83,6 @@ model AirmanTraining {
   status     Status?   @default(Due)
   start      DateTime?
   end        DateTime?
-
   @@unique([airmanId, trainingId])
 }
 
@@ -93,7 +92,6 @@ model TrainingCollection {
   trainingId   Int
   collection   Collection @relation(fields: [collectionId], references: [id])
   collectionId Int
-
   @@unique([trainingId, collectionId])
 }
 
