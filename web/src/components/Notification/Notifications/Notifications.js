@@ -4,8 +4,10 @@ import { FormControl, TextField } from '@mui/material'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Drawer from '@mui/material/Drawer'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
+// import List from '@mui/material/List'
+// import ListItem from '@mui/material/ListItem'
+// import MenuItem from '@mui/material/MenuItem'
+// import Select from '@mui/material/Select'
 
 import { Link, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
@@ -72,7 +74,7 @@ const NotificationsList = ({ notifications }) => {
         <thead>
           <tr>
             <th>Id</th>
-            <th>airmanId</th>
+            {/* <th>airmanId</th> */}
             <th>Created at</th>
             <th>Message</th>
             <th>&nbsp;</th>
@@ -81,7 +83,6 @@ const NotificationsList = ({ notifications }) => {
         <tbody>
           {notifications.map((notification) => (
             <tr key={notification.id}>
-              <td>{truncate(notification.id)}</td>
               <td>
                 {`${
                   data.airmen.find(
@@ -104,9 +105,9 @@ const NotificationsList = ({ notifications }) => {
                 <nav className="rw-table-actions">
                   <Button
                     onClick={() => toggleDrawer()}
-                    // to={routes.notification({ id: notification.id })}
-                    // title={'Show notification ' + notification.id + ' detail'}
-                    // className="rw-button rw-button-small"
+                    to={routes.notification({ id: notification.id })}
+                    title={'Show notification ' + notification.id + ' detail'}
+                    className="rw-button rw-button-small"
                   >
                     Show
                   </Button>

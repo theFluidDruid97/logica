@@ -61,12 +61,12 @@ const RequestTrainingDrawer = ({ airman, trainings }) => {
   const handleTrainingChange = (event) => {
     setTraining(event.target.value)
   }
-  const handleStartChange = (newDate) => {
-    setStart(newDate)
-  }
-  const handleEndChange = (newDate) => {
-    setEnd(newDate)
-  }
+  // const handleStartChange = (newDate) => {
+  //   setStart(newDate)
+  // }
+  // const handleEndChange = (newDate) => {
+  //   setEnd(newDate)
+  // }
   const handleSendChange = (event) => {
     setSend(event)
   }
@@ -101,24 +101,24 @@ const RequestTrainingDrawer = ({ airman, trainings }) => {
             </Select>
           </Box>
           <Box marginBottom="10%">
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
+            {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
                 label="Start"
                 value={start}
                 onChange={handleStartChange}
                 renderInput={(params) => <TextField {...params} />}
               />
-            </LocalizationProvider>
+            </LocalizationProvider> */}
           </Box>
           <Box marginBottom="10%">
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
+            {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
                 label="End"
                 value={end}
                 onChange={handleEndChange}
                 renderInput={(params) => <TextField {...params} />}
               />
-            </LocalizationProvider>
+            </LocalizationProvider> */}
           </Box>
           <Button onClick={() => handleSubmit()} onChange={handleSendChange}>
             Submit

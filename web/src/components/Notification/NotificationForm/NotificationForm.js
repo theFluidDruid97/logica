@@ -67,13 +67,13 @@ const NotificationForm = (props) => {
           Airman id
         </Label>
 
-        <NumberField
+        {/* <NumberField
           name="airmanId"
           defaultValue={props.notification?.airmanId}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
+          // validation={{ required: true }}
+        /> */}
 
         <FieldError name="airmanId" className="rw-field-error" />
 

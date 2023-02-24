@@ -3,7 +3,7 @@ import { Link, routes } from '@redwoodjs/router'
 import Notifications from 'src/components/Notification/Notifications'
 
 export const QUERY = gql`
-  query FindNotifications {
+  query FindNotificationsById {
     notifications {
       id
       airmanId

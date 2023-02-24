@@ -75,7 +75,7 @@ model Certificate {
 }
 
 model AirmanTraining {
-  id         Int      @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   airman     Airman?   @relation(fields: [airmanId], references: [id])
   airmanId   Int
   training   Training? @relation(fields: [trainingId], references: [id])
@@ -112,8 +112,8 @@ enum Status {
 
 model Notification {
   id        Int      @id @default(autoincrement())
-  airmanId  Int
-  airman    Airman   @relation(fields: [airmanId], references: [id])
+  airmanId  Int?
+  airman    Airman?  @relation(fields: [airmanId], references: [id])
   message   String
   createdAt DateTime @default(now()) @db.Timestamptz(3)
 }
