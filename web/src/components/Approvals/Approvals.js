@@ -2,9 +2,10 @@ import * as React from 'react'
 
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined'
 import DoDisturbIcon from '@mui/icons-material/DoDisturb'
-import { Box, Typography } from '@mui/material'
-import Button from '@mui/material/Button'
+import { Box} from '@mui/material'
+//import Button from '@mui/material/Button'
 import { green, red } from '@mui/material/colors'
+import IconButton from '@mui/material/IconButton'
 import { DataGrid } from '@mui/x-data-grid'
 
 import { ThemeModeContext } from 'src/App.js'
@@ -65,7 +66,7 @@ const Approvals = () => {
                 marginRight: 1,
               }}
             >
-              <Button
+              <IconButton
                 variant={mode === 'light' ? 'contained' : 'outlined'}
                 size="small"
                 onClick={() => onDenyClick(params.row, params.row.id)}
@@ -76,10 +77,10 @@ const Approvals = () => {
                 }}
               >
                 <DoDisturbIcon />
-              </Button>
+              </IconButton>
             </Box>
             <Box>
-              <Button
+              <IconButton
                 variant={mode === 'light' ? 'contained' : 'outlined'}
                 size="small"
                 onClick={() => onApproveClick(params.row, params.row.id)}
@@ -90,7 +91,7 @@ const Approvals = () => {
                 }}
               >
                 <CheckOutlinedIcon />
-              </Button>
+              </IconButton>
             </Box>
           </Box>
         )
