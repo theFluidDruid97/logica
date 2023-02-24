@@ -82,7 +82,6 @@ const repeat = (func, times) => {
   times && --times && repeat(func, times)
 }
 const createAssignedTraining = () => {
-
   airmanTrainings.push({
     // airman: [],
     airmanId: faker.datatype.number({
@@ -97,11 +96,16 @@ const createAssignedTraining = () => {
       allowLeadingZeros: false,
     }),
     status: faker.helpers.arrayElement(status),
-    start: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
-    end: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+    start: faker.date.between(
+      '2020-01-01T00:00:00.000Z',
+      '2023-02-21T00:00:00.000Z'
+    ),
+    end: faker.date.between(
+      '2020-01-01T00:00:00.000Z',
+      '2023-02-21T00:00:00.000Z'
+    ),
   })
   // console.log("CAT", airmanTrainings)
 }
 
-
- repeat(createAssignedTraining, 65)
+repeat(createAssignedTraining, 10)

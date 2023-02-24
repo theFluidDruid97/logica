@@ -79,6 +79,7 @@ CREATE TABLE "AirmanTraining" (
     "status" "Status" DEFAULT 'Due',
     "start" TIMESTAMP(3),
     "end" TIMESTAMP(3),
+    "approval" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "AirmanTraining_pkey" PRIMARY KEY ("id")
 );
