@@ -7,11 +7,10 @@ import { collections } from './collections.js'
 import { trainings } from './trainings.js'
 import { airmanTrainings } from './trainings.js'
 
-// import { faker } from '@faker-js/faker';
-
 let trainingsCount = 0
 let collectionsCount = 0
 let airmanCount = 0
+let airmanTrainingCount = 0
 const defaultPassword = '123'
 const adminEmail = 'admin@mail.com'
 const adminPassword = '1776'
@@ -31,6 +30,216 @@ const admin = {
   roles: 'Admin',
 }
 
+const monitor1 = {
+  email: "dustin.iverson.1@us.af.mil",
+  hashedPassword,
+  salt,
+  rank: 'SSgt',
+  firstName: 'Dustin',
+  middleName: 'William',
+  lastName: 'Iverson',
+  organization: '2 AMXS',
+  officeSymbol: 'A1A',
+  dodId: '2758016437',
+  afsc: '2A551',
+  roles: 'Monitor'
+  }
+
+const monitor2 = {
+  email: "nick.sibus.1@us.af.mil",
+  hashedPassword,
+  salt,
+  rank: 'SSgt',
+  firstName: 'Nicholas',
+  middleName: 'Nick',
+  lastName: 'Sibus',
+  organization: '2 AMXS',
+  officeSymbol: 'A1A',
+  dodId: '8016437104',
+  afsc: '2A551',
+  roles: 'Monitor'
+}
+
+const monitor3 = {
+  email: "john.noah.1@us.af.mil",
+  hashedPassword,
+  salt,
+  rank: 'SSgt',
+  firstName: 'John',
+  middleName: 'Joseph',
+  lastName: 'Noah',
+  organization: '8 FS',
+  officeSymbol: 'F1A',
+  dodId: '4371042341',
+  afsc: '2A951',
+  roles: 'Monitor'
+}
+
+const monitor4 = {
+  email: "cody.carrell.1@us.af.mil",
+  hashedPassword,
+  salt,
+  rank: 'SSgt',
+  firstName: 'Cody',
+  middleName: 'Wade',
+  lastName: 'Carrell',
+  organization: '8 FS',
+  officeSymbol: 'F1A',
+  dodId: '4323418897',
+  afsc: '2A951',
+  roles: 'Monitor'
+}
+
+const monitor5 = {
+  email: "billy.bob.1@us.af.mil",
+  hashedPassword,
+  salt,
+  rank: 'SSgt',
+  firstName: 'BillyBob',
+  middleName: 'Bobby',
+  lastName: 'JimBob',
+  organization: '67 SOS',
+  officeSymbol: 'S1A',
+  dodId: '0987789054',
+  afsc: '3P0X1',
+  roles: 'Monitor'
+}
+
+const monitor6 = {
+  email: "ernest.foster.1@us.af.mil",
+  hashedPassword,
+  salt,
+  rank: 'SSgt',
+  firstName: 'Ernest',
+  middleName: 'NMN',
+  lastName: 'Foster',
+  organization: '67 SOS',
+  officeSymbol: 'S1A',
+  dodId: '0911119054',
+  afsc: '3P0X1',
+  roles: 'Monitor'
+}
+
+const monitor7 = {
+  email: "kayla.smith.1@us.af.mil",
+  hashedPassword,
+  salt,
+  rank: 'SSgt',
+  firstName: 'Kayla',
+  middleName: 'Marie',
+  lastName: 'Smith',
+  organization: '96 BS',
+  officeSymbol: 'S1A',
+  dodId: '2105632793',
+  afsc: '1T0X1',
+  roles: 'Monitor'
+}
+
+const monitor8 = {
+  email: "natalie.davis.1@us.af.mil",
+  hashedPassword,
+  salt,
+  rank: 'SSgt',
+  firstName: 'Natalie',
+  middleName: 'May',
+  lastName: 'Davis',
+  organization: '96 BS',
+  officeSymbol: 'S1A',
+  dodId: '2107220810',
+  afsc: '1T0X1',
+  roles: 'Monitor'
+}
+
+const monitor9 = {
+  email: "emilia.willis.1@us.af.mil",
+  hashedPassword,
+  salt,
+  rank: 'SSgt',
+  firstName: 'Emilia',
+  middleName: 'Kay',
+  lastName: 'Willis',
+  organization: '343 BS',
+  officeSymbol: 'B1A',
+  dodId: '3344550876',
+  afsc: '3P0X1',
+  roles: 'Monitor'
+}
+
+const monitor10 = {
+  email: "goku.son.1@us.af.mil",
+  hashedPassword,
+  salt,
+  rank: 'SSgt',
+  firstName: 'Goku',
+  middleName: 'Kakarot',
+  lastName: 'Son',
+  organization: '343 BS',
+  officeSymbol: 'B1A',
+  dodId: '3256841001',
+  afsc: '3P0X1',
+  roles: 'Monitor'
+}
+
+const monitor11 = {
+  email: "andrew.jackson.1@us.af.mil",
+  hashedPassword,
+  salt,
+  rank: 'SSgt',
+  firstName: 'Andrew',
+  middleName: 'NMN',
+  lastName: 'Jackson',
+  organization: '377 SFS',
+  officeSymbol: 'S1A',
+  dodId: '4329817288',
+  afsc: '4Y0X1',
+  roles: 'Monitor'
+}
+
+const monitor12 = {
+  email: "george.washington.1@us.af.mil",
+  hashedPassword,
+  salt,
+  rank: 'SSgt',
+  firstName: 'George',
+  middleName: 'NMN',
+  lastName: 'Washington',
+  organization: '377 SFS',
+  officeSymbol: 'S1A',
+  dodId: '6608213321',
+  afsc: '4Y0X1',
+  roles: 'Monitor'
+}
+
+const monitor13 = {
+  email: "chris.stephens.1@us.af.mil",
+  hashedPassword,
+  salt,
+  rank: 'SSgt',
+  firstName: 'Chris',
+  middleName: 'Jim',
+  lastName: 'Stephens',
+  organization: '701 MUNS',
+  officeSymbol: 'M1A',
+  dodId: '9871235208',
+  afsc: '5J0X1',
+  roles: 'Monitor'
+}
+
+const monitor14 = {
+  email: "joey.reynolds.1@us.af.mil",
+  hashedPassword,
+  salt,
+  rank: 'SSgt',
+  firstName: 'Joey',
+  middleName: 'Michael',
+  lastName: 'Reynolds',
+  organization: '701 MUNS',
+  officeSymbol: 'M1A',
+  dodId: '8734610001',
+  afsc: '5J0X1',
+  roles: 'Monitor'
+}
+
 const createAirmen = async (airmen) => {
   for (let airman of airmen) {
     const [hashedPassword, salt] = hashPassword(defaultPassword)
@@ -47,12 +256,13 @@ const createAirmen = async (airmen) => {
         officeSymbol: airman.officeSymbol,
         dodId: airman.dodId,
         afsc: airman.afsc,
+        roles: airman.roles,
       },
     })
     airmanCount = airmanCount + 1
   }
   console.log(
-    `\n\n\t ________________________________\n\t|\t\t\t\t |\n\t|    ADMIN LOGIN INFORMATION\t |\n\t|\t\t\t\t |\n\t| EMAIL\t\t\tPASSWORD |\n\t| ${adminEmail}\t${adminPassword}\t |\n\t|________________________________|\n\n\n\n\tDEFAULT PASSWORD\t${defaultPassword}\n\n\tAIRMEN CREATED\t\t${airmanCount}\n\n\tTRAININGS CREATED\t${trainingsCount}\n\n\tCOLLECTIONS CREATED\t${collectionsCount}\n\n`
+    `\n\n\t ________________________________\n\t|\t\t\t\t |\n\t|    ADMIN LOGIN INFORMATION\t |\n\t|\t\t\t\t |\n\t| EMAIL\t\t\tPASSWORD |\n\t| ${adminEmail}\t${adminPassword}\t |\n\t|________________________________|\n\n\n\n\tDEFAULT PASSWORD\t${defaultPassword}\n\n\tAIRMEN CREATED\t\t${airmanCount}\n\n\tTRAININGS CREATED\t${trainingsCount}\n\n\tCOLLECTIONS CREATED\t${collectionsCount}\n`
   )
 }
 
@@ -60,21 +270,65 @@ const createAirmenTrainings = async (airmanTrainings) => {
   for (let airmanTraining of airmanTrainings) {
   await db.airmanTraining.create({
     data: {
-      // airman: airmanTraining.airman,
       airmanId: airmanTraining.airmanId,
-      // training: airmanTraining.training,
       trainingId: airmanTraining.trainingId,
       status: airmanTraining.status,
       start: airmanTraining.start,
       end: airmanTraining.end,
     },
   })
+  airmanTrainingCount = airmanTrainingCount + 1
   }
+  console.log(
+    `\tAIRMAN TRAININGS CREATED\t${airmanTrainingCount}\n\n`
+  )
 }
 
 export default async () => {
   try {
     await db.airman.create({ data: admin })
+    airmanCount = airmanCount + 1
+
+    await db.airman.create({ data: monitor1 })
+    airmanCount = airmanCount + 1
+
+    await db.airman.create({ data: monitor2 })
+    airmanCount = airmanCount + 1
+
+    await db.airman.create({ data: monitor3 })
+    airmanCount = airmanCount + 1
+
+    await db.airman.create({ data: monitor4 })
+    airmanCount = airmanCount + 1
+
+    await db.airman.create({ data: monitor5 })
+    airmanCount = airmanCount + 1
+
+    await db.airman.create({ data: monitor6 })
+    airmanCount = airmanCount + 1
+
+    await db.airman.create({ data: monitor7 })
+    airmanCount = airmanCount + 1
+
+    await db.airman.create({ data: monitor8 })
+    airmanCount = airmanCount + 1
+
+    await db.airman.create({ data: monitor9 })
+    airmanCount = airmanCount + 1
+
+    await db.airman.create({ data: monitor10 })
+    airmanCount = airmanCount + 1
+
+    await db.airman.create({ data: monitor11 })
+    airmanCount = airmanCount + 1
+
+    await db.airman.create({ data: monitor12 })
+    airmanCount = airmanCount + 1
+
+    await db.airman.create({ data: monitor13 })
+    airmanCount = airmanCount + 1
+
+    await db.airman.create({ data: monitor14 })
     airmanCount = airmanCount + 1
 
     trainings.map(async (data) => {
@@ -88,41 +342,9 @@ export default async () => {
     })
 
     await createAirmen(airmen)
-    createAirmenTrainings(airmanTrainings)
+    await createAirmenTrainings(airmanTrainings)
   } catch (error) {
     console.warn('Please define your seed data.')
     console.error(error)
   }
 }
-
-
-// export const status = ['Current', 'Due', 'Overdue']
-
-// const repeat = (func, times) => {
-//   func()
-//   times && --times && repeat(func, times)
-// }
-
-// export function createAirmanTraining(AirmanTraining) {
-//   return {
-//     data: {
-//     // airman: [],
-//     airmanId: faker.datatype.number({
-//       min: 1,
-//       max: 100,
-//       allowLeadingZeros: false,
-//     }),
-//     // training: [],
-//     trainingId: faker.datatype.number({
-//       min: 1,
-//       max: 10,
-//       allowLeadingZeros: false,
-//     }),
-//     status: faker.helpers.arrayElement(status),
-//     start: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
-//     end: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
-//   }
-//   };
-// }
-
-// repeat(createAirmanTraining, 100)

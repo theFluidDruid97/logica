@@ -75,37 +75,143 @@ export const trainings = [
   },
 ]
 
+let incrementId = 1
+
 export const status = ['Current', 'Due', 'Overdue']
 
 const repeat = (func, times) => {
   func()
   times && --times && repeat(func, times)
 }
+
 const createAssignedTraining = () => {
-  airmanTrainings.push({
-    // airman: [],
-    airmanId: faker.datatype.number({
+
+
+    airmanTrainings.push({
+      airmanId: incrementId,
+      trainingId: faker.datatype.number({
+
       min: 1,
-      max: 101,
+      max: 1,
       allowLeadingZeros: false,
     }),
-    // training: [],
-    trainingId: faker.datatype.number({
-      min: 1,
+      status: faker.helpers.arrayElement(status),
+      start: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+      end: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+    })
+
+    airmanTrainings.push({
+      airmanId: incrementId,
+      trainingId: faker.datatype.number({
+      min: 2,
+      max: 2,
+      allowLeadingZeros: false,
+    }),
+      status: faker.helpers.arrayElement(status),
+      start: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+      end: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+    })
+
+    airmanTrainings.push({
+      airmanId: incrementId,
+      trainingId: faker.datatype.number({
+      min: 3,
+      max: 3,
+      allowLeadingZeros: false,
+    }),
+      status: faker.helpers.arrayElement(status),
+      start: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+      end: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+    })
+
+    airmanTrainings.push({
+      airmanId: incrementId,
+      trainingId: faker.datatype.number({
+      min: 4,
+      max: 4,
+      allowLeadingZeros: false,
+    }),
+      status: faker.helpers.arrayElement(status),
+      start: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+      end: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+    })
+
+    airmanTrainings.push({
+      airmanId: incrementId,
+      trainingId: faker.datatype.number({
+      min: 5,
+      max: 5,
+      allowLeadingZeros: false,
+    }),
+      status: faker.helpers.arrayElement(status),
+      start: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+      end: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+    })
+
+    airmanTrainings.push({
+      airmanId: incrementId,
+      trainingId: faker.datatype.number({
+      min: 6,
+      max: 6,
+      allowLeadingZeros: false,
+    }),
+      status: faker.helpers.arrayElement(status),
+      start: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+      end: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+    })
+
+    airmanTrainings.push({
+      airmanId: incrementId,
+      trainingId: faker.datatype.number({
+      min: 7,
+      max: 7,
+      allowLeadingZeros: false,
+    }),
+      status: faker.helpers.arrayElement(status),
+      start: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+      end: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+    })
+
+    airmanTrainings.push({
+      airmanId: incrementId,
+      trainingId: faker.datatype.number({
+      min: 8,
+      max: 8,
+      allowLeadingZeros: false,
+    }),
+      status: faker.helpers.arrayElement(status),
+      start: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+      end: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+    })
+
+    airmanTrainings.push({
+      airmanId: incrementId,
+      trainingId: faker.datatype.number({
+      min: 9,
+      max: 9,
+      allowLeadingZeros: false,
+    }),
+      status: faker.helpers.arrayElement(status),
+      start: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+      end: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+    })
+
+    airmanTrainings.push({
+      airmanId: incrementId,
+      trainingId: faker.datatype.number({
+      min: 10,
       max: 10,
       allowLeadingZeros: false,
     }),
-    status: faker.helpers.arrayElement(status),
-    start: faker.date.between(
-      '2020-01-01T00:00:00.000Z',
-      '2023-02-21T00:00:00.000Z'
-    ),
-    end: faker.date.between(
-      '2020-01-01T00:00:00.000Z',
-      '2023-02-21T00:00:00.000Z'
-    ),
-  })
-  // console.log("CAT", airmanTrainings)
-}
 
-repeat(createAssignedTraining, 10)
+      status: faker.helpers.arrayElement(status),
+      start: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+      end: faker.date.between('2020-01-01T00:00:00.000Z', '2023-02-21T00:00:00.000Z'),
+    })
+
+    incrementId = incrementId + 1
+  }
+
+
+ repeat(createAssignedTraining, 113)
+
