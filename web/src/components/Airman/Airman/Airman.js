@@ -13,6 +13,7 @@ import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import Chip from '@mui/material/Chip'
 import Divider from '@mui/material/Divider'
+import IconButton from '@mui/material/IconButton'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import {
@@ -216,7 +217,7 @@ const Airman = ({
         )
         return (
           <>
-            <Button
+            <IconButton
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
               color={mode === 'light' ? 'grey' : 'primary'}
@@ -224,8 +225,8 @@ const Airman = ({
               title={'View'}
             >
               <FindInPageIcon />
-            </Button>
-            <Button
+            </IconButton>
+            <IconButton
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
               onClick={() =>
@@ -234,8 +235,8 @@ const Airman = ({
               title={'Edit'}
             >
               <EditIcon />
-            </Button>
-            <Button
+            </IconButton>
+            <IconButton
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
               color={mode === 'light' ? 'red' : 'primary'}
@@ -245,7 +246,7 @@ const Airman = ({
               title={'Delete'}
             >
               <DeleteIcon />
-            </Button>
+            </IconButton>
           </>
         )
       },
@@ -395,17 +396,14 @@ const Airman = ({
 
   let buttonVariant
   if (mode === 'dark' && dataTable === 'trainings') {
-    ;(bVariant1 = 'contained'),
-      (bVariant2 = 'outlined')
+
+    ;(bVariant1 = 'contained'), (bVariant2 = 'outlined')
   } else if (mode === 'dark' && dataTable === 'certificates') {
-    ;(bVariant2 = 'contained'),
-      (bVariant1 = 'outlined')
+    ;(bVariant2 = 'contained'), (bVariant1 = 'outlined')
   } else if (mode === 'light' && dataTable === 'trainings') {
-    ;(bVariant1 = 'contained'),
-      (bVariant2 = 'outlined')
+    ;(bVariant1 = 'contained'), (bVariant2 = 'outlined')
   } else if (mode === 'light' && dataTable === 'certificates') {
-    ;(bVariant2 = 'contained'),
-      (bVariant1 = 'outlined')
+    ;(bVariant2 = 'contained'), (bVariant1 = 'outlined')
   }
 
   return (
@@ -451,21 +449,21 @@ const Airman = ({
                     direction="row"
                     alignItems="flex-start"
                   >
-                    <Button
+                    <IconButton
                       variant={mode === 'light' ? 'contained' : 'outlined'}
                       onClick={() =>
                         navigate(routes.editAirman({ id: airman.id }))
                       }
                     >
                       <EditIcon />
-                    </Button>
-                    <Button
+                    </IconButton>
+                    <IconButton
                       variant={mode === 'light' ? 'contained' : 'outlined'}
-                      color={mode === 'light' ? 'red' : 'primary'}
+                      color={'red'}
                       onClick={() => onDeleteClick(airman, airman.id)}
                     >
                       <DeleteIcon />
-                    </Button>
+                    </IconButton>
                   </Stack>
                 </Box>
                 <Divider />
