@@ -24,9 +24,30 @@ import { pieData } from 'src/components/Charts/PieTestData.js'
 import { Data } from 'src/components/Charts/TestData.js'
 
 import { organizations } from '../../../../scripts/airmen'
-import { trainings } from '../../../../scripts/trainings.js'
+import { airmanTrainings, trainings } from '../../../../scripts/trainings.js'
 Chart.register(CategoryScale)
 Chart.register(chartTrendline)
+
+import { useQuery } from '@redwoodjs/web'
+
+export const QUERY = gql`
+  query FindAirmanTrainings {
+    airmanTrainings {
+      id
+      airman {
+        id
+        firstName
+        lastName
+        rank
+        status
+      }
+      training {
+        id
+        name
+      }
+    }
+  }
+`
 
 const ReportsPage = () => {
   const [open, setOpen] = React.useState(false)
@@ -35,6 +56,32 @@ const ReportsPage = () => {
   const [organization, setOrganization] = React.useState('')
   const [training, setTraining] = React.useState('')
   const [presetDate, setPresetDate] = React.useState('')
+
+  const { data } = useQuery(QUERY)
+console.log(data)
+  const getRows = () => {
+    data?.airmanTrainings.map((airmanTraining) => {
+      const airman = airmanTraining.airman.lastName
+      const status = airmanTraining.airman.status
+      const rank = airmanTraining.airman.rank
+      const firstName = airmanTraining.airman.firstName
+      const lastName = airmanTraining.airman.lastName
+      const training = airmanTraining.training.name
+      const id = airmanTraining.id
+      rows.push({
+        status: status,
+        id: id,
+        rank: rank,
+        firstName: firstName,
+        lastName: lastName,
+        training: training,
+      })
+    })
+  }
+  const rows = []
+  getRows()
+
+  console.log("rows", rows)
 
   const exportChart = () => {
     const canvas = document.getElementById('canvas')
@@ -80,7 +127,7 @@ const ReportsPage = () => {
       {
         label: 'Overdue ',
         data: Data.map((data) => data.overdue),
-        backgroundColor: ['rgba(255, 0, 0, .5)'],
+        backgroundColor: ['rgba(255, 0, 0, 0.5)'],
         borderColor: 'black',
         borderWidth: 2,
         trendlineLinear: {
@@ -215,11 +262,11 @@ const ReportsPage = () => {
   let cardBackground
   if (mode === 'light') {
     ChartJS.defaults.color = 'black'
-    ChartJS.defaults.borderColor = 'peru'
+    ChartJS.defaults.borderColor = 'black'
     cardBackground = 'rgba(155, 155, 155, 0.1)'
   } else {
     ChartJS.defaults.color = 'white'
-    ChartJS.defaults.borderColor = '#80cbc4'
+    ChartJS.defaults.borderColor = 'white'
     cardBackground = 'rgba(0, 0, 0, 0.75)'
   }
 
