@@ -2,37 +2,147 @@ import * as React from 'react'
 
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined'
 import DoDisturbIcon from '@mui/icons-material/DoDisturb'
-import { Box} from '@mui/material'
+import { Box } from '@mui/material'
 //import Button from '@mui/material/Button'
 import { green, red } from '@mui/material/colors'
 import IconButton from '@mui/material/IconButton'
 import { DataGrid } from '@mui/x-data-grid'
 
+import { useMutation } from '@redwoodjs/web'
+import { useQuery } from '@redwoodjs/web'
+import { Toast } from '@redwoodjs/web/dist/toast'
+
 import { ThemeModeContext } from 'src/App.js'
 
+// let training =[]
+
+export const QUERY = gql`
+  query FindAirmanTrainings {
+    airmanTrainings {
+      id
+      airman {
+        id
+        firstName
+        lastName
+        rank
+      }
+      training {
+        id
+        name
+      }
+
+      approval
+    }
+  }
+`
+
+const UPDATE_AIRMAN_TRAINING_MUTATION = gql`
+  mutation UpdateAirmanTrainingMutation(
+    $id: Int!
+    $input: UpdateAirmanTrainingInput!
+  ) {
+    updateAirmanTraining(id: $id, input: $input) {
+      training {
+        id
+      }
+      airman {
+        id
+      }
+    }
+  }
+`
+
+// const Approvals = () => {
+//   const { data } = useQuery(QUERY)
+//   const [updateAirmanTraining] = useMutation(UPDATE_AIRMAN_TRAINING_MUTATION, {
+//     onCompleted: () => {
+//       Toast.success('Training Updated')
+//     },
+//     // refetchQueries: [{ query: QUERY }],
+//     // awaitRefetchQueries: true,
+//   })
+//   console.log(data)
+//   return (
+//     <div>
+//       {data?.airmanTrainings.map((airmanTraining) => airmanTraining.id)}
+//     </div>
+//   )
+//   // const { mode } = React.useContext(ThemeModeContext)
+// }
+
 const Approvals = () => {
+  const { data } = useQuery(QUERY)
   const { mode } = React.useContext(ThemeModeContext)
+  const [updateAirmanTraining] = useMutation(UPDATE_AIRMAN_TRAINING_MUTATION, {
+    onCompleted: () => {
+      Toast.success('Training Updated')
+    },
+    refetchQueries: [{ query: QUERY }],
+    awaitRefetchQueries: true,
+  })
   const onDenyClick = () => {
-    if (confirm(`Are you sure you want to deny this training?`)) {
-      console.log('will delete request, and notify user')
+    if (confirm('Are you sure you want to deny this training?')) {
+      updateAirmanTraining({
+        variables: {
+          id: data?.airmanTraining.id,
+          approval: false,
+        },
+      })
     }
   }
   const onApproveClick = () => {
-    if (confirm(`Are you sure you want to approve this training?`)) {
-      console.log(
-        'approve will approve request, delete listing and add to training list w/notification'
-      )
+    if (confirm('Are you sure you want to approve this training?')) {
+      updateAirmanTraining({
+        variables: {
+          approval: true,
+        },
+      })
     }
   }
+  console.log(data)
+  const getRows = () => {
+    data?.airmanTrainings.map((airmanTraining) => {
+      // const airman = airmanTraining.airman.lastName
+      // const training = airmanTraining.training
+      const approval = airmanTraining.approval
+      const rank = airmanTraining.airman.rank
+      const firstName = airmanTraining.airman.firstName
+      const lastName = airmanTraining.airman.lastName
+      const training = airmanTraining.training.name
+      const id = airmanTraining.id
+      rows.push({
+        id: id,
+        rank: rank,
+        firstName: firstName,
+        lastName: lastName,
+        training: training,
+        approval: approval,
+      })
+    })
+  }
+  const rows = []
+  getRows()
+
   const columns = [
     { field: 'id', headerName: 'ID', width: 50, flex: 0.25 },
     {
-      field: 'firstName',
-      headerName: 'First name',
+      field: 'rank',
+      headerName: 'Rank',
       width: 130,
       flex: 0.5,
     },
-    { field: 'lastName', headerName: 'Last name', width: 100, flex: 0.75 },
+    {
+      field: 'firstName',
+      headerName: 'First Name',
+      width: 130,
+      flex: 0.5,
+    },
+    {
+      field: 'lastName',
+      headerName: 'Last Name',
+      width: 130,
+      flex: 0.5,
+    },
     {
       field: 'training',
       headerName: 'Training',
@@ -41,11 +151,10 @@ const Approvals = () => {
       flex: 0.75,
     },
     {
-      field: 'trainingStatus',
-      headerName: 'Training Status',
-      type: 'string',
-      width: 200,
-      flex: 0.75,
+      field: 'approval',
+      headerName: 'Approval',
+      width: 150,
+      flex: 1,
     },
     {
       field: 'action',
@@ -98,30 +207,10 @@ const Approvals = () => {
       },
     },
   ]
-
-  const rows = [
-    {
-      id: 1,
-      firstName: 'John',
-      lastName: 'Doe',
-      training: 'Aircraft Familiarization',
-      trainingStatus: 'incomplete',
-    },
-    {
-      id: 2,
-      firstName: 'Jane',
-      lastName: 'Doe',
-      training: 'Aircraft Familiarization',
-      trainingStatus: 'incomplete',
-    },
-    {
-      id: 3,
-      firstName: 'Jimmmy',
-      lastName: 'Doe',
-      training: 'Aircraft Familiarization',
-      trainingStatus: 'incomplete',
-    },
-  ]
+  // data?.airmanTrainings.map((airmanTraining, idx) => {
+  //   rows.push(airmanTraining.id)
+  // })
+  console.log(rows)
   return (
     <Box alignContent={'center'}>
       {/* <Typography marginLeft={'35%'} marginRight={'35%'} fontFamily={'Oxygen'}>
@@ -138,7 +227,7 @@ const Approvals = () => {
         <DataGrid
           rows={rows}
           columns={columns}
-          pageSize={5}
+          pageSize={8}
           rowsPerPageOptions={[5]}
           checkboxSelection
         />

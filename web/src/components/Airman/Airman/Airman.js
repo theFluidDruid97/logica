@@ -33,6 +33,8 @@ import { routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
+import RequestDrawer from 'src/components/RequestDrawer/RequestDrawer.js'
+
 import { ThemeModeContext } from '../../../App.js'
 import CertificateDrawer from '../../CertificateDrawer/CertificateDrawer.js'
 import DataTable from '../../DataTable/DataTable.js'
@@ -396,7 +398,6 @@ const Airman = ({
 
   let buttonVariant
   if (mode === 'dark' && dataTable === 'trainings') {
-
     ;(bVariant1 = 'contained'), (bVariant2 = 'outlined')
   } else if (mode === 'dark' && dataTable === 'certificates') {
     ;(bVariant2 = 'contained'), (bVariant1 = 'outlined')
@@ -694,8 +695,17 @@ const Airman = ({
             Certificates
           </Button>
         </Box>
-        <Box width="50%" display="flex" justifyContent="flex-end">
+
+        <Box
+          width="50%"
+          display="flex"
+          flexdirection="row"
+          justifyContent="flex-end"
+        >
           <Box marginX="1%">
+            <Box>
+              <RequestDrawer trainings={trainings} airman={airman} />
+            </Box>
             <TrainingDrawer trainings={trainings} airman={airman} />
           </Box>
           <Box marginX="1%">
