@@ -13,6 +13,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
+import { organizations } from '../../../../scripts/airmen'
 import { ThemeModeContext } from '../../App.js'
 
 const CREATE_AIRMAN_TRAINING_MUTATION = gql`
@@ -35,6 +36,10 @@ const RequestTrainingDrawer = ({ airman, trainings }) => {
   const [training, setTraining] = React.useState()
   const [start, setStart] = React.useState(new Date())
   const [end, setEnd] = React.useState(new Date())
+  const [organization, setOrganization] = React.useState('')
+  const handleOrganizationChange = (event) => {
+    setOrganization(event.target.value)
+  }
   const [createAirmanTraining] = useMutation(CREATE_AIRMAN_TRAINING_MUTATION, {
     onCompleted: () => {
       toast.success(`${training.name} assigned`)
@@ -100,25 +105,26 @@ const RequestTrainingDrawer = ({ airman, trainings }) => {
               ))}
             </Select>
           </Box>
-          <Box marginBottom="10%">
-            {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DateTimePicker
-                label="Start"
-                value={start}
-                onChange={handleStartChange}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider> */}
-          </Box>
-          <Box marginBottom="10%">
-            {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DateTimePicker
-                label="End"
-                value={end}
-                onChange={handleEndChange}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider> */}
+
+          <Box sx={{ width: 400, marginTop: 10 }} role="presentation">
+            <Box marginY="10%">
+              <Box marginY="10%">
+                <p>Filters</p>
+                <TextField
+                  fullWidth
+                  select
+                  value={organization}
+                  label="Organization"
+                  onChange={handleOrganizationChange}
+                >
+                  {organizations.map((organization, index) => (
+                    <MenuItem key={organizations[index]} value={organization}>
+                      {organizations[index]}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Box>
+            </Box>
           </Box>
           <Button onClick={() => handleSubmit()} onChange={handleSendChange}>
             Submit

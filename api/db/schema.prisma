@@ -76,9 +76,9 @@ model Certificate {
 
 model AirmanTraining {
   id         Int       @id @default(autoincrement())
-  airman     Airman?   @relation(fields: [airmanId], references: [id])
+  airman     Airman    @relation(fields: [airmanId], references: [id])
   airmanId   Int
-  training   Training? @relation(fields: [trainingId], references: [id])
+  training   Training  @relation(fields: [trainingId], references: [id])
   trainingId Int
   status     Status?   @default(Due)
   start      DateTime?
@@ -108,12 +108,13 @@ enum Status {
   Current
   Due
   Overdue
+  Pending
 }
 
 model Notification {
   id        Int      @id @default(autoincrement())
-  airmanId  Int?
-  airman    Airman?  @relation(fields: [airmanId], references: [id])
+  airmanId  Int
+  airman    Airman   @relation(fields: [airmanId], references: [id])
   message   String
   createdAt DateTime @default(now()) @db.Timestamptz(3)
 }

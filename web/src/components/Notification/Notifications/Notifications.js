@@ -1,13 +1,9 @@
 import * as React from 'react'
 
-import { FormControl, TextField } from '@mui/material'
+import { FormControl } from '@mui/material'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Drawer from '@mui/material/Drawer'
-// import List from '@mui/material/List'
-// import ListItem from '@mui/material/ListItem'
-// import MenuItem from '@mui/material/MenuItem'
-// import Select from '@mui/material/Select'
 
 import { Link, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
@@ -73,10 +69,9 @@ const NotificationsList = ({ notifications }) => {
       <table className="rw-table">
         <thead>
           <tr>
-            <th>Id</th>
-            {/* <th>airmanId</th> */}
-            <th>Created at</th>
+            <th>Sent By</th>
             <th>Message</th>
+            <th>Created at</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
@@ -99,8 +94,8 @@ const NotificationsList = ({ notifications }) => {
                   ).firstName
                 }`}
               </td>
-              <td>{timeTag(notification.createdAt)}</td>
               <td>{truncate(notification.message)}</td>
+              <td>{timeTag(notification.createdAt)}</td>
               <td>
                 <nav className="rw-table-actions">
                   <Button
@@ -118,14 +113,14 @@ const NotificationsList = ({ notifications }) => {
                   >
                     Edit
                   </Link>
-                  <button
+                  <Button
                     type="button"
                     title={'Delete notification ' + notification.id}
                     className="rw-button rw-button-small rw-button-red"
                     onClick={() => onDeleteClick(notification.id)}
                   >
                     Delete
-                  </button>
+                  </Button>
                 </nav>
               </td>
             </tr>
