@@ -1,8 +1,9 @@
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import FindInPageIcon from '@mui/icons-material/FindInPage'
-import Button from '@mui/material/Button'
+//import Button from '@mui/material/Button'
 import Chip from '@mui/material/Chip'
+import IconButton from '@mui/material/IconButton'
 
 import { navigate, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
@@ -98,7 +99,7 @@ const AirmenList = ({ airmen }) => {
       renderCell: (params) => {
         return (
           <>
-            <Button
+            <IconButton
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
               color={mode === 'light' ? 'grey' : 'primary'}
@@ -106,24 +107,24 @@ const AirmenList = ({ airmen }) => {
               title={'View'}
             >
               <FindInPageIcon />
-            </Button>
-            <Button
+            </IconButton>
+            <IconButton
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
               onClick={() => navigate(routes.editAirman({ id: params.row.id }))}
               title={'Edit'}
             >
               <EditIcon />
-            </Button>
-            <Button
+            </IconButton>
+            <IconButton
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
-              color={mode === 'light' ? 'red' : 'primary'}
+              color={'red'}
               onClick={() => onDeleteClick(params.row, params.row.id)}
               title={'Delete'}
             >
               <DeleteIcon />
-            </Button>
+            </IconButton>
           </>
         )
       },
