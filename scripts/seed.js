@@ -69,6 +69,7 @@ const createAirmenTrainings = async (airmanTrainings) => {
         status: airmanTraining.status,
         start: airmanTraining.start,
         end: airmanTraining.end,
+        approval: airmanTraining.approval,
       },
     })
     airmanTrainingCount = airmanTrainingCount + 1
