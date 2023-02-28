@@ -4,13 +4,17 @@ import { hashPassword } from '@redwoodjs/api'
 
 import { airmen } from './airmen.js'
 import { collections } from './collections.js'
+import { monitors } from './monitors.js'
 import { trainings } from './trainings.js'
 import { airmanTrainings } from './trainings.js'
+import { trainingCollections } from './TrainingCollection.js'
+
 
 let trainingsCount = 0
 let collectionsCount = 0
 let airmanCount = 0
 let airmanTrainingCount = 0
+let trainingCollectionCount = 0
 const defaultPassword = '123'
 const adminEmail = 'admin@mail.com'
 const adminPassword = '1776'
@@ -268,20 +272,31 @@ const createAirmen = async (airmen) => {
 
 const createAirmenTrainings = async (airmanTrainings) => {
   for (let airmanTraining of airmanTrainings) {
-  await db.airmanTraining.create({
-    data: {
-      airmanId: airmanTraining.airmanId,
-      trainingId: airmanTraining.trainingId,
-      status: airmanTraining.status,
-      start: airmanTraining.start,
-      end: airmanTraining.end,
-    },
-  })
-  airmanTrainingCount = airmanTrainingCount + 1
+    await db.airmanTraining.create({
+      data: {
+        airmanId: airmanTraining.airmanId,
+        trainingId: airmanTraining.trainingId,
+        status: airmanTraining.status,
+        start: airmanTraining.start,
+        end: airmanTraining.end,
+      },
+    })
+    airmanTrainingCount = airmanTrainingCount + 1
   }
-  console.log(
-    `\tAIRMAN TRAININGS CREATED\t${airmanTrainingCount}\n\n`
-  )
+  console.log(`\tAIRMAN TRAININGS CREATED\t${airmanTrainingCount}\n`)
+}
+
+const createTrainingCollections = async (trainingCollections) => {
+  for (let trainingCollection of trainingCollections) {
+    await db.trainingCollection.create({
+      data: {
+        trainingId: trainingCollection.trainingId,
+        collectionId: trainingCollection.collectionId,
+      },
+    })
+    trainingCollectionCount = trainingCollectionCount + 1
+  }
+  console.log(`\tTRAININGS ASSIGNED TO COLLECTIONS\t${trainingCollectionCount}\n\n`)
 }
 
 export default async () => {
@@ -289,47 +304,10 @@ export default async () => {
     await db.airman.create({ data: admin })
     airmanCount = airmanCount + 1
 
-    await db.airman.create({ data: monitor1 })
-    airmanCount = airmanCount + 1
-
-    await db.airman.create({ data: monitor2 })
-    airmanCount = airmanCount + 1
-
-    await db.airman.create({ data: monitor3 })
-    airmanCount = airmanCount + 1
-
-    await db.airman.create({ data: monitor4 })
-    airmanCount = airmanCount + 1
-
-    await db.airman.create({ data: monitor5 })
-    airmanCount = airmanCount + 1
-
-    await db.airman.create({ data: monitor6 })
-    airmanCount = airmanCount + 1
-
-    await db.airman.create({ data: monitor7 })
-    airmanCount = airmanCount + 1
-
-    await db.airman.create({ data: monitor8 })
-    airmanCount = airmanCount + 1
-
-    await db.airman.create({ data: monitor9 })
-    airmanCount = airmanCount + 1
-
-    await db.airman.create({ data: monitor10 })
-    airmanCount = airmanCount + 1
-
-    await db.airman.create({ data: monitor11 })
-    airmanCount = airmanCount + 1
-
-    await db.airman.create({ data: monitor12 })
-    airmanCount = airmanCount + 1
-
-    await db.airman.create({ data: monitor13 })
-    airmanCount = airmanCount + 1
-
-    await db.airman.create({ data: monitor14 })
-    airmanCount = airmanCount + 1
+    monitors.map(async (data) => {
+      airmanCount = airmanCount + 1
+      await db.airman.create({ data })
+    })
 
     trainings.map(async (data) => {
       trainingsCount = trainingsCount + 1
@@ -343,6 +321,7 @@ export default async () => {
 
     await createAirmen(airmen)
     await createAirmenTrainings(airmanTrainings)
+    await createTrainingCollections(trainingCollections)
   } catch (error) {
     console.warn('Please define your seed data.')
     console.error(error)

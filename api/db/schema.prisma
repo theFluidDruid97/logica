@@ -75,27 +75,25 @@ model Certificate {
 }
 
 model AirmanTraining {
-  id         Int       @id @default(autoincrement())
-  airman     Airman    @relation(fields: [airmanId], references: [id])
+
+  id         Int      @id @default(autoincrement())
+  airman     Airman   @relation(fields: [airmanId], references: [id])
   airmanId   Int
-  training   Training  @relation(fields: [trainingId], references: [id])
+  training   Training @relation(fields: [trainingId], references: [id])
   trainingId Int
-  status     Status?   @default(Due)
+  status     Status   @default(Due)
   start      DateTime?
   end        DateTime?
-
   approval   Boolean   @default(false)
-
-
   @@unique([airmanId, trainingId])
 }
 
 model TrainingCollection {
   id           Int        @id @default(autoincrement())
-  training     Training   @relation(fields: [trainingId], references: [id])
-  trainingId   Int
   collection   Collection @relation(fields: [collectionId], references: [id])
   collectionId Int
+  training     Training   @relation(fields: [trainingId], references: [id])
+  trainingId   Int
   @@unique([trainingId, collectionId])
 }
 
