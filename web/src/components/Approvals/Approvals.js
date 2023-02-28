@@ -3,7 +3,6 @@ import * as React from 'react'
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined'
 import DoDisturbIcon from '@mui/icons-material/DoDisturb'
 import { Box } from '@mui/material'
-//import Button from '@mui/material/Button'
 import { green, red } from '@mui/material/colors'
 import IconButton from '@mui/material/IconButton'
 import { DataGrid } from '@mui/x-data-grid'
@@ -14,12 +13,11 @@ import { Toast } from '@redwoodjs/web/dist/toast'
 
 import { ThemeModeContext } from 'src/App.js'
 
-// let training =[]
-
 export const QUERY = gql`
   query FindAirmanTrainings {
     airmanTrainings {
       id
+      approval
       airman {
         id
         firstName
@@ -30,8 +28,13 @@ export const QUERY = gql`
         id
         name
       }
-
-      approval
+    }
+  }
+`
+const DELETE_AIRMAN_TRAINING_MUTATION = gql`
+  mutation DeleteAirmanTrainingMutation($id: Int!) {
+    deleteAirmanTraining(id: $id) {
+      id
     }
   }
 `
@@ -42,33 +45,10 @@ const UPDATE_AIRMAN_TRAINING_MUTATION = gql`
     $input: UpdateAirmanTrainingInput!
   ) {
     updateAirmanTraining(id: $id, input: $input) {
-      training {
-        id
-      }
-      airman {
-        id
-      }
+      approval
     }
   }
 `
-
-// const Approvals = () => {
-//   const { data } = useQuery(QUERY)
-//   const [updateAirmanTraining] = useMutation(UPDATE_AIRMAN_TRAINING_MUTATION, {
-//     onCompleted: () => {
-//       Toast.success('Training Updated')
-//     },
-//     // refetchQueries: [{ query: QUERY }],
-//     // awaitRefetchQueries: true,
-//   })
-//   console.log(data)
-//   return (
-//     <div>
-//       {data?.airmanTrainings.map((airmanTraining) => airmanTraining.id)}
-//     </div>
-//   )
-//   // const { mode } = React.useContext(ThemeModeContext)
-// }
 
 const Approvals = () => {
   const { data } = useQuery(QUERY)
@@ -80,30 +60,44 @@ const Approvals = () => {
     refetchQueries: [{ query: QUERY }],
     awaitRefetchQueries: true,
   })
-  const onDenyClick = () => {
-    if (confirm('Are you sure you want to deny this training?')) {
-      updateAirmanTraining({
-        variables: {
-          id: data?.airmanTraining.id,
-          approval: false,
-        },
-      })
+  const [deleteAirmanTraining] = useMutation(DELETE_AIRMAN_TRAINING_MUTATION, {
+    onCompleted: () => {
+      Toast.success('Training Deleted')
+    },
+  })
+  const unapprovedAirmanTrainings = data?.airmanTrainings.filter(
+    (airmanTraining) => airmanTraining.approval === false
+  )
+  console.log(unapprovedAirmanTrainings)
+  const handleUpdateAirmanTraining = (id, input) => {
+    updateAirmanTraining({
+      variables: {
+        id,
+        input,
+      },
+    })
+  }
+  const handleDeleteAirmanTraining = (id) => {
+    deleteAirmanTraining({
+      variables: {
+        id,
+      },
+    })
+  }
+
+  const onApproveClick = (airmanTraining, id) => {
+    if (confirm('Are you sure you want to approve this training?')) {
+      handleUpdateAirmanTraining(id, { approval: true })
     }
   }
-  const onApproveClick = () => {
-    if (confirm('Are you sure you want to approve this training?')) {
-      updateAirmanTraining({
-        variables: {
-          approval: true,
-        },
-      })
+  const onDenyClick = (airmanTraining, id) => {
+    if (confirm('Are you sure you want to deny this training?')) {
+      handleDeleteAirmanTraining(id)
     }
   }
   console.log(data)
   const getRows = () => {
-    data?.airmanTrainings.map((airmanTraining) => {
-      // const airman = airmanTraining.airman.lastName
-      // const training = airmanTraining.training
+    unapprovedAirmanTrainings?.map((airmanTraining) => {
       const approval = airmanTraining.approval
       const rank = airmanTraining.airman.rank
       const firstName = airmanTraining.airman.firstName
@@ -162,7 +156,6 @@ const Approvals = () => {
       width: 150,
       flex: 1,
       renderCell: (params) => {
-        // const { mode } = React.useContext(ThemeModeContext)
         return (
           <Box
             sx={{
@@ -207,15 +200,10 @@ const Approvals = () => {
       },
     },
   ]
-  // data?.airmanTrainings.map((airmanTraining, idx) => {
-  //   rows.push(airmanTraining.id)
-  // })
+
   console.log(rows)
   return (
     <Box alignContent={'center'}>
-      {/* <Typography marginLeft={'35%'} marginRight={'35%'} fontFamily={'Oxygen'}>
-        <h1>Training Requests</h1>
-      </Typography> */}
       <Box
         style={{
           height: 600,
