@@ -42,7 +42,4 @@ export const Airman = {
   certificates: (_obj, { root }) => {
     return db.airman.findUnique({ where: { id: root?.id } }).certificates()
   },
-  notifications: (_obj, { root }) => {
-    return db.airman.findUnique({ where: { id: root?.id } }).notifications()
-  },
 }

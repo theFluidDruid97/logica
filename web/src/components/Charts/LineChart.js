@@ -8,6 +8,7 @@ function LineChart({ chartData }) {
         id="canvas"
         options={{
           fill: true,
+          tension: 0.25,
           plugins: {
             title: {
               display: true,

@@ -7,28 +7,6 @@ export const QUERY = gql`
       name
       description
     }
-    airmen {
-      id
-      email
-      rank
-      firstName
-      middleName
-      lastName
-      organization
-      officeSymbol
-      dodId
-      afsc
-      status
-      roles
-      supervisorId
-    }
-    trainings {
-      id
-      name
-      duration
-      link
-      description
-    }
   }
 `
 
@@ -40,8 +18,6 @@ export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error?.message}</div>
 )
 
-export const Success = ({ collection, airmen, trainings }) => {
-  return (
-    <Collection collection={collection} airmen={airmen} trainings={trainings} />
-  )
+export const Success = ({ collection }) => {
+  return <Collection collection={collection} />
 }

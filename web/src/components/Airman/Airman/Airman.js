@@ -33,6 +33,8 @@ import { routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
+import RequestDrawer from 'src/components/RequestDrawer/RequestDrawer.js'
+
 import { ThemeModeContext } from '../../../App.js'
 import CertificateDrawer from '../../CertificateDrawer/CertificateDrawer.js'
 import DataTable from '../../DataTable/DataTable.js'
@@ -49,13 +51,6 @@ ChartJS.register(
   Legend
 )
 
-const DELETE_CERTIFICATE_MUTATION = gql`
-  mutation DeleteCertificateMutation($id: Int!) {
-    deleteCertificate(id: $id) {
-      id
-    }
-  }
-`
 const DELETE_AIRMAN_MUTATION = gql`
   mutation DeleteAirmanMutation($id: Int!) {
     deleteAirman(id: $id) {
@@ -63,6 +58,7 @@ const DELETE_AIRMAN_MUTATION = gql`
     }
   }
 `
+
 const DELETE_AIRMAN_TRAINING_MUTATION = gql`
   mutation DeleteAirmanTrainingMutation($id: Int!) {
     deleteAirmanTraining(id: $id) {
@@ -70,6 +66,7 @@ const DELETE_AIRMAN_TRAINING_MUTATION = gql`
     }
   }
 `
+
 const UPDATE_AIRMAN_TRAINING_MUTATION = gql`
   mutation UpdateAirmanTrainingMutation(
     $id: Int!
@@ -80,6 +77,7 @@ const UPDATE_AIRMAN_TRAINING_MUTATION = gql`
     }
   }
 `
+
 const UPDATE_AIRMAN_MUTATION = gql`
   mutation UpdateAirmanStatusMutation($id: Int!, $input: UpdateAirmanInput!) {
     updateAirman(id: $id, input: $input) {
@@ -96,10 +94,12 @@ const Airman = ({
   certificates,
 }) => {
   const { mode } = React.useContext(ThemeModeContext)
+  const [updateAirmanTraining] = useMutation(UPDATE_AIRMAN_TRAINING_MUTATION)
+  const [updateAirman] = useMutation(UPDATE_AIRMAN_MUTATION)
   const [dataTable, setDataTable] = React.useState('trainings')
+  const [updatedA, setUpdatedA] = React.useState(false)
+  const [updatedAT, setUpdatedAT] = React.useState(false)
   const [displayedMonitor, setDisplayedMonitor] = React.useState(0)
-  const [selectionCount, setSelectionCount] = React.useState(0)
-  let mutationCount = 0
   const monitors = airmen.filter(
     (monitor) =>
       monitor.roles === 'Monitor' &&
@@ -109,11 +109,12 @@ const Airman = ({
     (supervisor) => supervisor.id === airman.supervisorId
   )[0]
   const currentAirmanTrainings = airmanTrainings.filter(
-    (airmanTraining) => airmanTraining.airmanId === airman.id
+    (record) => record.airmanId === airman.id
   )
   const currentCertificates = certificates.filter(
     (certificate) => certificate.airmanId === airman.id
   )
+
   const [updateAirmanTraining] = useMutation(UPDATE_AIRMAN_TRAINING_MUTATION, {
     refetchQueries: ['FindAirmanById'],
   })
@@ -139,11 +140,12 @@ const Airman = ({
       variables: { id, input },
     })
   }
-  const handleUpdateAirman = (id, input) => {
+  const updateA = (input, id) => {
     updateAirman({
       variables: { id, input },
     })
   }
+
   const onDeleteSelectedClick = (selection) => {
     setSelectionCount(selection.length)
     if (
@@ -231,22 +233,69 @@ const Airman = ({
       headerName: 'Status',
       flex: 1,
       renderCell: (params) => {
-        let chipColor
-        if (params.row.status === 'Overdue') {
-          chipColor = 'red'
-        } else if (params.row.status === 'Due') {
-          chipColor = 'yellow'
-        } else {
-          chipColor = 'green'
-        }
-        return (
-          <Chip
-            sx={{ width: '95px' }}
-            label={params.row.status.toUpperCase()}
-            color={chipColor}
-            variant={mode === 'light' ? 'contained' : 'outlined'}
-          />
+        const duration = trainings.find(
+          (training) => training.id === params.row.trainingId
+        ).duration
+        const certificateDate = new Date(
+          currentCertificates?.find(
+            (certificate) => certificate.trainingId === params.row.trainingId
+          )?.completion
         )
+        const isOverDue =
+          new Date(
+            certificateDate.setMonth(certificateDate.getMonth() + duration)
+          ).getTime() < new Date().getTime()
+        const isDue =
+          new Date(
+            certificateDate.setMonth(certificateDate.getMonth() - 2)
+          ).getTime() < new Date().getTime()
+        if (isOverDue) {
+          if (!updatedAT) {
+            updateAT({ status: 'Overdue' }, params.row.id)
+            setUpdatedAT(true)
+          }
+          return (
+            <Chip
+              sx={{ width: '95px' }}
+              label="OVERDUE"
+              color="red"
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+            />
+          )
+        } else if (
+          isDue ||
+          isNaN(
+            new Date(
+              certificateDate.setMonth(certificateDate.getMonth() - 2)
+            ).getTime()
+          )
+        ) {
+          if (!updatedAT) {
+            updateAT({ status: 'Due' }, params.row.id)
+            setUpdatedAT(true)
+          }
+          return (
+            <Chip
+              sx={{ width: '95px' }}
+              label="DUE"
+              color="yellow"
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+            />
+          )
+        } else {
+          if (!updatedAT) {
+            updateAT({ status: 'Current' }, params.row.id)
+            setUpdatedAT(true)
+          }
+          return (
+            <Chip
+              sx={{ width: '95px' }}
+              label="CURRENT"
+              color="green"
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+            />
+          )
+        }
       },
     },
     {
@@ -266,30 +315,27 @@ const Airman = ({
       headerName: 'Actions',
       sortable: false,
       filterable: false,
-      width: 180,
+      width: 225,
       renderCell: (params) => {
         const training = trainings.find(
           (training) => training.id === params.row.trainingId
         )
         return (
-          <Stack direction="row" spacing={1}>
+          <>
             <IconButton
               variant={mode === 'light' ? 'contained' : 'outlined'}
-              size="large"
+              size="small"
               color={mode === 'light' ? 'grey' : 'primary'}
-              onClick={() =>
-                navigate(routes.training({ id: params.row.trainingId }))
-              }
+              onClick={() => navigate(routes.training({ id: params.row.id }))}
               title={'View'}
             >
               <FindInPageIcon />
             </IconButton>
             <IconButton
               variant={mode === 'light' ? 'contained' : 'outlined'}
-              size="large"
-              color="primary"
+              size="small"
               onClick={() =>
-                navigate(routes.editTraining({ id: params.row.trainingId }))
+                navigate(routes.editTraining({ id: params.row.id }))
               }
               title={'Edit'}
             >
@@ -297,8 +343,8 @@ const Airman = ({
             </IconButton>
             <IconButton
               variant={mode === 'light' ? 'contained' : 'outlined'}
-              size="large"
-              color="red"
+              size="small"
+              color={mode === 'light' ? 'red' : 'primary'}
               onClick={() =>
                 onDeleteAirmanTrainingClick(training, params.row.id)
               }
@@ -306,7 +352,7 @@ const Airman = ({
             >
               <DeleteIcon />
             </IconButton>
-          </Stack>
+          </>
         )
       },
     },
@@ -328,21 +374,18 @@ const Airman = ({
         data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
         borderColor: 'rgb(0, 128, 0)',
         backgroundColor: 'rgba(0, 128, 0, 0.5)',
-        tension: 0.2,
       },
       {
         label: 'Due',
         data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
         borderColor: 'rgb(255, 255, 0)',
         backgroundColor: 'rgba(255, 255, 0, 0.5)',
-        tension: 0.2,
       },
       {
         label: 'Over Due',
         data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
         borderColor: 'rgb(255, 0, 0)',
         backgroundColor: 'rgba(255, 0, 0, 0.5)',
-        tension: 0.2,
       },
     ],
   }
@@ -355,29 +398,16 @@ const Airman = ({
       toast.error(error.message)
     },
   })
-  const [deleteCertificate] = useMutation(DELETE_CERTIFICATE_MUTATION, {
+  const [deleteAirmanTraining] = useMutation(DELETE_AIRMAN_TRAINING_MUTATION, {
     onCompleted: () => {
-      toast.success('Certification deleted')
+      toast.success('Airman training deleted')
     },
     onError: (error) => {
       toast.error(error.message)
     },
     refetchQueries: ['FindAirmanById'],
+
   })
-  const thumbnail = (url) => {
-    const parts = url.split('/')
-    parts.splice(3, 0, 'resize=width:500')
-    return parts.join('/')
-  }
-  const nextMonitor = () => {
-    if (displayedMonitor < monitors.length - 1)
-      setDisplayedMonitor(displayedMonitor + 1)
-  }
-  const prevMonitor = () => {
-    if (displayedMonitor > 0) {
-      setDisplayedMonitor(displayedMonitor - 1)
-    }
-  }
   const onDeleteClick = (airman, id) => {
     if (
       confirm(
@@ -396,13 +426,13 @@ const Airman = ({
       deleteAirmanTraining({ variables: { id } })
     }
   }
-  const onDeleteCertificateClick = (training, id) => {
-    if (
-      confirm(
-        `Are you sure you want to delete ${training.name} certification for ${airman.rank} ${airman.lastName}, ${airman.firstName}?`
-      )
-    ) {
-      deleteCertificate({ variables: { id } })
+  const nextMonitor = () => {
+    if (displayedMonitor < monitors.length - 1)
+      setDisplayedMonitor(displayedMonitor + 1)
+  }
+  const prevMonitor = () => {
+    if (displayedMonitor > 0) {
+      setDisplayedMonitor(displayedMonitor - 1)
     }
   }
   const MonitorPagination = () => {
@@ -428,8 +458,36 @@ const Airman = ({
       return <></>
     }
   }
-
+  const thumbnail = (url) => {
+    const parts = url.split('/')
+    parts.splice(3, 0, 'resize=width:500')
+    return parts.join('/')
+  }
   let cardBackground
+  let status = {}
+  if (
+    currentAirmanTrainings.find((training) => training.status === 'Overdue')
+  ) {
+    if (!updatedA) {
+      updateA({ status: 'Overdue' }, airman.id)
+      setUpdatedA(true)
+    }
+    status.name = 'OVERDUE'
+  } else if (
+    currentAirmanTrainings.find((training) => training.status === 'Due')
+  ) {
+    if (!updatedA) {
+      updateA({ status: 'Due' }, airman.id)
+      setUpdatedA(true)
+    }
+    status.name = 'DUE'
+  } else {
+    if (!updatedA) {
+      updateA({ status: 'Current' }, airman.id)
+      setUpdatedA(true)
+    }
+    status.name = 'CURRENT'
+  }
   if (mode === 'light') {
     ChartJS.defaults.color = 'black'
     ChartJS.defaults.borderColor = 'rgb(49,27,146)'
@@ -439,17 +497,19 @@ const Airman = ({
     ChartJS.defaults.borderColor = 'white'
     cardBackground = 'rgba(0, 0, 0, 0.1)'
   }
-  const deleteSelectedButton = ({ selection }) => {
-    return (
-      <Button
-        size="small"
-        color="red"
-        onClick={() => onDeleteSelectedClick(selection)}
-      >
-        <DeleteIcon />
-        Delete Selected
-      </Button>
-    )
+
+  let bVariant1 = []
+  let bVariant2 = []
+
+  let buttonVariant
+  if (mode === 'dark' && dataTable === 'trainings') {
+    ;(bVariant1 = 'contained'), (bVariant2 = 'outlined')
+  } else if (mode === 'dark' && dataTable === 'certificates') {
+    ;(bVariant2 = 'contained'), (bVariant1 = 'outlined')
+  } else if (mode === 'light' && dataTable === 'trainings') {
+    ;(bVariant1 = 'contained'), (bVariant2 = 'outlined')
+  } else if (mode === 'light' && dataTable === 'certificates') {
+    ;(bVariant2 = 'contained'), (bVariant1 = 'outlined')
   }
 
   return (
@@ -466,12 +526,12 @@ const Airman = ({
                 borderRadius: '20px',
               }}
             >
-              <Box className={airman.status.toLowerCase()}>
+              <Box className={status.name}>
                 <Box
                   className="flipper"
-                  color={airman.status === 'Due' ? 'black' : 'white'}
+                  color={status.name === 'DUE' ? 'black' : 'white'}
                 >
-                  {airman.status.toUpperCase()}
+                  {status.name}
                 </Box>
               </Box>
               <Box
@@ -495,21 +555,21 @@ const Airman = ({
                     direction="row"
                     alignItems="flex-start"
                   >
-                    <Button
+                    <IconButton
                       variant={mode === 'light' ? 'contained' : 'outlined'}
                       onClick={() =>
                         navigate(routes.editAirman({ id: airman.id }))
                       }
                     >
                       <EditIcon />
-                    </Button>
-                    <Button
+                    </IconButton>
+                    <IconButton
                       variant={mode === 'light' ? 'contained' : 'outlined'}
-                      color="red"
+                      color={'red'}
                       onClick={() => onDeleteClick(airman, airman.id)}
                     >
                       <DeleteIcon />
-                    </Button>
+                    </IconButton>
                   </Stack>
                 </Box>
                 <Divider />
@@ -725,7 +785,7 @@ const Airman = ({
         <Box width="50%">
           <Button
             sx={{ marginX: '1%' }}
-            variant={mode === 'light' ? 'contained' : 'outlined'}
+            variant={bVariant1}
             size="large"
             onClick={() => setDataTable('trainings')}
           >
@@ -733,20 +793,25 @@ const Airman = ({
           </Button>
           <Button
             sx={{ marginX: '1%' }}
-            variant={mode === 'light' ? 'contained' : 'outlined'}
+            variant={bVariant2}
             size="large"
             onClick={() => setDataTable('certificates')}
           >
             Certificates
           </Button>
         </Box>
-        <Box width="50%" display="flex" justifyContent="flex-end">
+
+        <Box
+          width="50%"
+          display="flex"
+          flexdirection="row"
+          justifyContent="flex-end"
+        >
           <Box marginX="1%">
-            <TrainingDrawer
-              trainings={trainings}
-              airman={airman}
-              currentAirmanTrainings={currentAirmanTrainings}
-            />
+            <Box>
+              <RequestDrawer trainings={trainings} airman={airman} />
+            </Box>
+            <TrainingDrawer trainings={trainings} airman={airman} />
           </Box>
           <Box marginX="1%">
             <CertificateDrawer trainings={trainings} airman={airman} />
@@ -761,7 +826,6 @@ const Airman = ({
             <DataTable
               rows={currentAirmanTrainings}
               columns={trainingsColumns}
-              GridToolbarDeleteButton={deleteSelectedButton}
             />
           </CardContent>
         </Card>
@@ -796,7 +860,7 @@ const Airman = ({
                   width: 335,
                   backgroundColor: `${cardBackground}`,
                   margin: '1%',
-                  height: 370,
+                  height: 350,
                 }}
                 key={certificate.id}
               >
@@ -861,32 +925,6 @@ const Airman = ({
                       <CloseIcon color="red" fontSize="large" />
                     )}
                   </Typography>
-                  <Stack spacing={21.5} direction="row">
-                    <Button
-                      variant={mode === 'light' ? 'contained' : 'outlined'}
-                      onClick={() =>
-                        window.alert(
-                          'This feature is still in development. Have some damn patience.'
-                        )
-                      }
-                    >
-                      <EditIcon />
-                    </Button>
-                    <Button
-                      variant={mode === 'light' ? 'contained' : 'outlined'}
-                      color={mode === 'light' ? 'red' : 'primary'}
-                      onClick={() =>
-                        onDeleteCertificateClick(
-                          trainings.find(
-                            (training) => training.id === certificate.trainingId
-                          ),
-                          certificate.id
-                        )
-                      }
-                    >
-                      <DeleteIcon />
-                    </Button>
-                  </Stack>
                 </CardContent>
               </Card>
             ))}

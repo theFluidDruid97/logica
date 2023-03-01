@@ -4,10 +4,6 @@ import Drawer from '@mui/material/Drawer'
 import FormControl from '@mui/material/FormControl'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
-import TextField from '@mui/material/TextField'
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
@@ -27,30 +23,24 @@ const CREATE_AIRMAN_TRAINING_MUTATION = gql`
   }
 `
 
-const TrainingDrawer = ({ airman, trainings }) => {
+const RequestDrawer = ({ airman, trainings }) => {
   const { mode } = React.useContext(ThemeModeContext)
   const [open, setOpen] = React.useState(false)
   const [training, setTraining] = React.useState()
-  const [start, setStart] = React.useState(new Date())
-  const [end, setEnd] = React.useState(new Date())
   const [createAirmanTraining] = useMutation(CREATE_AIRMAN_TRAINING_MUTATION, {
     onCompleted: () => {
-      toast.success(`${training.name} assigned`)
+      toast.success(`${training.name} requested`)
       toggleDrawer()
     },
     onError: (error) => {
       toast.error(error.message)
     },
-
-    refetchQueries: ['FindAirmanById'],
   })
   const handleSubmit = () => {
     onSave({
       airmanId: airman.id,
       trainingId: training.id,
-      start: start,
-      end: end,
-      approval: true,
+      approval: false,
     })
   }
   const onSave = (input, id) => {
@@ -62,12 +52,6 @@ const TrainingDrawer = ({ airman, trainings }) => {
   const handleTrainingChange = (event) => {
     setTraining(event.target.value)
   }
-  const handleStartChange = (newDate) => {
-    setStart(newDate)
-  }
-  const handleEndChange = (newDate) => {
-    setEnd(newDate)
-  }
 
   return (
     <div>
@@ -76,7 +60,7 @@ const TrainingDrawer = ({ airman, trainings }) => {
         onClick={() => toggleDrawer()}
         size="large"
       >
-        Assign Training
+        Request Training
       </Button>
       <Drawer anchor={'right'} open={open} onClose={() => toggleDrawer()}>
         <FormControl sx={{ marginY: '25%', paddingX: '10%', width: '400px' }}>
@@ -95,26 +79,6 @@ const TrainingDrawer = ({ airman, trainings }) => {
               ))}
             </Select>
           </Box>
-          <Box marginBottom="10%">
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DateTimePicker
-                label="Start"
-                value={start}
-                onChange={handleStartChange}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
-          </Box>
-          <Box marginBottom="10%">
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DateTimePicker
-                label="End"
-                value={end}
-                onChange={handleEndChange}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
-          </Box>
           <Button onClick={() => handleSubmit()}>Submit</Button>
         </FormControl>
       </Drawer>
@@ -122,4 +86,4 @@ const TrainingDrawer = ({ airman, trainings }) => {
   )
 }
 
-export default TrainingDrawer
+export default RequestDrawer

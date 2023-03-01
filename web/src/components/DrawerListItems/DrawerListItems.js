@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import PeopleIcon from '@mui/icons-material/People'
 import TextSnippetIcon from '@mui/icons-material/TextSnippet'
@@ -13,7 +14,7 @@ import ListItemText from '@mui/material/ListItemText'
 import { navigate, routes } from '@redwoodjs/router'
 
 const DrawerListItems = () => {
-  const [routesState, setRoutesState] = useState(routes)
+  const [routesState] = useState(routes)
   const drawerListItems = [
     {
       text: 'Dashboard',
@@ -39,6 +40,11 @@ const DrawerListItems = () => {
       text: 'Reports',
       link: routesState.reports(),
       icon: <TrendingUpIcon />,
+    },
+    {
+      text: 'Approvals',
+      link: routesState.approvals(),
+      icon: <CheckCircleOutlineOutlinedIcon />,
     },
   ]
   return drawerListItems.map((drawerListItem) => (

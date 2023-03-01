@@ -11,39 +11,6 @@ export const QUERY = gql`
       link
       description
     }
-    airmanTrainings {
-      id
-      trainingId
-      airmanId
-      status
-      start
-      end
-    }
-    airmen {
-      id
-      email
-      hashedPassword
-      salt
-      rank
-      firstName
-      middleName
-      lastName
-      organization
-      officeSymbol
-      dodId
-      roles
-      afsc
-      status
-      supervisorId
-    }
-    certificates {
-      id
-      airmanId
-      trainingId
-      completion
-      validated
-      url
-    }
   }
 `
 
@@ -64,18 +31,6 @@ export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error?.message}</div>
 )
 
-export const Success = ({
-  trainings,
-  airmanTrainings,
-  airmen,
-  certificates,
-}) => {
-  return (
-    <Trainings
-      trainings={trainings}
-      airmanTrainings={airmanTrainings}
-      airmen={airmen}
-      certificates={certificates}
-    />
-  )
+export const Success = ({ trainings }) => {
+  return <Trainings trainings={trainings} />
 }

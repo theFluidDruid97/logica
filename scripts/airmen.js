@@ -2,6 +2,8 @@ import { faker } from '@faker-js/faker'
 
 export const airmen = []
 
+export const supervisors = []
+
 export const ranks = [
   'Amn',
   'A1C',
@@ -26,10 +28,12 @@ export const organizations = [
   '96 BS',
   '343 BS',
   '377 SFS',
-  '701 MUNSS',
+  '701 MUNS',
 ]
 
 const afscs = ['3P0X1', '1T0X1', '2F0X1', '4Y0X1', '5J0X1']
+
+const roles = ['Airman', 'Supervisor']
 
 const repeat = (func, times) => {
   func()
@@ -70,6 +74,7 @@ const createRandomAirman = () => {
     dodId: faker.random.numeric(10, {
       allowLeadingZeros: false,
     }),
+    roles: faker.helpers.arrayElement(roles),
   })
 }
 
