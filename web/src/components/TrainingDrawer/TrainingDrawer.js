@@ -60,6 +60,7 @@ const TrainingDrawer = ({ airman, trainings, currentAirmanTrainings }) => {
       trainingId: training.id,
       start: start,
       end: end,
+      approval: true,
     })
   }
   const onSave = (input, id) => {

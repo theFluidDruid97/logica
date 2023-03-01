@@ -33,6 +33,8 @@ import { routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
+import RequestDrawer from 'src/components/RequestDrawer/RequestDrawer.js'
+
 import { ThemeModeContext } from '../../../App.js'
 import CertificateDrawer from '../../CertificateDrawer/CertificateDrawer.js'
 import DataTable from '../../DataTable/DataTable.js'
@@ -453,6 +455,20 @@ const Airman = ({
     )
   }
 
+  let bVariant1 = []
+  let bVariant2 = []
+
+  let buttonVariant
+  if (mode === 'dark' && dataTable === 'trainings') {
+    ;(bVariant1 = 'contained'), (bVariant2 = 'outlined')
+  } else if (mode === 'dark' && dataTable === 'certificates') {
+    ;(bVariant2 = 'contained'), (bVariant1 = 'outlined')
+  } else if (mode === 'light' && dataTable === 'trainings') {
+    ;(bVariant1 = 'contained'), (bVariant2 = 'outlined')
+  } else if (mode === 'light' && dataTable === 'certificates') {
+    ;(bVariant2 = 'contained'), (bVariant1 = 'outlined')
+  }
+
   return (
     <>
       <Box display="flex" flexDirection="row">
@@ -496,21 +512,21 @@ const Airman = ({
                     direction="row"
                     alignItems="flex-start"
                   >
-                    <Button
+                    <IconButton
                       variant={mode === 'light' ? 'contained' : 'outlined'}
                       onClick={() =>
                         navigate(routes.editAirman({ id: airman.id }))
                       }
                     >
                       <EditIcon />
-                    </Button>
-                    <Button
+                    </IconButton>
+                    <IconButton
                       variant={mode === 'light' ? 'contained' : 'outlined'}
                       color="red"
                       onClick={() => onDeleteClick(airman, airman.id)}
                     >
                       <DeleteIcon />
-                    </Button>
+                    </IconButton>
                   </Stack>
                 </Box>
                 <Divider />
@@ -726,7 +742,7 @@ const Airman = ({
         <Box width="50%">
           <Button
             sx={{ marginX: '1%' }}
-            variant={mode === 'light' ? 'contained' : 'outlined'}
+            variant={bVariant1}
             size="large"
             onClick={() => setDataTable('trainings')}
           >
@@ -734,15 +750,22 @@ const Airman = ({
           </Button>
           <Button
             sx={{ marginX: '1%' }}
-            variant={mode === 'light' ? 'contained' : 'outlined'}
+            variant={bVariant2}
             size="large"
             onClick={() => setDataTable('certificates')}
           >
             Certificates
           </Button>
         </Box>
-        <Box width="50%" display="flex" justifyContent="flex-end">
+
+        <Box
+          width="50%"
+          display="flex"
+          flexdirection="row"
+          justifyContent="flex-end"
+        >
           <Box marginX="1%">
+            <RequestDrawer trainings={trainings} airman={airman} />
             <TrainingDrawer
               trainings={trainings}
               airman={airman}

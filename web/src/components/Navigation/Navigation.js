@@ -96,14 +96,14 @@ const Navigation = () => {
           </Typography>
           {isAuthenticated ? (
             <Box>
-              <Button
+              <IconButton
                 color="inherit"
                 onClick={() => navigate(routes.notifications())}
               >
                 {/* <Badge color="red" badgeContent={1}> */}
                 <NotificationsIcon />
                 {/* </Badge> */}
-              </Button>
+              </IconButton>
               <Button
                 id="basic-button"
                 aria-controls={open ? 'basic-menu' : undefined}
