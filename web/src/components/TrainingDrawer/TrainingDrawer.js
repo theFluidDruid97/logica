@@ -52,7 +52,6 @@ const TrainingDrawer = ({ airman, trainings, currentAirmanTrainings }) => {
       toast.error(error.message)
     },
     refetchQueries: ['FindAirmanById'],
-    awaitRefetchQueries: true,
   })
   const handleSubmit = () => {
     onSave({

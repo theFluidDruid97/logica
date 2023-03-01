@@ -37,7 +37,6 @@ const TrainingsList = ({ trainings, airmen }) => {
       toast.error(error.message)
     },
     refetchQueries: [{ query: QUERY }],
-    awaitRefetchQueries: true,
   })
   const onDeleteClick = (training, id) => {
     if (confirm(`Are you sure you want to delete ${training.name}?`)) {

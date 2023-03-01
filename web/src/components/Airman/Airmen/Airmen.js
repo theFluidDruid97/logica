@@ -50,15 +50,12 @@ const AirmenList = ({ airmen, trainings, airmanTrainings, certificates }) => {
       toast.error(error.message)
     },
     refetchQueries: ['FindAirmen'],
-    awaitRefetchQueries: true,
   })
   const [updateAirmanTraining] = useMutation(UPDATE_AIRMAN_TRAINING_MUTATION, {
     refetchQueries: ['FindAirmen'],
-    awaitRefetchQueries: true,
   })
   const [updateAirman] = useMutation(UPDATE_AIRMAN_MUTATION, {
     refetchQueries: ['FindAirmen'],
-    awaitRefetchQueries: true,
   })
   const handleUpdateAirmanTraining = (id, input) => {
     updateAirmanTraining({
@@ -140,6 +137,14 @@ const AirmenList = ({ airmen, trainings, airmanTrainings, certificates }) => {
           status: status,
         })
       }
+    }
+  }, [airmanTrainings.length, certificates])
+
+  React.useEffect(() => {
+    for (let airman of airmen) {
+      const currentAirmanTrainings = airmanTrainings.filter(
+        (airmanTraining) => airmanTraining.airmanId === airman.id
+      )
       if (
         currentAirmanTrainings.find(
           (currentAirmanTraining) => currentAirmanTraining.status === 'Overdue'
@@ -156,7 +161,7 @@ const AirmenList = ({ airmen, trainings, airmanTrainings, certificates }) => {
         handleUpdateAirman(airman.id, { status: 'Current' })
       }
     }
-  }, [])
+  }, [airmanTrainings])
 
   const rankComparator = (rank1, rank2) =>
     ranks.indexOf(rank1) - ranks.indexOf(rank2)

@@ -72,6 +72,13 @@ const UPDATE_AIRMAN_TRAINING_MUTATION = gql`
     }
   }
 `
+const UPDATE_AIRMAN_MUTATION = gql`
+  mutation UpdateAirmanMutation($id: Int!, $input: UpdateAirmanInput!) {
+    updateAirman(id: $id, input: $input) {
+      status
+    }
+  }
+`
 
 const Training = ({ training, airmanTrainings, airmen, certificates }) => {
   const { mode } = React.useContext(ThemeModeContext)
@@ -87,7 +94,6 @@ const Training = ({ training, airmanTrainings, airmen, certificates }) => {
       toast.error(error.message)
     },
     refetchQueries: ['FindTrainings'],
-    awaitRefetchQueries: true,
   })
   const [deleteAirmanTraining] = useMutation(DELETE_AIRMAN_TRAINING_MUTATION, {
     onCompleted: () => {
@@ -102,14 +108,20 @@ const Training = ({ training, airmanTrainings, airmen, certificates }) => {
       toast.error(error.message)
     },
     refetchQueries: ['FindTrainingById'],
-    awaitRefetchQueries: true,
   })
   const [updateAirmanTraining] = useMutation(UPDATE_AIRMAN_TRAINING_MUTATION, {
     refetchQueries: ['FindTrainingById'],
-    awaitRefetchQueries: true,
   })
   const handleUpdateAirmanTraining = (id, input) => {
     updateAirmanTraining({
+      variables: { id, input },
+    })
+  }
+  const [updateAirman] = useMutation(UPDATE_AIRMAN_MUTATION, {
+    refetchQueries: ['FindAirmen'],
+  })
+  const handleUpdateAirman = (id, input) => {
+    updateAirman({
       variables: { id, input },
     })
   }
@@ -195,7 +207,27 @@ const Training = ({ training, airmanTrainings, airmen, certificates }) => {
         status,
       })
     }
-  }, [airmanTrainings.length])
+  }, [airmanTrainings.length, certificates])
+
+  React.useEffect(() => {
+    for (let airman of airmen) {
+      if (
+        currentAirmanTrainings.find(
+          (currentAirmanTraining) => currentAirmanTraining.status === 'Overdue'
+        )
+      ) {
+        handleUpdateAirman(airman.id, { status: 'Overdue' })
+      } else if (
+        currentAirmanTrainings.find(
+          (currentAirmanTraining) => currentAirmanTraining.status === 'Due'
+        )
+      ) {
+        handleUpdateAirman(airman.id, { status: 'Due' })
+      } else {
+        handleUpdateAirman(airman.id, { status: 'Current' })
+      }
+    }
+  }, [airmanTrainings])
 
   const rankComparator = (rank1, rank2) =>
     ranks.indexOf(rank1) - ranks.indexOf(rank2)

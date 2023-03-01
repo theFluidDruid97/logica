@@ -157,7 +157,7 @@ const Airman = ({
       }
     }
   }
-  console.log(airman)
+
   React.useEffect(() => {
     for (let currentAirmanTraining of currentAirmanTrainings) {
       const training = trainings.find(
@@ -205,6 +205,9 @@ const Airman = ({
         status: status,
       })
     }
+  }, [airmanTrainings.length, certificates])
+
+  React.useEffect(() => {
     if (
       currentAirmanTrainings.find(
         (currentAirmanTraining) => currentAirmanTraining.status === 'Overdue'
@@ -220,8 +223,7 @@ const Airman = ({
     } else {
       handleUpdateAirman(airman.id, { status: 'Current' })
     }
-    return toast.success('Airman updated')
-  }, [airmanTrainings, certificates])
+  }, [airmanTrainings])
 
   const trainingsColumns = [
     {

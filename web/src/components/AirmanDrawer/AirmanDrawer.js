@@ -108,7 +108,6 @@ const AirmanDrawer = ({
       }
     },
     refetchQueries: training ? ['FindTrainingById'] : ['FindTrainings'],
-    awaitRefetchQueries: true,
   })
   const onSave = (input) => {
     createAirmanTraining({ variables: { input } })
