@@ -21,12 +21,14 @@ export const schema = gql`
     roles: Role!
     assignedTrainings: [AirmanTraining]!
     certificates: [Certificate]!
+    notifications: [Notification]!
   }
 
   enum Status {
     Current
     Due
     Overdue
+    Pending
   }
 
   enum Role {

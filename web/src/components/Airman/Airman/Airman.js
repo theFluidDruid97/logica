@@ -136,6 +136,10 @@ const Airman = ({
             (certificate) => certificate.trainingId === params.row.trainingId
           )?.completion
         )
+        const isPending =
+          new Date(
+            certificateDate.setMonth(certificateDate.getMonth() - duration)
+          ).getTime() < new Date().getTime()
         const isOverDue =
           new Date(
             certificateDate.setMonth(certificateDate.getMonth() + duration)
@@ -174,6 +178,19 @@ const Airman = ({
               sx={{ width: '95px' }}
               label="DUE"
               color="yellow"
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+            />
+          )
+        } else if (isPending) {
+          if (!updatedAT) {
+            updateAT({ status: 'Pending' }, params.row.id)
+            setUpdatedAT(true)
+          }
+          return (
+            <Chip
+              sx={{ width: '95px' }}
+              label="PENDING"
+              color="blue"
               variant={mode === 'light' ? 'contained' : 'outlined'}
             />
           )

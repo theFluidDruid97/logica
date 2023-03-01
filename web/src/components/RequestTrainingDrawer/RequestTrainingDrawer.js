@@ -55,6 +55,7 @@ const RequestTrainingDrawer = ({ airman, trainings }) => {
       trainingId: training.id,
       start: start,
       end: end,
+      status: 'Pending',
     })
   }
   const onSave = (input, id) => {

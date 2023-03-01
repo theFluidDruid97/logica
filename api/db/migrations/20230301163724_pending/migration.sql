@@ -2,7 +2,7 @@
 CREATE TYPE "Role" AS ENUM ('Airman', 'Admin', 'Monitor', 'Supervisor');
 
 -- CreateEnum
-CREATE TYPE "Status" AS ENUM ('Current', 'Due', 'Overdue');
+CREATE TYPE "Status" AS ENUM ('Current', 'Due', 'Overdue', 'Pending');
 
 -- CreateTable
 CREATE TABLE "Airman" (
