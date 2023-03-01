@@ -32,7 +32,7 @@ import { routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
-import Approvals from 'src/components/Approvals/Approvals.js'
+// import Approvals from 'src/components/Approvals/Approvals.js'
 import RequestTrainingDrawer from 'src/components/RequestTrainingDrawer/RequestTrainingDrawer.js'
 
 import { ThemeModeContext } from '../../../App.js'
@@ -191,19 +191,19 @@ const Airman = ({
               variant={mode === 'light' ? 'contained' : 'outlined'}
             />
           )
-        } else if (isPending) {
-          if (!updatedAT) {
-            updateAT({ status: 'Pending' }, params.row.id)
-            setUpdatedAT(true)
-          }
-          return (
-            <Chip
-              sx={{ width: '95px' }}
-              label="PENDING"
-              color="blue"
-              variant={mode === 'light' ? 'contained' : 'outlined'}
-            />
-          )
+          // } else if (isPending) {
+          //   if (!updatedAT) {
+          //     updateAT({ status: 'Pending' }, params.row.id)
+          //     setUpdatedAT(true)
+          //   }
+          //   return (
+          //     <Chip
+          //       sx={{ width: '95px' }}
+          //       label="PENDING"
+          //       color="blue"
+          //       variant={mode === 'light' ? 'contained' : 'outlined'}
+          //     />
+          //   )
         } else {
           if (!updatedAT) {
             updateAT({ status: 'Current' }, params.row.id)
