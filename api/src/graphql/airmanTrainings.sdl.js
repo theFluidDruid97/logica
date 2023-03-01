@@ -8,6 +8,7 @@ export const schema = gql`
     status: Status
     start: DateTime
     end: DateTime
+    approval: Boolean!
   }
 
   enum Status {
@@ -28,6 +29,7 @@ export const schema = gql`
     status: Status
     start: DateTime
     end: DateTime
+    approval: Boolean!
   }
 
   input UpdateAirmanTrainingInput {
@@ -36,6 +38,7 @@ export const schema = gql`
     status: Status
     start: DateTime
     end: DateTime
+    approval: Boolean
   }
 
   type Mutation {

@@ -14,7 +14,7 @@ import ListItemText from '@mui/material/ListItemText'
 import { navigate, routes } from '@redwoodjs/router'
 
 const DrawerListItems = () => {
-  const [routesState, setRoutesState] = useState(routes)
+  const [routesState] = useState(routes)
   const drawerListItems = [
     {
       text: 'Dashboard',
@@ -42,7 +42,7 @@ const DrawerListItems = () => {
       icon: <TrendingUpIcon />,
     },
     {
-      text: 'Training Requests',
+      text: 'Approvals',
       link: routesState.approvals(),
       icon: <CheckCircleOutlineOutlinedIcon />,
     },

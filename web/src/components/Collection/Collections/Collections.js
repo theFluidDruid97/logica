@@ -1,7 +1,8 @@
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import FindInPageIcon from '@mui/icons-material/FindInPage'
-import Button from '@mui/material/Button'
+// import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
 import {
   useGridApiRef,
   // useKeepGroupedColumnsHidden,
@@ -50,7 +51,6 @@ const CollectionsList = ({ collections }) => {
       toast.error(error.message)
     },
     refetchQueries: [{ query: QUERY }],
-    awaitRefetchQueries: true,
   })
 
   const onDeleteClick = (collection, id) => {
@@ -71,7 +71,7 @@ const CollectionsList = ({ collections }) => {
       renderCell: (params) => {
         return (
           <>
-            <Button
+            <IconButton
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
               color="grey"
@@ -79,8 +79,8 @@ const CollectionsList = ({ collections }) => {
               title={'View'}
             >
               <FindInPageIcon />
-            </Button>
-            <Button
+            </IconButton>
+            <IconButton
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
               onClick={() =>
@@ -89,8 +89,8 @@ const CollectionsList = ({ collections }) => {
               title={'Edit'}
             >
               <EditIcon />
-            </Button>
-            <Button
+            </IconButton>
+            <IconButton
               variant={mode === 'light' ? 'contained' : 'outlined'}
               size="small"
               color="red"
@@ -98,7 +98,7 @@ const CollectionsList = ({ collections }) => {
               title={'Delete'}
             >
               <DeleteIcon />
-            </Button>
+            </IconButton>
           </>
         )
       },
