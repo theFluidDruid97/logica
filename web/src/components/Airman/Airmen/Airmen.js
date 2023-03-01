@@ -1,17 +1,16 @@
-import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import FindInPageIcon from '@mui/icons-material/FindInPage'
-import Button from '@mui/material/Button'
+//import Button from '@mui/material/Button'
 import Chip from '@mui/material/Chip'
 import IconButton from '@mui/material/IconButton'
-import Stack from '@mui/material/Stack'
 
 import { navigate, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
-import { ranks } from '../../../../../scripts/airmen.js'
+import { QUERY } from 'src/components/Airman/AirmenCell'
+
 import { ThemeModeContext } from '../../../App.js'
 import DataTable from '../../DataTable/DataTable.js'
 
@@ -22,25 +21,8 @@ const DELETE_AIRMAN_MUTATION = gql`
     }
   }
 `
-const UPDATE_AIRMAN_TRAINING_MUTATION = gql`
-  mutation UpdateAirmanTrainingMutation(
-    $id: Int!
-    $input: UpdateAirmanTrainingInput!
-  ) {
-    updateAirmanTraining(id: $id, input: $input) {
-      status
-    }
-  }
-`
-const UPDATE_AIRMAN_MUTATION = gql`
-  mutation UpdateAirmanMutation($id: Int!, $input: UpdateAirmanInput!) {
-    updateAirman(id: $id, input: $input) {
-      status
-    }
-  }
-`
 
-const AirmenList = ({ airmen, trainings, airmanTrainings, certificates }) => {
+const AirmenList = ({ airmen }) => {
   const { mode } = React.useContext(ThemeModeContext)
   const [deleteAirman] = useMutation(DELETE_AIRMAN_MUTATION, {
     onCompleted: () => {
@@ -163,38 +145,43 @@ const AirmenList = ({ airmen, trainings, airmanTrainings, certificates }) => {
     }
   }, [airmanTrainings])
 
-  const rankComparator = (rank1, rank2) =>
-    ranks.indexOf(rank1) - ranks.indexOf(rank2)
-  const airmanColumns = [
+  const columns = [
     {
       field: 'status',
       headerName: 'Status',
       width: 125,
       renderCell: (params) => {
-        let chipColor
         if (params.row.status === 'Overdue') {
-          chipColor = 'red'
+          return (
+            <Chip
+              sx={{ width: '95px' }}
+              label="OVERDUE"
+              color="red"
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+            />
+          )
         } else if (params.row.status === 'Due') {
-          chipColor = 'yellow'
+          return (
+            <Chip
+              sx={{ width: '95px' }}
+              label="DUE"
+              color="yellow"
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+            />
+          )
         } else {
-          chipColor = 'green'
+          return (
+            <Chip
+              sx={{ width: '95px' }}
+              label="CURRENT"
+              color="green"
+              variant={mode === 'light' ? 'contained' : 'outlined'}
+            />
+          )
         }
-        return (
-          <Chip
-            sx={{ width: '95px' }}
-            label={params.row.status.toUpperCase()}
-            color={chipColor}
-            variant={mode === 'light' ? 'contained' : 'outlined'}
-          />
-        )
       },
     },
-    {
-      field: 'rank',
-      headerName: 'Rank',
-      flex: 0.75,
-      sortComparator: rankComparator,
-    },
+    { field: 'rank', headerName: 'Rank', flex: 0.75 },
     { field: 'lastName', headerName: 'Last Name', flex: 1 },
     { field: 'firstName', headerName: 'First Name', flex: 1 },
     { field: 'middleName', headerName: 'Middle Name', flex: 1 },
@@ -208,13 +195,13 @@ const AirmenList = ({ airmen, trainings, airmanTrainings, certificates }) => {
       headerName: 'Actions',
       sortable: false,
       filterable: false,
-      width: 180,
+      width: 225,
       renderCell: (params) => {
         return (
-          <Stack direction="row" spacing={1}>
+          <>
             <IconButton
               variant={mode === 'light' ? 'contained' : 'outlined'}
-              size="large"
+              size="small"
               color={mode === 'light' ? 'grey' : 'primary'}
               onClick={() => navigate(routes.airman({ id: params.row.id }))}
               title={'View'}
@@ -223,8 +210,7 @@ const AirmenList = ({ airmen, trainings, airmanTrainings, certificates }) => {
             </IconButton>
             <IconButton
               variant={mode === 'light' ? 'contained' : 'outlined'}
-              size="large"
-              color="primary"
+              size="small"
               onClick={() => navigate(routes.editAirman({ id: params.row.id }))}
               title={'Edit'}
             >
@@ -232,47 +218,20 @@ const AirmenList = ({ airmen, trainings, airmanTrainings, certificates }) => {
             </IconButton>
             <IconButton
               variant={mode === 'light' ? 'contained' : 'outlined'}
-              size="large"
-              color="red"
+              size="small"
+              color={'red'}
               onClick={() => onDeleteClick(params.row, params.row.id)}
               title={'Delete'}
             >
               <DeleteIcon />
             </IconButton>
-          </Stack>
+          </>
         )
       },
     },
   ]
-  const addAirmanButton = () => {
-    return (
-      <Button size="small" onClick={() => navigate(routes.newAirman())}>
-        <AddIcon />
-        Add Airman
-      </Button>
-    )
-  }
-  const deleteSelectedButton = ({ selection }) => {
-    return (
-      <Button
-        size="small"
-        color="red"
-        onClick={() => onDeleteSelectedClick(selection, selection.length)}
-      >
-        <DeleteIcon />
-        Delete Selected
-      </Button>
-    )
-  }
 
-  return (
-    <DataTable
-      rows={airmen}
-      columns={airmanColumns}
-      GridToolbarAddButton={addAirmanButton}
-      GridToolbarDeleteButton={deleteSelectedButton}
-    />
-  )
+  return <DataTable rows={airmen} columns={columns} />
 }
 
 export default AirmenList

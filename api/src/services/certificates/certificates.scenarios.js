@@ -3,17 +3,17 @@ export const standard = defineScenario({
     one: {
       data: {
         url: 'String',
-        completion: '2023-02-24T16:52:51.340Z',
-        airman: { create: { email: 'String8904004' } },
-        training: { create: { name: 'String3159348' } },
+        completion: '2023-02-14T16:47:54.998Z',
+        airman: { create: { email: 'String9359563' } },
+        training: { create: { name: 'String1126003' } },
       },
     },
     two: {
       data: {
         url: 'String',
-        completion: '2023-02-24T16:52:51.340Z',
-        airman: { create: { email: 'String1101265' } },
-        training: { create: { name: 'String1337184' } },
+        completion: '2023-02-14T16:47:54.998Z',
+        airman: { create: { email: 'String1030783' } },
+        training: { create: { name: 'String2295198' } },
       },
     },
   },

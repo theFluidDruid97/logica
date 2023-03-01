@@ -27,7 +27,7 @@ model Airman {
   supervisorId        Int?
   supervisor          Airman?          @relation("SupervisorAirman", fields: [supervisorId], references: [id])
   airmen              Airman[]         @relation("SupervisorAirman")
-  roles               Role             @default(Airman)
+  roles               Role
   assignedTrainings   AirmanTraining[]
   certificates        Certificate[]
   notifications       Notification[]
@@ -50,17 +50,6 @@ model Training {
   certificates   Certificate[]
 }
 
-model Certificate {
-  id         Int      @id @default(autoincrement())
-  airman     Airman   @relation(fields: [airmanId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  airmanId   Int
-  training   Training @relation(fields: [trainingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  trainingId Int
-  url        String
-  completion DateTime @db.Timestamptz(3)
-  validated  Boolean? @default(false)
-}
-
 model Collection {
   id          Int                  @id @default(autoincrement())
   name        String               @unique
@@ -74,34 +63,37 @@ model Collection {
   trainings   TrainingCollection[]
 }
 
-model Notification {
-  id        Int      @id @default(autoincrement())
-  airmanId  Int
-  airman    Airman   @relation(fields: [airmanId], references: [id])
-  message   String
-  createdAt DateTime @default(now()) @db.Timestamptz(3)
+model Certificate {
+  id         Int      @id @default(autoincrement())
+  airman     Airman   @relation(fields: [airmanId], references: [id])
+  airmanId   Int
+  training   Training @relation(fields: [trainingId], references: [id])
+  trainingId Int
+  url        String
+  completion DateTime @db.Timestamptz(3)
+  validated  Boolean? @default(false)
 }
 
 model AirmanTraining {
-  id         Int       @id @default(autoincrement())
-  airman     Airman    @relation(fields: [airmanId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  id         Int      @id @default(autoincrement())
+  airman     Airman   @relation(fields: [airmanId], references: [id])
   airmanId   Int
-  training   Training  @relation(fields: [trainingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  training   Training @relation(fields: [trainingId], references: [id])
   trainingId Int
-  status     Status?   @default(Due)
+  status     Status   @default(Due)
   start      DateTime?
   end        DateTime?
-
+  approval   Boolean   @default(false)
   @@unique([airmanId, trainingId])
 }
 
 model TrainingCollection {
   id           Int        @id @default(autoincrement())
-  training     Training   @relation(fields: [trainingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  trainingId   Int
-  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  collection   Collection @relation(fields: [collectionId], references: [id])
   collectionId Int
-
+  training     Training   @relation(fields: [trainingId], references: [id])
+  trainingId   Int
   @@unique([trainingId, collectionId])
 }
 
@@ -116,4 +108,12 @@ enum Status {
   Current
   Due
   Overdue
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  airmanId  Int
+  airman    Airman   @relation(fields: [airmanId], references: [id])
+  message   String
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
 }

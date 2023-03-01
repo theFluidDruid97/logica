@@ -2,7 +2,6 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Drawer from '@mui/material/Drawer'
 import FormControl from '@mui/material/FormControl'
-import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
@@ -77,13 +76,7 @@ const CertificateDrawer = ({ trainings, airman }) => {
       <Drawer anchor={'right'} open={open} onClose={() => toggleDrawer()}>
         <FormControl sx={{ marginY: '25%', width: '400px' }}>
           <Box marginX="10%">
-            <InputLabel sx={{ paddingX: '13%' }}>Certificate</InputLabel>
-            <Select
-              fullWidth
-              value={training}
-              onChange={handleTrainingChange}
-              label="Certificate"
-            >
+            <Select fullWidth value={training} onChange={handleTrainingChange}>
               {trainings.map((training) => (
                 <MenuItem key={training.id} value={training}>
                   {training.name}
@@ -91,27 +84,21 @@ const CertificateDrawer = ({ trainings, airman }) => {
               ))}
             </Select>
           </Box>
-          {training ? (
-            <>
-              <Box margin="10%">
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DesktopDatePicker
-                    label="Completion"
-                    inputFormat="dd MMM yyyy"
-                    value={completion}
-                    onChange={handleCompletionChange}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </LocalizationProvider>
-              </Box>
-              <PickerInline
-                apikey={process.env.REDWOOD_ENV_FILESTACK_API_KEY}
-                onSuccess={handleFileUpload}
+          <Box margin="10%">
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DesktopDatePicker
+                label="Completion"
+                inputFormat="dd MMM yyyy"
+                value={completion}
+                onChange={handleCompletionChange}
+                renderInput={(params) => <TextField {...params} />}
               />
-            </>
-          ) : (
-            <></>
-          )}
+            </LocalizationProvider>
+          </Box>
+          <PickerInline
+            apikey={process.env.REDWOOD_ENV_FILESTACK_API_KEY}
+            onSuccess={handleFileUpload}
+          />
         </FormControl>
       </Drawer>
     </div>

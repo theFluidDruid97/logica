@@ -31,14 +31,14 @@ describe('certificates', () => {
         airmanId: scenario.certificate.two.airmanId,
         trainingId: scenario.certificate.two.trainingId,
         url: 'String',
-        completion: '2023-02-24T16:52:51.310Z',
+        completion: '2023-02-14T16:47:54.963Z',
       },
     })
 
     expect(result.airmanId).toEqual(scenario.certificate.two.airmanId)
     expect(result.trainingId).toEqual(scenario.certificate.two.trainingId)
     expect(result.url).toEqual('String')
-    expect(result.completion).toEqual(new Date('2023-02-24T16:52:51.310Z'))
+    expect(result.completion).toEqual(new Date('2023-02-14T16:47:54.963Z'))
   })
 
   scenario('updates a certificate', async (scenario) => {
