@@ -114,7 +114,28 @@ const Airman = ({
   const currentCertificates = certificates.filter(
     (certificate) => certificate.airmanId === airman.id
   )
-  const updateAT = (input, id) => {
+
+  const [updateAirmanTraining] = useMutation(UPDATE_AIRMAN_TRAINING_MUTATION, {
+    refetchQueries: ['FindAirmanById'],
+  })
+  const [updateAirman] = useMutation(UPDATE_AIRMAN_MUTATION, {
+    refetchQueries: ['FindAirmanById'],
+  })
+  const [deleteAirmanTraining] = useMutation(DELETE_AIRMAN_TRAINING_MUTATION, {
+    onCompleted: () => {
+      ++mutationCount
+      if (mutationCount + 1 === selectionCount || selectionCount === 1) {
+        toast.success(`${selectionCount} airman trainings deleted`)
+        setSelectionCount(0)
+        mutationCount = 0
+      }
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    },
+    refetchQueries: ['FindAirmanById'],
+  })
+  const handleUpdateAirmanTraining = (id, input) => {
     updateAirmanTraining({
       variables: { id, input },
     })
@@ -124,6 +145,88 @@ const Airman = ({
       variables: { id, input },
     })
   }
+
+  const onDeleteSelectedClick = (selection) => {
+    setSelectionCount(selection.length)
+    if (
+      confirm(
+        `Are you sure you want to delete these ${selection.length} training records for ${airman.rank} ${airman.lastName},  ${airman.firstName} ${airman.middleName}?`
+      )
+    ) {
+      for (let airmanTraining of selection) {
+        const id = airmanTraining.id
+        deleteAirmanTraining({ variables: { id } })
+      }
+    }
+  }
+
+  React.useEffect(() => {
+    for (let currentAirmanTraining of currentAirmanTrainings) {
+      const training = trainings.find(
+        (training) => training.id === currentAirmanTraining.trainingId
+      )
+      const certificateDate = new Date(
+        certificates.find(
+          (certificate) =>
+            certificate.airmanId === airman.id &&
+            certificate.trainingId === training.id
+        )?.completion
+      )
+      const isOverDue =
+        new Date(
+          certificateDate.setMonth(
+            certificateDate.getMonth() + training.duration
+          )
+        ).getTime() < new Date().getTime()
+      const isDue =
+        new Date(
+          certificateDate.setMonth(certificateDate.getMonth() - 2)
+        ).getTime() < new Date().getTime()
+      const noCert = isNaN(
+        new Date(
+          certificateDate.setMonth(certificateDate.getMonth() - 2)
+        ).getTime()
+      )
+      let status = 'Current'
+      if (noCert) {
+        if (currentAirmanTraining.end) {
+          if (
+            new Date(currentAirmanTraining.end).getTime() < new Date().getTime()
+          ) {
+            status = 'Overdue'
+          }
+        } else {
+          status = 'Due'
+        }
+      } else if (isOverDue) {
+        status = 'Overdue'
+      } else if (isDue) {
+        status = 'Due'
+      }
+      handleUpdateAirmanTraining(currentAirmanTraining.id, {
+        status: status,
+      })
+    }
+  }, [airmanTrainings.length, certificates])
+
+  React.useEffect(() => {
+    if (
+      currentAirmanTrainings.find(
+        (currentAirmanTraining) => currentAirmanTraining.status === 'Overdue'
+      )
+    ) {
+      handleUpdateAirman(airman.id, { status: 'Overdue' })
+    } else if (
+      currentAirmanTrainings.find(
+        (currentAirmanTraining) => currentAirmanTraining.status === 'Due'
+      )
+    ) {
+      handleUpdateAirman(airman.id, { status: 'Due' })
+    } else {
+      handleUpdateAirman(airman.id, { status: 'Current' })
+    }
+  }, [airmanTrainings])
+
   const trainingsColumns = [
     {
       field: 'status',
@@ -302,6 +405,8 @@ const Airman = ({
     onError: (error) => {
       toast.error(error.message)
     },
+    refetchQueries: ['FindAirmanById'],
+
   })
   const onDeleteClick = (airman, id) => {
     if (

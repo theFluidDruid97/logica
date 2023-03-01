@@ -51,7 +51,6 @@ const CollectionsList = ({ collections }) => {
       toast.error(error.message)
     },
     refetchQueries: [{ query: QUERY }],
-    awaitRefetchQueries: true,
   })
 
   const onDeleteClick = (collection, id) => {

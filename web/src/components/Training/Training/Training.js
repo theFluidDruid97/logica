@@ -67,6 +67,15 @@ const Training = ({ training, airmanTrainings, airmen }) => {
     )
   }
 
+`
+const UPDATE_AIRMAN_MUTATION = gql`
+  mutation UpdateAirmanMutation($id: Int!, $input: UpdateAirmanInput!) {
+    updateAirman(id: $id, input: $input) {
+      status
+    }
+  }
+`
+
   const { mode } = React.useContext(ThemeModeContext)
   const [deleteTraining] = useMutation(DELETE_TRAINING_MUTATION, {
     onCompleted: () => {
@@ -76,8 +85,39 @@ const Training = ({ training, airmanTrainings, airmen }) => {
     onError: (error) => {
       toast.error(error.message)
     },
+    refetchQueries: ['FindTrainings'],
   })
-  const onDeleteClick = (training, id) => {
+  const [deleteAirmanTraining] = useMutation(DELETE_AIRMAN_TRAINING_MUTATION, {
+    onCompleted: () => {
+      ++mutationCount
+      if (mutationCount + 1 === selectionCount || selectionCount === 1) {
+        toast.success(`${selectionCount} airman trainings deleted`)
+        setSelectionCount(0)
+        mutationCount = 0
+      }
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    },
+    refetchQueries: ['FindTrainingById'],
+  })
+  const [updateAirmanTraining] = useMutation(UPDATE_AIRMAN_TRAINING_MUTATION, {
+    refetchQueries: ['FindTrainingById'],
+  })
+  const handleUpdateAirmanTraining = (id, input) => {
+    updateAirmanTraining({
+      variables: { id, input },
+    })
+  }
+  const [updateAirman] = useMutation(UPDATE_AIRMAN_MUTATION, {
+    refetchQueries: ['FindAirmen'],
+  })
+  const handleUpdateAirman = (id, input) => {
+    updateAirman({
+      variables: { id, input },
+    })
+  }
+  const onDeleteTrainingClick = (id, training) => {
     if (confirm(`Are you sure you want to delete ${training.name}?`)) {
       deleteTraining({ variables: { id } })
     }
@@ -114,7 +154,76 @@ const Training = ({ training, airmanTrainings, airmen }) => {
       },
     ],
   }
-  const columns = [
+
+  React.useEffect(() => {
+    for (let currentAirmanTraining of currentAirmanTrainings) {
+      const certificateDate = new Date(
+        certificates.find(
+          (certificate) =>
+            certificate.airmanId === currentAirmanTraining.airmanId &&
+            certificate.trainingId === currentAirmanTraining.trainingId
+        )?.completion
+      )
+      const isOverDue =
+        new Date(
+          certificateDate.setMonth(
+            certificateDate.getMonth() + training.duration
+          )
+        ).getTime() < new Date().getTime()
+      const isDue =
+        new Date(
+          certificateDate.setMonth(certificateDate.getMonth() - 2)
+        ).getTime() < new Date().getTime()
+      const noCert = isNaN(
+        new Date(
+          certificateDate.setMonth(certificateDate.getMonth() - 2)
+        ).getTime()
+      )
+      let status = 'Current'
+      if (noCert) {
+        if (currentAirmanTraining.end) {
+          if (
+            new Date(currentAirmanTraining.end).getTime() < new Date().getTime()
+          ) {
+            status = 'Overdue'
+          }
+        } else {
+          status = 'Due'
+        }
+      } else if (isOverDue) {
+        status = 'Overdue'
+      } else if (isDue) {
+        status = 'Due'
+      }
+      handleUpdateAirmanTraining(currentAirmanTraining.id, {
+        status,
+      })
+    }
+  }, [airmanTrainings.length, certificates])
+
+  React.useEffect(() => {
+    for (let airman of airmen) {
+      if (
+        currentAirmanTrainings.find(
+          (currentAirmanTraining) => currentAirmanTraining.status === 'Overdue'
+        )
+      ) {
+        handleUpdateAirman(airman.id, { status: 'Overdue' })
+      } else if (
+        currentAirmanTrainings.find(
+          (currentAirmanTraining) => currentAirmanTraining.status === 'Due'
+        )
+      ) {
+        handleUpdateAirman(airman.id, { status: 'Due' })
+      } else {
+        handleUpdateAirman(airman.id, { status: 'Current' })
+      }
+    }
+  }, [airmanTrainings])
+
+  const rankComparator = (rank1, rank2) =>
+    ranks.indexOf(rank1) - ranks.indexOf(rank2)
+  const airmanTrainingColumns = [
     {
       field: 'status',
       headerName: 'Status',
