@@ -85,8 +85,6 @@ const AirmanDrawer = (props) => {
     onError: (error) => {
       toast.error(error)
     },
-
-    refetchQueries: training ? ['FindTrainingById'] : ['FindTrainings'],
   })
 
   const onSave = (input, id) => {

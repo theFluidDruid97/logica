@@ -38,7 +38,6 @@ const CertificateDrawer = ({ trainings, airman }) => {
     onError: (error) => {
       toast.error(error.message)
     },
-    refetchQueries: ['FindAirmanById'],
   })
   const handleFileUpload = (response) => {
     onSave({

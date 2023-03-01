@@ -31,24 +31,9 @@ const AirmenList = ({ airmen }) => {
     onError: (error) => {
       toast.error(error.message)
     },
-    refetchQueries: ['FindAirmen'],
+    refetchQueries: [{ query: QUERY }],
+    awaitRefetchQueries: true,
   })
-  const [updateAirmanTraining] = useMutation(UPDATE_AIRMAN_TRAINING_MUTATION, {
-    refetchQueries: ['FindAirmen'],
-  })
-  const [updateAirman] = useMutation(UPDATE_AIRMAN_MUTATION, {
-    refetchQueries: ['FindAirmen'],
-  })
-  const handleUpdateAirmanTraining = (id, input) => {
-    updateAirmanTraining({
-      variables: { id, input },
-    })
-  }
-  const handleUpdateAirman = (id, input) => {
-    updateAirman({
-      variables: { id, input },
-    })
-  }
 
   const onDeleteClick = (airman, id) => {
     if (
@@ -59,93 +44,6 @@ const AirmenList = ({ airmen }) => {
       deleteAirman({ variables: { id } })
     }
   }
-
-  const onDeleteSelectedClick = (selection, length) => {
-    if (confirm(`Are you sure you want to delete these ${length} Airmen?`)) {
-      for (let selected of selection) {
-        const id = selected.id
-        deleteAirman({ variables: { id } })
-      }
-    }
-  }
-
-  React.useEffect(() => {
-    for (let airman of airmen) {
-      const currentAirmanTrainings = airmanTrainings.filter(
-        (airmanTraining) => airmanTraining.airmanId === airman.id
-      )
-      for (let currentAirmanTraining of currentAirmanTrainings) {
-        const training = trainings.find(
-          (training) => training.id === currentAirmanTraining.trainingId
-        )
-        const certificateDate = new Date(
-          certificates.find(
-            (certificate) =>
-              certificate.airmanId === airman.id &&
-              certificate.trainingId === training.id
-          )?.completion
-        )
-        const isOverDue =
-          new Date(
-            certificateDate.setMonth(
-              certificateDate.getMonth() + training.duration
-            )
-          ).getTime() < new Date().getTime()
-        const isDue =
-          new Date(
-            certificateDate.setMonth(certificateDate.getMonth() - 2)
-          ).getTime() < new Date().getTime()
-        const noCert = isNaN(
-          new Date(
-            certificateDate.setMonth(certificateDate.getMonth() - 2)
-          ).getTime()
-        )
-        let status = 'Current'
-        if (noCert) {
-          if (currentAirmanTraining.end) {
-            if (
-              new Date(currentAirmanTraining.end).getTime() <
-              new Date().getTime()
-            ) {
-              status = 'Overdue'
-            }
-          } else {
-            status = 'Due'
-          }
-        } else if (isOverDue) {
-          status = 'Overdue'
-        } else if (isDue) {
-          status = 'Due'
-        }
-        handleUpdateAirmanTraining(currentAirmanTraining.id, {
-          status: status,
-        })
-      }
-    }
-  }, [airmanTrainings.length, certificates])
-
-  React.useEffect(() => {
-    for (let airman of airmen) {
-      const currentAirmanTrainings = airmanTrainings.filter(
-        (airmanTraining) => airmanTraining.airmanId === airman.id
-      )
-      if (
-        currentAirmanTrainings.find(
-          (currentAirmanTraining) => currentAirmanTraining.status === 'Overdue'
-        )
-      ) {
-        handleUpdateAirman(airman.id, { status: 'Overdue' })
-      } else if (
-        currentAirmanTrainings.find(
-          (currentAirmanTraining) => currentAirmanTraining.status === 'Due'
-        )
-      ) {
-        handleUpdateAirman(airman.id, { status: 'Due' })
-      } else {
-        handleUpdateAirman(airman.id, { status: 'Current' })
-      }
-    }
-  }, [airmanTrainings])
 
   const columns = [
     {
