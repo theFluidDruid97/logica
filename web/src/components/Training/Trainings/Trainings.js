@@ -31,6 +31,7 @@ const TrainingsList = ({ trainings }) => {
       toast.error(error.message)
     },
     refetchQueries: [{ query: QUERY }],
+    awaitRefetchQueries: true,
   })
 
   const onDeleteClick = (training, id) => {
