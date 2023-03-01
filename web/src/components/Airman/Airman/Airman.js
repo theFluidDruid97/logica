@@ -116,11 +116,9 @@ const Airman = ({
   )
   const [updateAirmanTraining] = useMutation(UPDATE_AIRMAN_TRAINING_MUTATION, {
     refetchQueries: ['FindAirmanById'],
-    awaitRefetchQueries: true,
   })
   const [updateAirman] = useMutation(UPDATE_AIRMAN_MUTATION, {
     refetchQueries: ['FindAirmanById'],
-    awaitRefetchQueries: true,
   })
   const [deleteAirmanTraining] = useMutation(DELETE_AIRMAN_TRAINING_MUTATION, {
     onCompleted: () => {
@@ -135,7 +133,6 @@ const Airman = ({
       toast.error(error.message)
     },
     refetchQueries: ['FindAirmanById'],
-    awaitRefetchQueries: true,
   })
   const handleUpdateAirmanTraining = (id, input) => {
     updateAirmanTraining({
@@ -160,7 +157,7 @@ const Airman = ({
       }
     }
   }
-
+  console.log(airman)
   React.useEffect(() => {
     for (let currentAirmanTraining of currentAirmanTrainings) {
       const training = trainings.find(
@@ -223,6 +220,7 @@ const Airman = ({
     } else {
       handleUpdateAirman(airman.id, { status: 'Current' })
     }
+    return toast.success('Airman updated')
   }, [airmanTrainings, certificates])
 
   const trainingsColumns = [
@@ -363,7 +361,6 @@ const Airman = ({
       toast.error(error.message)
     },
     refetchQueries: ['FindAirmanById'],
-    awaitRefetchQueries: true,
   })
   const thumbnail = (url) => {
     const parts = url.split('/')
