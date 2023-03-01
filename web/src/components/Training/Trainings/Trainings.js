@@ -1,7 +1,11 @@
+import AddIcon from '@mui/icons-material/Add'
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import FindInPageIcon from '@mui/icons-material/FindInPage'
 import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import Stack from '@mui/material/Stack'
 
 import { navigate, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
@@ -10,6 +14,7 @@ import { toast } from '@redwoodjs/web/toast'
 import { QUERY } from 'src/components/Training/TrainingsCell'
 
 import { ThemeModeContext } from '../../../App.js'
+import AirmanDrawer from '../../AirmanDrawer/AirmanDrawer.js'
 import DataTable from '../../DataTable/DataTable.js'
 
 const DELETE_TRAINING_MUTATION = gql`
@@ -20,8 +25,10 @@ const DELETE_TRAINING_MUTATION = gql`
   }
 `
 
-const TrainingsList = ({ trainings }) => {
+const TrainingsList = ({ trainings, airmen }) => {
   const { mode } = React.useContext(ThemeModeContext)
+  const [drawerOpen, setDrawerOpen] = React.useState()
+  const [selection, setSelection] = React.useState(trainings)
   const [deleteTraining] = useMutation(DELETE_TRAINING_MUTATION, {
     onCompleted: () => {
       toast.success('Training deleted')
@@ -32,14 +39,25 @@ const TrainingsList = ({ trainings }) => {
     refetchQueries: [{ query: QUERY }],
     awaitRefetchQueries: true,
   })
-
   const onDeleteClick = (training, id) => {
     if (confirm(`Are you sure you want to delete ${training.name}?`)) {
       deleteTraining({ variables: { id } })
     }
   }
+  const onDeleteSelectedClick = (selection, length) => {
+    if (confirm(`Are you sure you want to delete these ${length} trainings?`)) {
+      for (let selected of selection) {
+        const id = selected.id
+        deleteTraining({ variables: { id } })
+      }
+    }
+  }
+  const handleAssignAirmen = (selection) => {
+    setDrawerOpen(true)
+    setSelection(selection)
+  }
 
-  const columns = [
+  const trainingColumns = [
     { field: 'name', headerName: 'Name', flex: 1 },
     {
       field: 'duration',
@@ -68,45 +86,91 @@ const TrainingsList = ({ trainings }) => {
       headerName: 'Actions',
       sortable: false,
       filterable: false,
-      width: 225,
+      width: 180,
       renderCell: (params) => {
         return (
-          <>
-            <Button
+          <Stack direction="row" spacing={1}>
+            <IconButton
               variant={mode === 'light' ? 'contained' : 'outlined'}
-              size="small"
+              size="large"
               color={mode === 'light' ? 'grey' : 'primary'}
               onClick={() => navigate(routes.training({ id: params.row.id }))}
               title={'View'}
             >
               <FindInPageIcon />
-            </Button>
-            <Button
+            </IconButton>
+            <IconButton
               variant={mode === 'light' ? 'contained' : 'outlined'}
-              size="small"
+              size="large"
+              color="primary"
               onClick={() =>
                 navigate(routes.editTraining({ id: params.row.id }))
               }
               title={'Edit'}
             >
               <EditIcon />
-            </Button>
-            <Button
+            </IconButton>
+            <IconButton
               variant={mode === 'light' ? 'contained' : 'outlined'}
-              size="small"
-              color={mode === 'light' ? 'red' : 'primary'}
+              size="large"
+              color="red"
               onClick={() => onDeleteClick(params.row, params.row.id)}
               title={'Delete'}
             >
               <DeleteIcon />
-            </Button>
-          </>
+            </IconButton>
+          </Stack>
         )
       },
     },
   ]
+  const assignAirmenButton = ({ selection }) => {
+    return (
+      <Button size="small" onClick={() => handleAssignAirmen(selection)}>
+        <AssignmentIndIcon />
+        Assign Selected
+      </Button>
+    )
+  }
+  const addTrainingButton = () => {
+    return (
+      <Button size="small" onClick={() => navigate(routes.newTraining())}>
+        <AddIcon />
+        New Training
+      </Button>
+    )
+  }
+  const deleteSelectedButton = ({ selection }) => {
+    return (
+      <Button
+        size="small"
+        color="red"
+        onClick={() => onDeleteSelectedClick(selection, selection.length)}
+      >
+        <DeleteIcon />
+        Delete Selected
+      </Button>
+    )
+  }
 
-  return <DataTable rows={trainings} columns={columns} />
+  return (
+    <>
+      <AirmanDrawer
+        airmen={airmen}
+        trainings={selection}
+        displayButton={false}
+        drawerOpen={drawerOpen}
+        setDrawerOpen={setDrawerOpen}
+      />
+      <DataTable
+        rows={trainings}
+        columns={trainingColumns}
+        GridToolbarCustomButton={assignAirmenButton}
+        GridToolbarAddButton={addTrainingButton}
+        GridToolbarDeleteButton={deleteSelectedButton}
+      />
+    </>
+  )
 }
 
 export default TrainingsList

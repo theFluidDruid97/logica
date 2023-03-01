@@ -46,9 +46,22 @@ const Navigation = () => {
     }),
     [setMode]
   )
+  let navBarBackground
+  let navBarBorder
+  if (mode === 'light') {
+    navBarBackground = '#311b92'
+    navBarBorder = '1px solid #311b92'
+  } else {
+    navBarBackground = 'black'
+    navBarBorder = '1px solid white'
+  }
 
   return (
-    <AppBar position="fixed" open={open}>
+    <AppBar
+      position="fixed"
+      open={open}
+      sx={{ background: navBarBackground, borderBottom: navBarBorder }}
+    >
       <Toolbar>
         {isAuthenticated ? (
           <IconButton
@@ -111,6 +124,7 @@ const Navigation = () => {
                 MenuListProps={{
                   'aria-labelledby': 'basic-button',
                 }}
+                className={mode == 'light' ? 'mui-menu-light' : 'mui-menu-dark'}
               >
                 <MenuItem onClick={colorMode.toggleColorMode}>
                   <DarkModeSwitch checked={mode === 'light'} />

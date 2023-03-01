@@ -2,14 +2,14 @@ export const standard = defineScenario({
   trainingCollection: {
     one: {
       data: {
-        training: { create: { name: 'String9064548' } },
-        collection: { create: { name: 'String9268115' } },
+        training: { create: { name: 'String172057' } },
+        collection: { create: { name: 'String3889391' } },
       },
     },
     two: {
       data: {
-        training: { create: { name: 'String3543267' } },
-        collection: { create: { name: 'String9112158' } },
+        training: { create: { name: 'String5464631' } },
+        collection: { create: { name: 'String9500543' } },
       },
     },
   },

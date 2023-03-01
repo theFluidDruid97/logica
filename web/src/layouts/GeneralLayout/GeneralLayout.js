@@ -12,7 +12,6 @@ import {
   deepPurple,
 } from '@mui/material/colors'
 import CssBaseline from '@mui/material/CssBaseline'
-import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import List from '@mui/material/List'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
@@ -137,11 +136,18 @@ const GeneralLayout = ({ children }) => {
     [setMode],
     localStorage.setItem('mode', [mode])
   )
-
-  mode === 'light'
-    ? (document.querySelector('body').style.background = 'white')
-    : (document.querySelector('body').style.background =
-        'linear-gradient(310deg, rgba(49,27,146,1) 0%, rgba(0,0,0,1) 90%, rgba(0,0,0,1) 100%)')
+  let toastBackground
+  let toastColor
+  if (mode === 'light') {
+    document.querySelector('body').style.background = 'white'
+    toastBackground = '#311b92'
+    toastColor = '#fff'
+  } else {
+    document.querySelector('body').style.background =
+      'linear-gradient(310deg, rgba(49,27,146,1) 0%, rgba(0,0,0,1) 90%, rgba(0,0,0,1) 100%)'
+    toastBackground = '#000'
+    toastColor = '#fff'
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -156,11 +162,9 @@ const GeneralLayout = ({ children }) => {
                   <ChevronLeftIcon />
                 </IconButton>
               </DrawerHeader>
-              <Divider />
               <List>
                 <DrawerListItems />
               </List>
-              <Divider />
               <List>
                 <DrawerListItemsAdmin />
               </List>
@@ -170,7 +174,20 @@ const GeneralLayout = ({ children }) => {
           )}
           <Box width="100%" paddingX="1%" paddingY="1%">
             <DrawerHeader />
-            <Toaster />
+            <Toaster
+              containerStyle={{
+                top: 80,
+                left: 20,
+                bottom: 20,
+                right: 20,
+              }}
+              toastOptions={{
+                style: {
+                  background: toastBackground,
+                  color: toastColor,
+                },
+              }}
+            />
             {children}
           </Box>
         </ThemeProvider>

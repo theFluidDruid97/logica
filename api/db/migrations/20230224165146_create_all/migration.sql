@@ -121,22 +121,22 @@ CREATE UNIQUE INDEX "TrainingCollection_trainingId_collectionId_key" ON "Trainin
 ALTER TABLE "Airman" ADD CONSTRAINT "Airman_supervisorId_fkey" FOREIGN KEY ("supervisorId") REFERENCES "Airman"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Certificate" ADD CONSTRAINT "Certificate_airmanId_fkey" FOREIGN KEY ("airmanId") REFERENCES "Airman"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Certificate" ADD CONSTRAINT "Certificate_airmanId_fkey" FOREIGN KEY ("airmanId") REFERENCES "Airman"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Certificate" ADD CONSTRAINT "Certificate_trainingId_fkey" FOREIGN KEY ("trainingId") REFERENCES "Training"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Certificate" ADD CONSTRAINT "Certificate_trainingId_fkey" FOREIGN KEY ("trainingId") REFERENCES "Training"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "AirmanTraining" ADD CONSTRAINT "AirmanTraining_airmanId_fkey" FOREIGN KEY ("airmanId") REFERENCES "Airman"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "AirmanTraining" ADD CONSTRAINT "AirmanTraining_airmanId_fkey" FOREIGN KEY ("airmanId") REFERENCES "Airman"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "AirmanTraining" ADD CONSTRAINT "AirmanTraining_trainingId_fkey" FOREIGN KEY ("trainingId") REFERENCES "Training"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "AirmanTraining" ADD CONSTRAINT "AirmanTraining_trainingId_fkey" FOREIGN KEY ("trainingId") REFERENCES "Training"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "TrainingCollection" ADD CONSTRAINT "TrainingCollection_trainingId_fkey" FOREIGN KEY ("trainingId") REFERENCES "Training"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "TrainingCollection" ADD CONSTRAINT "TrainingCollection_trainingId_fkey" FOREIGN KEY ("trainingId") REFERENCES "Training"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "TrainingCollection" ADD CONSTRAINT "TrainingCollection_collectionId_fkey" FOREIGN KEY ("collectionId") REFERENCES "Collection"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "TrainingCollection" ADD CONSTRAINT "TrainingCollection_collectionId_fkey" FOREIGN KEY ("collectionId") REFERENCES "Collection"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Notification" ADD CONSTRAINT "Notification_airmanId_fkey" FOREIGN KEY ("airmanId") REFERENCES "Airman"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

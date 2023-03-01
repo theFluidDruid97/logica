@@ -40,7 +40,7 @@ body {
   fill: white;
 }
 
-.CURRENT {
+.current {
   background: #388e3c;
   width: 40px;
   height: 100%;
@@ -50,7 +50,7 @@ body {
   align-items: center;
 }
 
-.DUE {
+.due {
   background: #fdd835;
   color: black;
   width: 40px;
@@ -61,7 +61,7 @@ body {
   align-items: center;
 }
 
-.OVERDUE {
+.overdue {
   background: #d32f2f;
   width: 40px;
   height: 100%;
@@ -75,4 +75,12 @@ body {
   position: absolute;
   display: block;
   transform: rotate(-90deg);
+}
+
+.mui-menu-dark ul{
+  background: black;
+}
+
+.mui-menu-light ul{
+  background: white;
 }

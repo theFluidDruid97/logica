@@ -43,7 +43,7 @@ const TrainingForm = (props) => {
         name="name"
         label="Name"
         type="text"
-        value={changedValues.name ? formValues.name : props.training.name}
+        value={changedValues.name ? formValues.name : props.training?.name}
         onChange={handleInputChange}
       />
       <TextField
@@ -52,7 +52,9 @@ const TrainingForm = (props) => {
         label="Duration"
         type="text"
         value={
-          changedValues.duration ? formValues.duration : props.training.duration
+          changedValues.duration
+            ? formValues.duration
+            : props.training?.duration
         }
         onChange={handleInputChange}
       />
@@ -61,7 +63,7 @@ const TrainingForm = (props) => {
         name="link"
         label="Link"
         type="text"
-        value={changedValues.link ? formValues.link : props.training.link}
+        value={changedValues.link ? formValues.link : props.training?.link}
         onChange={handleInputChange}
       />
       <TextField
@@ -74,7 +76,7 @@ const TrainingForm = (props) => {
         value={
           changedValues.description
             ? formValues.description
-            : props.training.description
+            : props.training?.description
         }
         onChange={handleInputChange}
       />
