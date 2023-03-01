@@ -5,7 +5,7 @@ import FindInPageIcon from '@mui/icons-material/FindInPage'
 import IconButton from '@mui/material/IconButton'
 import {
   useGridApiRef,
-  useKeepGroupedColumnsHidden,
+  // useKeepGroupedColumnsHidden,
 } from '@mui/x-data-grid-premium'
 
 import { navigate, routes } from '@redwoodjs/router'
@@ -29,19 +29,19 @@ const CollectionsList = ({ collections }) => {
   const { mode } = React.useContext(ThemeModeContext)
   const apiRef = useGridApiRef()
 
-  const initialState = useKeepGroupedColumnsHidden({
-    apiRef,
-    initialState: {
-      ...collections.initialState,
-      rowGrouping: {
-        ...collections.initialState?.rowGrouping,
-        model: ['name'],
-      },
-      sorting: {
-        sortModel: [{ field: '__row_group_by_columns_group__', sort: 'asc' }],
-      },
-    },
-  })
+  // const initialState = useKeepGroupedColumnsHidden({
+  //   apiRef,
+  //   initialState: {
+  //     ...collections.initialState,
+  //     rowGrouping: {
+  //       ...collections.initialState?.rowGrouping,
+  //       model: ['name'],
+  //     },
+  //     sorting: {
+  //       sortModel: [{ field: '__row_group_by_columns_group__', sort: 'asc' }],
+  //     },
+  //   },
+  // })
 
   const [deleteCollection] = useMutation(DELETE_COLLECTION_MUTATION, {
     onCompleted: () => {
@@ -111,7 +111,11 @@ const CollectionsList = ({ collections }) => {
       rows={collections}
       columns={columns}
       apiRef={apiRef}
-      initialState={initialState}
+      initialState={{
+        rowGrouping: {
+          model: ['name'],
+        },
+      }}
     />
   )
 }

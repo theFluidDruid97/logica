@@ -21,7 +21,6 @@ export const schema = gql`
     roles: Role!
     assignedTrainings: [AirmanTraining]!
     certificates: [Certificate]!
-    notifications: [Notification]!
   }
 
   enum Status {

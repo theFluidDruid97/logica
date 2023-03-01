@@ -2,6 +2,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown'
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp'
+import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
@@ -44,28 +45,10 @@ const intersection = (array, include) => {
   return array.filter((value) => include.indexOf(value) !== -1)
 }
 
-const AirmanDrawer = ({
-  training,
-  assignedAirmen,
-  airmen,
-  trainings,
-  displayButton,
-  drawerOpen,
-  setDrawerOpen,
-}) => {
-  let mutationCount = 0
-  let unassignedAirmen
-  if (training) {
-    unassignedAirmen = airmen.filter(
-      (airman) =>
-        airman !==
-        assignedAirmen.find((assignedAirman) => airman === assignedAirman)
-    )
-  } else {
-    unassignedAirmen = airmen
-  }
+const AirmanDrawer = (props) => {
   const { mode } = React.useContext(ThemeModeContext)
   const [checked, setChecked] = React.useState([])
+  const [drawerOpen, setDrawerOpen] = React.useState(false)
   const [start, setStart] = React.useState()
   const [end, setEnd] = React.useState()
   const [startCheck, setStartCheck] = React.useState(false)
@@ -74,44 +57,38 @@ const AirmanDrawer = ({
   const [filter, setFilter] = React.useState('')
   const [schedule, setSchedule] = React.useState(false)
   const [bottom, setBottom] = React.useState([])
-  const [top, setTop] = React.useState(unassignedAirmen)
+  const [top, setTop] = React.useState(
+    props.airmen.filter(
+      (airman) =>
+        airman !==
+        props.currentAirmanTrainings.find(
+          (currentAirmanTraining) => airman === currentAirmanTraining
+        )
+    )
+  )
   const [createAirmanTraining] = useMutation(CREATE_AIRMAN_TRAINING_MUTATION, {
     onCompleted: () => {
-      ++mutationCount
-      if (mutationCount + 1 === bottom.length || bottom.length === 1) {
-        training
-          ? toast.success(`${training.name} assigned to the selected Airmen.`)
-          : toast.success(
-              `${trainings.length} trainings assigned to the selected Airmen.`
+      setScheduleDrawerOpen(false)
+      setDrawerOpen(false)
+      toast.success(`${props.training.name} assigned`)
+      setTop(
+        props.airmen.filter(
+          (airman) =>
+            airman !==
+            props.currentAirmanTrainings.find(
+              (currentAirmanTraining) => airman === currentAirmanTraining
             )
-        setFilter('')
-        setTop(unassignedAirmen)
-        setBottom([])
-        setSchedule(false)
-        setScheduleDrawerOpen(false)
-        setDrawerOpen(false)
-      }
+        )
+      )
+      setBottom([])
     },
     onError: (error) => {
-      ++mutationCount
-      if (mutationCount + 1 === bottom.length || bottom.length === 1) {
-        toast.error(
-          `${error.message}\n\n\tThis is likely due to at least one of the selected trainings being already assigned to at least one of the selected Airman.\n\n\tMultiple instances of the same training assigned to the same Airman at any time is unauthorized.`,
-          { duration: 10000 }
-        )
-        setFilter('')
-        setTop(unassignedAirmen)
-        setBottom([])
-        setSchedule(false)
-        setScheduleDrawerOpen(false)
-        setDrawerOpen(false)
-      }
+      toast.error(error)
     },
-    refetchQueries: training ? ['FindTrainingById'] : ['FindTrainings'],
-    awaitRefetchQueries: true,
   })
-  const onSave = (input) => {
-    createAirmanTraining({ variables: { input } })
+
+  const onSave = (input, id) => {
+    createAirmanTraining({ variables: { id, input } })
   }
   const handleAllBottom = () => {
     setBottom(bottom.concat(filteredTop))
@@ -132,12 +109,8 @@ const AirmanDrawer = ({
     setBottom([])
   }
   const handleToggleDrawer = () => {
-    setFilter('')
-    setTop(unassignedAirmen)
-    setBottom([])
-    setSchedule(false)
     setDrawerOpen(!drawerOpen)
-    setScheduleDrawerOpen(false)
+    setSchedule(false)
   }
   const handleStartCheck = () => {
     setStartCheck(!startCheck)
@@ -156,37 +129,18 @@ const AirmanDrawer = ({
     }
   }
   const handleSubmit = () => {
-    if (bottom.length < 1) {
-      toast.error(
-        'At least one Airman must be in the "TO BE ASSIGNED" table in order to assign trainings.'
-      )
+    if (schedule) {
+      setScheduleDrawerOpen(true)
+      setSchedule(false)
     } else {
-      if (schedule) {
-        setScheduleDrawerOpen(true)
-        setSchedule(false)
-      } else {
-        if (training) {
-          bottom.forEach((airman) =>
-            onSave({
-              airmanId: airman.id,
-              trainingId: training.id,
-              start: start,
-              end: end,
-            })
-          )
-        } else {
-          for (let training of trainings) {
-            bottom.forEach((airman) =>
-              onSave({
-                airmanId: airman.id,
-                trainingId: training.id,
-                start: start,
-                end: end,
-              })
-            )
-          }
-        }
-      }
+      bottom.forEach((airman) =>
+        onSave({
+          airmanId: airman.id,
+          trainingId: props.training.id,
+          start: start,
+          end: end,
+        })
+      )
     }
   }
   const handleToggleTransferList = (id) => () => {
@@ -230,6 +184,7 @@ const AirmanDrawer = ({
       airman.lastName.toLowerCase().includes(filter.toLowerCase()) ||
       airman.firstName.toLowerCase().includes(filter.toLowerCase())
   )
+
   const topChecked = intersection(checked, top)
   const bottomChecked = intersection(checked, bottom)
   let cardBackground
@@ -241,18 +196,13 @@ const AirmanDrawer = ({
 
   return (
     <>
-      {displayButton === undefined ? (
-        <Button
-          variant={mode === 'light' ? 'contained' : 'outlined'}
-          onClick={() => handleToggleDrawer()}
-          size="large"
-        >
-          Assign Airmen
-        </Button>
-      ) : (
-        <></>
-      )}
-
+      <Button
+        variant={mode === 'light' ? 'contained' : 'outlined'}
+        onClick={() => handleToggleDrawer()}
+        size="large"
+      >
+        Assign Airman
+      </Button>
       <Drawer
         anchor={'right'}
         open={drawerOpen}

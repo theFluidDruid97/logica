@@ -1,6 +1,6 @@
 export const standard = defineScenario({
   airman: {
-    one: { data: { email: 'String7234747' } },
-    two: { data: { email: 'String8539397' } },
+    one: { data: { email: 'String340965' } },
+    two: { data: { email: 'String4708756' } },
   },
 })
