@@ -32,6 +32,7 @@ import { routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
+import Approvals from 'src/components/Approvals/Approvals.js'
 import RequestTrainingDrawer from 'src/components/RequestTrainingDrawer/RequestTrainingDrawer.js'
 
 import { ThemeModeContext } from '../../../App.js'
@@ -136,10 +137,19 @@ const Airman = ({
             (certificate) => certificate.trainingId === params.row.trainingId
           )?.completion
         )
-        const isPending =
-          new Date(
-            certificateDate.setMonth(certificateDate.getMonth() - duration)
-          ).getTime() < new Date().getTime()
+        // function Pending(params) {
+        //   const isPending = params.isPending
+        //   if (isPending === Approvals(false)) {
+        //     return (
+        //       <Chip
+        //         sx={{ width: '95px' }}
+        //         label="PENDING"
+        //         color="blue"
+        //         variant={mode === 'light' ? 'contained' : 'outlined'}
+        //       />
+        //     )
+        //   }
+        // }
         const isOverDue =
           new Date(
             certificateDate.setMonth(certificateDate.getMonth() + duration)

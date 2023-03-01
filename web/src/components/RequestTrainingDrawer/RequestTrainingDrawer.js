@@ -67,12 +67,6 @@ const RequestTrainingDrawer = ({ airman, trainings }) => {
   const handleTrainingChange = (event) => {
     setTraining(event.target.value)
   }
-  // const handleStartChange = (newDate) => {
-  //   setStart(newDate)
-  // }
-  // const handleEndChange = (newDate) => {
-  //   setEnd(newDate)
-  // }
   const handleSendChange = (event) => {
     setSend(event)
   }

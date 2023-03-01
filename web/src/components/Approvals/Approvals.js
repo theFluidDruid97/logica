@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined'
 import DoDisturbIcon from '@mui/icons-material/DoDisturb'
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import Button from '@mui/material/Button'
 import { green, red } from '@mui/material/colors'
 import { DataGrid } from '@mui/x-data-grid'
