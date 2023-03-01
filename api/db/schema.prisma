@@ -50,6 +50,17 @@ model Training {
   certificates   Certificate[]
 }
 
+model Certificate {
+  id         Int      @id @default(autoincrement())
+  airman     Airman   @relation(fields: [airmanId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  airmanId   Int
+  training   Training @relation(fields: [trainingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  trainingId Int
+  url        String
+  completion DateTime @db.Timestamptz(3)
+  validated  Boolean? @default(false)
+}
+
 model Collection {
   id          Int                  @id @default(autoincrement())
   name        String               @unique
@@ -63,23 +74,21 @@ model Collection {
   trainings   TrainingCollection[]
 }
 
-model Certificate {
-  id         Int      @id @default(autoincrement())
-  airman     Airman   @relation(fields: [airmanId], references: [id])
-  airmanId   Int
-  training   Training @relation(fields: [trainingId], references: [id])
-  trainingId Int
-  url        String
-  completion DateTime @db.Timestamptz(3)
-  validated  Boolean? @default(false)
+model Notification {
+  id        Int      @id @default(autoincrement())
+  airmanId  Int
+  airman    Airman   @relation(fields: [airmanId], references: [id])
+  message   String
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
 }
 
 model AirmanTraining {
 
-  id         Int      @id @default(autoincrement())
-  airman     Airman   @relation(fields: [airmanId], references: [id])
+  id         Int       @id @default(autoincrement())
+  airman     Airman    @relation(fields: [airmanId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   airmanId   Int
-  training   Training @relation(fields: [trainingId], references: [id])
+  training   Training  @relation(fields: [trainingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
   trainingId Int
   status     Status   @default(Due)
   start      DateTime?
@@ -90,7 +99,11 @@ model AirmanTraining {
 
 model TrainingCollection {
   id           Int        @id @default(autoincrement())
-  collection   Collection @relation(fields: [collectionId], references: [id])
+
+  training     Training   @relation(fields: [trainingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  trainingId   Int
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
   collectionId Int
   training     Training   @relation(fields: [trainingId], references: [id])
   trainingId   Int
