@@ -83,6 +83,39 @@ console.log(data)
 
   console.log("rows", rows)
 
+const testy = () => {
+  rows.map((data) => testArray.push(data.status))
+}
+
+const testArray =  []
+testy()
+console.log('tes', testArray)
+
+let status1 = "Overdue";
+let overdueCount = [0];
+for(var i = 0; i < testArray.length; ++i){
+  if(testArray[i] == status1)
+   overdueCount++;
+ }
+ console.log('overdue count', overdueCount);
+
+let status2 = "Due";
+let dueCount = [0];
+for(var i = 0; i < testArray.length; ++i){
+  if(testArray[i] == status2)
+   dueCount++;
+ }
+ console.log('due count', dueCount);
+
+let status3 = "Current";
+let currentCount = [0];
+for(var i = 0; i < testArray.length; ++i){
+  if(testArray[i] == status3)
+   currentCount++;
+ }
+ console.log('current count', currentCount);
+
+
   const exportChart = () => {
     const canvas = document.getElementById('canvas')
     canvas.toBlob(function (blob) {
@@ -232,10 +265,9 @@ console.log(data)
       {
         labels: ['Overdue', 'Due', 'Current '],
         data: [
-          pieData.map((data) => data.overdue),
-          pieData.map((data) => data.due),
-          pieData.map((data) => data.current),
-        ],
+          overdueCount,
+          dueCount,
+          currentCount ],
         backgroundColor: [
           'rgba(255, 0, 0, 0.5)',
           'rgba(255, 255, 0, 0.5)',
