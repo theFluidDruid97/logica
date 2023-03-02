@@ -91,6 +91,7 @@ model AirmanTraining {
   status     Status?   @default(Due)
   start      DateTime?
   end        DateTime?
+  approval   Boolean   @default(false)
 
   @@unique([airmanId, trainingId])
 }
