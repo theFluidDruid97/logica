@@ -9,11 +9,28 @@ import {
   gridFilteredSortedRowIdsSelector,
   useGridApiContext,
 } from '@mui/x-data-grid-premium'
-import { jsPDF } from 'jspdf'
+import { jsPDF as JsPDF } from 'jspdf'
 require('jspdf-autotable')
 
-const DataTable = (data) => {
+const DataTable = ({
+  rowHeight,
+  rows,
+  columns,
+  initialState,
+  apiRef,
+  GridToolbarAddButton,
+  GridToolbarDeleteButton,
+  GridToolbarCustomButton,
+}) => {
+  const defaultSort = columns[0].field
+  const [sortModel, setSortModel] = React.useState([
+    {
+      field: `${defaultSort}`,
+      sort: 'desc',
+    },
+  ])
   const [pageSize, setPageSize] = React.useState(20)
+  const [selection, setSelection] = React.useState()
   let exportRows = []
 
   const exportDataGrid = () => {
@@ -21,17 +38,17 @@ const DataTable = (data) => {
     const size = 'A4'
     const orientation = 'landscape'
     const marginLeft = 40
-    const title = `${data.rows[0].__typename} Report`
+    const title = `${rows[0].__typename} Report`
     const content = {
       startY: 50,
       head: [
-        data.columns.map((column) =>
+        columns.map((column) =>
           column.headerName !== 'Actions' ? column.headerName : null
         ),
       ],
       body: exportRows,
     }
-    const doc = new jsPDF(orientation, unit, size)
+    const doc = new JsPDF(orientation, unit, size)
     doc.setFontSize(15)
     doc.text(title, marginLeft, 40)
     doc.autoTable(content)
@@ -50,14 +67,14 @@ const DataTable = (data) => {
     )
     let filteredRows = []
     for (let filteredRowId of filteredRowIds) {
-      filteredRows.push(data.rows.find((row) => row.id === filteredRowId))
+      filteredRows.push(rows.find((row) => row.id === filteredRowId))
       exportRows = []
     }
     filteredRows
       .filter((row) => row !== undefined)
       .map((row) => {
         const exportRow = []
-        for (const field of data.columns.map((column) => column.field)) {
+        for (const field of columns.map((column) => column.field)) {
           exportRow.push(row[field])
         }
         exportRows.push(exportRow)
@@ -72,23 +89,45 @@ const DataTable = (data) => {
           <DownloadIcon />
           Export
         </Button>
+        {GridToolbarCustomButton ? (
+          <GridToolbarCustomButton selection={selection} />
+        ) : (
+          <></>
+        )}
+        {GridToolbarAddButton ? <GridToolbarAddButton /> : <></>}
+        {GridToolbarDeleteButton ? (
+          <GridToolbarDeleteButton selection={selection} />
+        ) : (
+          <></>
+        )}
       </GridToolbarContainer>
     )
   }
 
   return (
     <DataGridPremium
-      rowHeight={data.rowHeight || 50}
-      rows={data.rows}
-      columns={data.columns}
+      rowHeight={rowHeight || 50}
+      rows={rows}
+      columns={columns}
       pagination
       pageSize={pageSize}
-      initialState={data.initialState}
-      apiRef={data.apiRef}
+      initialState={initialState}
+      apiRef={apiRef}
       rowsPerPageOptions={[10, 20, 50, 100]}
       onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
       checkboxSelection
       disableSelectionOnClick
+      sortModel={sortModel}
+      onSortModelChange={(newSortModel) => setSortModel(newSortModel)}
+      onSelectionModelChange={(selectionIds) => {
+        setSelection(
+          rows.filter(
+            (row) =>
+              row.id ===
+              selectionIds.find((selectionId) => selectionId === row.id)
+          )
+        )
+      }}
       sx={{ height: '89vh' }}
       components={{ Toolbar: CustomToolbar }}
     />

@@ -28,6 +28,7 @@ Add these lines to your `.env` file:
 SESSION_SECRET=[YOUR GENERATED SESSION SECRET TOKEN GOES HERE WITHOUT SQUARE BRACKETS]
 DATABASE_URL=postgresql://postgres:docker@localhost:5432/logica
 REDWOOD_ENV_FILESTACK_API_KEY=ARxHYtucNQOCAX5BkzNlkz
+REDWOOD_ENV_FILESTACK_SECRET=XDTGO5TPTRFGNGEW7WGCLXBK7Y
 ```
 
 Next you will need to create a database migration with:

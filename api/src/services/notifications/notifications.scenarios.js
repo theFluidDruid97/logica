@@ -3,13 +3,13 @@ export const standard = defineScenario({
     one: {
       data: {
         message: 'String',
-        airman: { create: { email: 'String9458874' } },
+        airman: { create: { email: 'String8940892' } },
       },
     },
     two: {
       data: {
         message: 'String',
-        airman: { create: { email: 'String4910316' } },
+        airman: { create: { email: 'String3656974' } },
       },
     },
   },
