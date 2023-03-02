@@ -118,6 +118,7 @@ const TrainingDrawer = ({ airman, trainings }) => {
       </Drawer>
     </div>
   )
+  
 }
 
 export default TrainingDrawer
