@@ -2,14 +2,14 @@ export const standard = defineScenario({
   airmanTraining: {
     one: {
       data: {
-        airman: { create: { email: 'String9600548' } },
-        training: { create: { name: 'String7040268' } },
+        airman: { create: { email: 'String5116942' } },
+        training: { create: { name: 'String8372519' } },
       },
     },
     two: {
       data: {
-        airman: { create: { email: 'String9810333' } },
-        training: { create: { name: 'String134315' } },
+        airman: { create: { email: 'String333551' } },
+        training: { create: { name: 'String1337651' } },
       },
     },
   },
