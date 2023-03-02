@@ -14,6 +14,7 @@ export const schema = gql`
     Current
     Due
     Overdue
+    Pending
   }
 
   type Query {

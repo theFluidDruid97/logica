@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import PeopleIcon from '@mui/icons-material/People'
 import TextSnippetIcon from '@mui/icons-material/TextSnippet'
@@ -39,6 +40,11 @@ const DrawerListItems = () => {
       text: 'Reports',
       link: routesState.reports(),
       icon: <TrendingUpIcon />,
+    },
+    {
+      text: 'Training Requests',
+      link: routesState.approvals(),
+      icon: <CheckCircleOutlineOutlinedIcon />,
     },
   ]
   return drawerListItems.map((drawerListItem) => (

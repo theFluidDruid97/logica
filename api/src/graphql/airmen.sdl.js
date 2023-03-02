@@ -28,6 +28,7 @@ export const schema = gql`
     Current
     Due
     Overdue
+    Pending
   }
 
   enum Role {

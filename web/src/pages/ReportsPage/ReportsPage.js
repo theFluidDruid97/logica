@@ -1,31 +1,30 @@
 import 'chartjs-adapter-moment'
-import { Chart as ChartJS } from 'chart.js'
 import 'moment'
-import { ThemeModeContext } from 'web/src/App.js'
-import Card from '@mui/material/Card'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Card from '@mui/material/Card'
 import Drawer from '@mui/material/Drawer'
 import FormControl from '@mui/material/FormControl'
+import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import MenuItem from '@mui/material/MenuItem'
-import { organizations } from '../../../../scripts/airmen'
-import { trainings } from '../../../../scripts/trainings.js'
-
-import Button from '@mui/material/Button'
+import { Chart as ChartJS } from 'chart.js'
 import { CategoryScale } from 'chart.js'
 import Chart from 'chart.js/auto'
 import chartTrendline from 'chartjs-plugin-trendline'
-
 import { saveAs } from 'file-saver'
+import { ThemeModeContext } from 'web/src/App.js'
 
 import { BarChart } from 'src/components/Charts/BarChart.js'
 import LineChart from 'src/components/Charts/LineChart.js'
 import PieChart from 'src/components/Charts/PieChart.js'
 import { pieData } from 'src/components/Charts/PieTestData.js'
 import { Data } from 'src/components/Charts/TestData.js'
+
+import { organizations } from '../../../../scripts/airmen'
+import { trainings } from '../../../../scripts/trainings.js'
 Chart.register(CategoryScale)
 Chart.register(chartTrendline)
 
@@ -322,7 +321,7 @@ const ReportsPage = () => {
           <Box>
             <Button
               sx={{ marginX: 1 }}
-              variant={mode === 'light' ? 'contained' : 'contained'}
+              variant={mode === 'light' ? 'contained' : 'outlined'}
               text-align="left"
               onClick={() => toggleDrawer()}
             >
@@ -330,7 +329,7 @@ const ReportsPage = () => {
             </Button>
             <Button
               sx={{ marginX: 1 }}
-              variant={mode === 'light' ? 'contained' : 'contained'}
+              variant={mode === 'light' ? 'contained' : 'outlined'}
               onClick={exportChart}
             >
               Export

@@ -44,10 +44,6 @@ const Notification = ({ notification }) => {
               <td>{notification.id}</td>
             </tr>
             <tr>
-              <th>Airman id</th>
-              <td>{notification.airmanId}</td>
-            </tr>
-            <tr>
               <th>Message</th>
               <td>{notification.message}</td>
             </tr>

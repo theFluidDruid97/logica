@@ -5,10 +5,14 @@ import { hashPassword } from '@redwoodjs/api'
 import { airmen } from './airmen.js'
 import { collections } from './collections.js'
 import { trainings } from './trainings.js'
+import { airmanTrainings } from './trainings.js'
+
+// import { faker } from '@faker-js/faker';
 
 let trainingsCount = 0
 let collectionsCount = 0
 let airmanCount = 0
+let airmanTrainingCount = 0
 const defaultPassword = '123'
 const adminEmail = 'admin@mail.com'
 const adminPassword = '1776'
@@ -53,6 +57,24 @@ const createAirmen = async (airmen) => {
   )
 }
 
+const createAirmenTrainings = async (airmanTrainings) => {
+  for (let airmanTraining of airmanTrainings) {
+  await db.airmanTraining.create({
+    data: {
+      airmanId: airmanTraining.airmanId,
+      trainingId: airmanTraining.trainingId,
+      status: airmanTraining.status,
+      start: airmanTraining.start,
+      end: airmanTraining.end,
+    },
+  })
+  airmanTrainingCount = airmanTrainingCount + 1
+  }
+  console.log(
+    `\tAIRMAN TRAININGS CREATED\t${airmanTrainingCount}\n\n`
+  )
+}
+
 export default async () => {
   try {
     await db.airman.create({ data: admin })
@@ -68,7 +90,8 @@ export default async () => {
       await db.collection.create({ data })
     })
 
-    createAirmen(airmen)
+    await createAirmen(airmen)
+    createAirmenTrainings(airmanTrainings)
   } catch (error) {
     console.warn('Please define your seed data.')
     console.error(error)

@@ -33,12 +33,14 @@ import { routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
+// import Approvals from 'src/components/Approvals/Approvals.js'
+import RequestTrainingDrawer from 'src/components/RequestTrainingDrawer/RequestTrainingDrawer.js'
+
 import { ThemeModeContext } from '../../../App.js'
 import CertificateDrawer from '../../CertificateDrawer/CertificateDrawer.js'
 import DataTable from '../../DataTable/DataTable.js'
 import SupervisorDrawer from '../../SupervisorDrawer/SupervisorDrawer.js'
 import TrainingDrawer from '../../TrainingDrawer/TrainingDrawer.js'
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -231,6 +233,19 @@ const Airman = ({
       headerName: 'Status',
       flex: 1,
       renderCell: (params) => {
+        // function Pending(params) {
+        //   const isPending = params.isPending
+        //   if (isPending === Approvals(false)) {
+        //     return (
+        //       <Chip
+        //         sx={{ width: '95px' }}
+        //         label="PENDING"
+        //         color="blue"
+        //         variant={mode === 'light' ? 'contained' : 'outlined'}
+        //       />
+        //     )
+        //   }
+        // }
         let chipColor
         if (params.row.status === 'Overdue') {
           chipColor = 'red'
@@ -450,6 +465,20 @@ const Airman = ({
         Delete Selected
       </Button>
     )
+  }
+
+  let bVariant1 = []
+  let bVariant2 = []
+
+  let buttonVariant
+  if (mode === 'dark' && dataTable === 'trainings') {
+    ;(bVariant1 = 'contained'), (bVariant2 = 'outlined')
+  } else if (mode === 'dark' && dataTable === 'certificates') {
+    ;(bVariant2 = 'contained'), (bVariant1 = 'outlined')
+  } else if (mode === 'light' && dataTable === 'trainings') {
+    ;(bVariant1 = 'contained'), (bVariant2 = 'outlined')
+  } else if (mode === 'light' && dataTable === 'certificates') {
+    ;(bVariant2 = 'contained'), (bVariant1 = 'outlined')
   }
 
   return (
@@ -725,7 +754,7 @@ const Airman = ({
         <Box width="50%">
           <Button
             sx={{ marginX: '1%' }}
-            variant={mode === 'light' ? 'contained' : 'outlined'}
+            variant={bVariant1}
             size="large"
             onClick={() => setDataTable('trainings')}
           >
@@ -733,7 +762,7 @@ const Airman = ({
           </Button>
           <Button
             sx={{ marginX: '1%' }}
-            variant={mode === 'light' ? 'contained' : 'outlined'}
+            variant={bVariant2}
             size="large"
             onClick={() => setDataTable('certificates')}
           >
@@ -750,6 +779,9 @@ const Airman = ({
           </Box>
           <Box marginX="1%">
             <CertificateDrawer trainings={trainings} airman={airman} />
+          </Box>
+          <Box>
+            <RequestTrainingDrawer trainings={trainings} airman={airman} />
           </Box>
         </Box>
       </Box>
